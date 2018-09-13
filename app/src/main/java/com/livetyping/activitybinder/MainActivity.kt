@@ -1,4 +1,4 @@
-package com.livetyping.activity_binder
+package com.livetyping.activitybinder
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

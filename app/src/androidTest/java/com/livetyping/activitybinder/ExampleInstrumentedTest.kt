@@ -1,4 +1,4 @@
-package com.livetyping.activity_binder
+package com.livetyping.activitybinder
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

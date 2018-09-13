@@ -1,4 +1,4 @@
-package com.livetyping.activity_binder
+package com.livetyping.activitybinder
 
 import org.junit.Test
 
