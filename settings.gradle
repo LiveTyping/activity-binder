@@ -1,4 +1,4 @@
-include ':app', ':core', ':instagram'
+include ':app', ':core'
 
 //Social network login
 include ':social:logincore',
