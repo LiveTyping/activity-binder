@@ -1,2 +1,0 @@
-apply from: "$rootDir//kotlin_android_library.gradle"
-apply from: "$rootDir//social/social_login_item.gradle"

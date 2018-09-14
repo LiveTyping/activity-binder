@@ -1,6 +1,5 @@
-include ':app', ':core', ':facebook'
+include ':app', ':core'
 
 //Social network login
 include ':social:logincore',
-        ':social:vk',
-        ':social:facebook'
+        ':social:vk'
