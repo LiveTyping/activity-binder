@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/social" />
             <option value="$PROJECT_DIR$/social/logincore" />
+            <option value="$PROJECT_DIR$/social/vk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
