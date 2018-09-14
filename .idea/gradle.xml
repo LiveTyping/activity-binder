@@ -10,8 +10,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/instagram" />
             <option value="$PROJECT_DIR$/social" />
             <option value="$PROJECT_DIR$/social/facebook" />
+            <option value="$PROJECT_DIR$/social/instagram" />
             <option value="$PROJECT_DIR$/social/logincore" />
             <option value="$PROJECT_DIR$/social/vk" />
           </set>
