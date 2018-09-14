@@ -1,4 +1,4 @@
-package com.livetyping.utils.social
+package com.livetyping.logincore
 
 import android.app.Application
 

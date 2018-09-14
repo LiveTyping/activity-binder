@@ -1,7 +1,8 @@
-package com.livetyping.utils.social
+package com.livetyping.vk
 
 import android.app.Activity
 import android.content.Intent
+import com.livetyping.logincore.SocialLoginError
 
 
 interface SocialLoginRoute {

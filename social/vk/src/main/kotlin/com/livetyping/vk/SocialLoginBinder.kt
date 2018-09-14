@@ -1,8 +1,10 @@
-package com.livetyping.utils.social
+package com.livetyping.vk
 
 import android.app.Application
 import android.content.Intent
 import com.livetyping.core.Binder
+import com.livetyping.logincore.SocialLoginError
+import com.livetyping.logincore.SocialLoginRoute
 
 
 class SocialLoginBinder : Binder() {
