@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        
+
+        <!--Facebook-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -24,6 +25,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".SocialActivity" />
+
+        <!--Instagram-->
+        <meta-data
+            android:name="com.nikola.jakshic.instagramauth.ClientId"
+            android:value="99cc4be19d2449e6897c00089b1b0304" />
+
+        <meta-data
+            android:name="com.nikola.jakshic.instagramauth.RedirectUri"
+            android:value="https://livetyping.ru/" />
 
 
     </application>

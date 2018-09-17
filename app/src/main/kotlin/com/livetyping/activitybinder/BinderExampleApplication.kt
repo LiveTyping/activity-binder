@@ -2,6 +2,7 @@ package com.livetyping.activitybinder
 
 import android.app.Application
 import com.livetyping.facebook.FacebookNetwork
+import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkNetwork
 
@@ -16,7 +17,8 @@ class BinderExampleApplication : Application() {
         socialLoginBinder.initializeSocialNetworks(this,
                 listOf(
                         VkNetwork(),
-                        FacebookNetwork()
+                        FacebookNetwork(),
+                        InstagramNetwork()
                 ))
     }
 }
