@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.livetyping.facebook.FacebookLoginRoute
-import com.livetyping.instagram.InstagramLoginRoute
+import com.livetyping.facebook.FacebookNetwork
+import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
-import com.livetyping.vk.VkLoginRoute
+import com.livetyping.vk.VkNetwork
 import kotlinx.android.synthetic.main.activity_social.*
 
 
@@ -22,18 +22,18 @@ class SocialActivity : AppCompatActivity() {
         socialLoginBinder = (application as BinderExampleApplication).socialLoginBinder // can be injected with dagger
 
         login_vk.setOnClickListener {
-            socialLoginBinder.loginWith(VkLoginRoute()) {
+            socialLoginBinder.loginWith(VkNetwork()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
 
         login_fb.setOnClickListener {
-            socialLoginBinder.loginWith(FacebookLoginRoute()) {
+            socialLoginBinder.loginWith(FacebookNetwork()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
         login_instagram.setOnClickListener {
-            socialLoginBinder.loginWith(InstagramLoginRoute()) {
+            socialLoginBinder.loginWith(InstagramNetwork()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }

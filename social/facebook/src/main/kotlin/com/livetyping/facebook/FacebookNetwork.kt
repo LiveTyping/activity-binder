@@ -8,11 +8,11 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.livetyping.logincore.SocialLoginError
-import com.livetyping.logincore.SocialLoginRoute
+import com.livetyping.logincore.SocialNetwork
 import java.util.*
 
 
-class FacebookLoginRoute : SocialLoginRoute {
+class FacebookNetwork : SocialNetwork {
 
     private val callbackManager = CallbackManager.Factory.create()
 

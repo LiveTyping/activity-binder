@@ -5,7 +5,7 @@ import android.content.Intent
 import com.livetyping.logincore.SocialLoginError
 
 
-interface SocialLoginRoute {
+interface SocialNetwork {
 
     fun login(activity: Activity)
 

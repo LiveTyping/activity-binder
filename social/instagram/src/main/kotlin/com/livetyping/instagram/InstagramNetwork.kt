@@ -3,12 +3,12 @@ package com.livetyping.instagram
 import android.app.Activity
 import android.content.Intent
 import com.livetyping.logincore.SocialLoginError
-import com.livetyping.logincore.SocialLoginRoute
+import com.livetyping.logincore.SocialNetwork
 import com.nikola.jakshic.instagramauth.AuthManager
 import com.nikola.jakshic.instagramauth.InstagramAuthException
 
 
-class InstagramLoginRoute : SocialLoginRoute {
+class InstagramNetwork : SocialNetwork {
 
     private var successBlock: ((token: String) -> Unit)? = null
     private var errorBlock: ((error: SocialLoginError) -> Unit)? = null

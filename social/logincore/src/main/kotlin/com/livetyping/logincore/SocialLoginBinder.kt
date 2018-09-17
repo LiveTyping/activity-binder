@@ -7,7 +7,7 @@ import com.livetyping.core.Binder
 
 class SocialLoginBinder : Binder() {
 
-    private var route: SocialLoginRoute? = null
+    private var route: SocialNetwork? = null
     private var tokenBlock: ((token: String) -> Unit)? = null
     private var errorBlock: ((error: SocialLoginError) -> Unit)? = null
 
@@ -15,7 +15,7 @@ class SocialLoginBinder : Binder() {
         initializers.forEach { it.init(app) }
     }
 
-    fun loginWith(route: SocialLoginRoute,
+    fun loginWith(route: SocialNetwork,
                   errorBlock: ((error: SocialLoginError) -> Unit)? = null,
                   successBlock: (token: String) -> Unit) {
         getAttachedObject()?.let {
