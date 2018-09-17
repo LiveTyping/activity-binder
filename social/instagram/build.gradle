@@ -1,2 +1,10 @@
 apply from: "$rootDir//kotlin_android_library.gradle"
 apply from: "$rootDir//social/social_login_item.gradle"
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation("com.github.nikolajakshic:instagramauth:1.0.0")
+}
