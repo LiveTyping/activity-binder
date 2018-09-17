@@ -25,6 +25,16 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("signatures/debug-key.keystore")
+            storePassword "123456"
+            keyAlias "debug_alias"
+            keyPassword "123456"
+
+        }
+    }
 }
 
 dependencies {
