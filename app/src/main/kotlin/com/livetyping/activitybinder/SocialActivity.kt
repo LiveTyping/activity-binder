@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.livetyping.facebook.FacebookLoginRoute
+import com.livetyping.instagram.InstagramLoginRoute
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkLoginRoute
 import kotlinx.android.synthetic.main.activity_social.*
@@ -28,6 +29,11 @@ class SocialActivity : AppCompatActivity() {
 
         login_fb.setOnClickListener {
             socialLoginBinder.loginWith(FacebookLoginRoute()) {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+        login_instagram.setOnClickListener {
+            socialLoginBinder.loginWith(InstagramLoginRoute()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
