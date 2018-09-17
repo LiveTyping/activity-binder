@@ -1,5 +1,6 @@
 package com.livetyping.activitybinder
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -23,5 +24,20 @@ class SocialActivity : AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        socialLoginBinder.attach(this)
+    }
+
+    override fun onStop() {
+        socialLoginBinder.detach(this)
+        super.onStop()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        socialLoginBinder.onActivityResult(requestCode, resultCode, data)
     }
 }
