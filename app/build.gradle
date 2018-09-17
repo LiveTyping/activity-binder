@@ -45,5 +45,6 @@ dependencies {
     implementation project(':core')
     implementation project(':social:logincore')
     implementation project(':social:vk')
+    implementation project(':social:facebook')
 
 }

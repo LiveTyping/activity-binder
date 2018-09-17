@@ -40,6 +40,7 @@ class FacebookLoginRoute : SocialLoginRoute {
             }
 
         })
+        callbackManager.onActivityResult(requestCode, resultCode, data)
 
     }
 }

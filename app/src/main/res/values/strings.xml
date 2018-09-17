@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">activity-binder</string>
+
     <integer name="com_vk_sdk_AppId">6690298</integer>
+
+    <string name="facebook_app_id">799170373478414</string>
+    <string name="fb_login_protocol_scheme">fb799170373478414</string>
 
 </resources>

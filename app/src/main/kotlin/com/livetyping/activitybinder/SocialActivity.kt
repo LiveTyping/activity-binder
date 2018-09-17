@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.livetyping.facebook.FacebookLoginRoute
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkLoginRoute
 import kotlinx.android.synthetic.main.activity_social.*
@@ -24,6 +25,12 @@ class SocialActivity : AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
+
+        login_fb.setOnClickListener {
+            socialLoginBinder.loginWith(FacebookLoginRoute()) {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onStart() {
@@ -37,7 +44,8 @@ class SocialActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         socialLoginBinder.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+
     }
 }
