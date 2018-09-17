@@ -11,8 +11,8 @@ class SocialLoginBinder : Binder() {
     private var tokenBlock: ((token: String) -> Unit)? = null
     private var errorBlock: ((error: SocialLoginError) -> Unit)? = null
 
-    fun initializeSocialNetworks(app: Application, networks: Collection<SocialNetwork>) {
-        networks.forEach { it.init(app) }
+    fun initializeNetworks(app: Application, initializers: Collection<SocialInitializer>) {
+        initializers.forEach { it.init(app) }
     }
 
     fun loginWith(route: SocialLoginRoute,

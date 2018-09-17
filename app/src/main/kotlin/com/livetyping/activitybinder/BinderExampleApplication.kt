@@ -1,10 +1,10 @@
 package com.livetyping.activitybinder
 
 import android.app.Application
-import com.livetyping.facebook.FacebookNetwork
-import com.livetyping.instagram.InstagramNetwork
+import com.livetyping.facebook.FacebookInitializer
+import com.livetyping.instagram.InstagramInitializer
 import com.livetyping.logincore.SocialLoginBinder
-import com.livetyping.vk.VkNetwork
+import com.livetyping.vk.VkInitializer
 
 class BinderExampleApplication : Application() {
 
@@ -14,11 +14,11 @@ class BinderExampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        socialLoginBinder.initializeSocialNetworks(this,
+        socialLoginBinder.initializeNetworks(this,
                 listOf(
-                        VkNetwork(),
-                        FacebookNetwork(),
-                        InstagramNetwork()
+                        VkInitializer(),
+                        FacebookInitializer(),
+                        InstagramInitializer()
                 ))
     }
 }
