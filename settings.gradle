@@ -5,3 +5,5 @@ include ':social:logincore',
         ':social:vk',
         ':social:facebook',
         ':social:instagram'
+
+include ':permission'
