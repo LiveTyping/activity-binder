@@ -6,4 +6,7 @@
     <string name="facebook_app_id">799170373478414</string>
     <string name="fb_login_protocol_scheme">fb799170373478414</string>
 
+    <string name="active_permission_rationale_text">Need permission rationale text</string>
+    <string name="active_permission_rationale_button_text">Настройки</string>
+
 </resources>

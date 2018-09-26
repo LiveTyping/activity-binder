@@ -21,6 +21,11 @@ class PermissionExampleActivity : AppCompatActivity() {
         passive.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA, { granted() }, { denied() })
         }
+        active.setOnClickListener {
+            permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    getString(R.string.active_permission_rationale_text),
+                    R.string.active_permission_rationale_button_text, { granted() }, { denied() })
+        }
     }
 
     override fun onStart() {
