@@ -10,7 +10,7 @@ import android.support.v7.app.AlertDialog
 
 
 internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit,
-                                       @StringRes val settingsButtonStringRes: Int,
+                                       @StringRes val settingsButtonText: String,
                                        private val rationaleText: String)
     : PermissionRequest(resultListener) {
 
@@ -39,7 +39,7 @@ internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit
             if (!rationaleShowed && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 AlertDialog.Builder(activity)
                         .setMessage(rationaleText)
-                        .setPositiveButton(settingsButtonStringRes) { dialog, which ->
+                        .setPositiveButton(settingsButtonText) { dialog, which ->
                             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                                     Uri.parse("package:" + activity.packageName))
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)

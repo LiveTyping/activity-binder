@@ -17,9 +17,9 @@ class PermissionBinder : Binder() {
 
     fun activePermission(permission: String,
                          rationaleText: String,
-                         @StringRes settingsButtonStringRes: Int,
+                         @StringRes settingsButtonText: String = "settings",
                          resultListener: (result: Boolean) -> Unit) {
-        needPermission(permission, ActivePermissionRequest(resultListener, settingsButtonStringRes, rationaleText))
+        needPermission(permission, ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
     fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {

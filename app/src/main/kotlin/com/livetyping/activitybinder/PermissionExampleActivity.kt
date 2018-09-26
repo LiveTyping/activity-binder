@@ -23,10 +23,12 @@ class PermissionExampleActivity : AppCompatActivity() {
                 if (granted) granted() else denied()
             }
         }
+
+        val rationaleText = getString(R.string.active_permission_rationale_text)
+        //cab be placed in active permission method as third parameter
+        val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
         active.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    getString(R.string.active_permission_rationale_text),
-                    R.string.active_permission_rationale_button_text) { granted ->
+            permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, rationaleText) { granted ->
                 if (granted) granted() else denied()
             }
         }
