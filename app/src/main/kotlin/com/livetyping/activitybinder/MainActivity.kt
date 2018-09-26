@@ -12,6 +12,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        permissions.setOnClickListener {
+            open(PermissionExampleActivity::class.java)
+        }
         social.setOnClickListener {
             open(SocialActivity::class.java)
         }

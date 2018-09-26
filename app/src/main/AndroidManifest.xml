@@ -12,11 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--Facebook-->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity android:name="com.livetyping.activitybinder.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SocialActivity" />
+        <activity android:name=".PermissionExampleActivity" />
+
+        <!--Facebook-->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <!--Instagram-->
         <meta-data
