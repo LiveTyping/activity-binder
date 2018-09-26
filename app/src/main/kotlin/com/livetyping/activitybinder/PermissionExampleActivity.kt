@@ -19,17 +19,21 @@ class PermissionExampleActivity : AppCompatActivity() {
         permissionBinder = (application as BinderExampleApplication).permissionBinder
 
         passive.setOnClickListener {
-            permissionBinder.passivePermission(Manifest.permission.CAMERA, { granted() }, { denied() })
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) { granted ->
+                if (granted) granted() else denied()
+            }
         }
         active.setOnClickListener {
             permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     getString(R.string.active_permission_rationale_text),
-                    R.string.active_permission_rationale_button_text, { granted() }, { denied() })
+                    R.string.active_permission_rationale_button_text) { granted ->
+                if (granted) granted() else denied()
+            }
         }
         global.setOnClickListener {
             permissionBinder.globalPermission(Manifest.permission.SEND_SMS,
-                    ShowGlobalExplanationActivity::class.java) {
-                granted()
+                    ShowGlobalExplanationActivity::class.java) { granted ->
+                if (granted) granted() else denied()
             }
         }
     }

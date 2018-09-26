@@ -7,8 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
 
 
-internal abstract class PermissionRequest(protected val onGranted: () -> Unit,
-                                          protected val onDenied: (() -> Unit)?) {
+internal abstract class PermissionRequest(protected val resultListener: (result:Boolean) -> Unit) {
 
     protected lateinit var permission: String
     protected var requestCode = 0

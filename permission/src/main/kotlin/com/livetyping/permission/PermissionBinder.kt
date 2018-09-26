@@ -11,20 +11,19 @@ class PermissionBinder : Binder() {
     private val requests: MutableMap<Int, PermissionRequest> = mutableMapOf()
     private val permissionCodes: PermissionRequestCodes = PermissionRequestCodes()
 
-    fun passivePermission(permission: String, onGranted: () -> Unit, onDenied: () -> Unit) {
-        needPermission(permission, PassivePermissionRequest(onGranted, onDenied))
+    fun passivePermission(permission: String, resultListener: (result: Boolean) -> Unit) {
+        needPermission(permission, PassivePermissionRequest(resultListener))
     }
 
     fun activePermission(permission: String,
                          rationaleText: String,
                          @StringRes settingsButtonStringRes: Int,
-                         onGranted: () -> Unit,
-                         onDenied: () -> Unit) {
-        needPermission(permission, ActivePermissionRequest(onGranted, onDenied, settingsButtonStringRes, rationaleText))
+                         resultListener: (result: Boolean) -> Unit) {
+        needPermission(permission, ActivePermissionRequest(resultListener, settingsButtonStringRes, rationaleText))
     }
 
-    fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, onGranted: () -> Unit) {
-        needPermission(permission, GlobalPermissionRequest(clazz, onGranted))
+    fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {
+        needPermission(permission, GlobalPermissionRequest(clazz, resultListener))
     }
 
     fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
