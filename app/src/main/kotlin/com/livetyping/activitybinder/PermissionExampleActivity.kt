@@ -26,6 +26,12 @@ class PermissionExampleActivity : AppCompatActivity() {
                     getString(R.string.active_permission_rationale_text),
                     R.string.active_permission_rationale_button_text, { granted() }, { denied() })
         }
+        global.setOnClickListener {
+            permissionBinder.globalPermission(Manifest.permission.SEND_SMS,
+                    ShowGlobalExplanationActivity::class.java) {
+                granted()
+            }
+        }
     }
 
     override fun onStart() {
