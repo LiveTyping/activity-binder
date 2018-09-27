@@ -1,3 +1,5 @@
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.LiveTyping.activity-binder'
 apply from: "$rootDir//kotlin_android_library.gradle"
 
 dependencies {
