@@ -1,1 +1,9 @@
-include ':app'
+include ':app', ':core'
+
+//Social network login
+include ':social:logincore',
+        ':social:vk',
+        ':social:facebook',
+        ':social:instagram'
+
+include ':permission'

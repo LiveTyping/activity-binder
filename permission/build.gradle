@@ -1,0 +1,6 @@
+apply from: "$rootDir//kotlin_android_library.gradle"
+
+dependencies {
+    implementation project(":core")
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+}
