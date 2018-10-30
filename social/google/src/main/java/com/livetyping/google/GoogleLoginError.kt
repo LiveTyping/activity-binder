@@ -1,10 +1,9 @@
 package com.livetyping.google
 
+import com.google.android.gms.common.api.ApiException
 import com.livetyping.logincore.SocialLoginError
 
-class GoogleLoginError : SocialLoginError {
+class GoogleLoginError(private val apiException: ApiException) : SocialLoginError {
 
-    override fun error(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun error() = apiException.message.orEmpty()
 }

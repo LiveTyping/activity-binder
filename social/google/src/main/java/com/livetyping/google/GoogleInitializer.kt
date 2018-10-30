@@ -6,6 +6,6 @@ import com.livetyping.logincore.SocialInitializer
 class GoogleInitializer : SocialInitializer {
 
     override fun init(app: Application) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // pass (google does not require static initialization)
     }
 }
