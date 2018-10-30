@@ -4,6 +4,7 @@ include ':app', ':core'
 include ':social:logincore',
         ':social:vk',
         ':social:facebook',
-        ':social:instagram'
+        ':social:instagram',
+        ':social:google'
 
 include ':permission'
