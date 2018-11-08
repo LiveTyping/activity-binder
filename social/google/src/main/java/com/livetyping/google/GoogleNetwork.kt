@@ -14,7 +14,7 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
     }
 
     private val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(serverClientId)
+            .requestServerAuthCode(serverClientId)
             .build()
 
     override fun login(activity: Activity) {
@@ -29,7 +29,7 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                successBlock(account!!.idToken!!)
+                successBlock(account!!.serverAuthCode!!)
             } catch (e: ApiException) {
                 errorBlock?.invoke(GoogleLoginError(e))
             }
