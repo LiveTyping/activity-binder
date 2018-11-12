@@ -11,5 +11,6 @@ android {
 
 dependencies {
     implementation "com.google.android.gms:play-services-auth:16.0.1"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$project.kotlin_coroutines_version"
 }
+
