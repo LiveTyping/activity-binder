@@ -19,6 +19,9 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
 
     private val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestServerAuthCode(serverClientId)
+            .requestId()
+            .requestProfile()
+            .requestEmail()
             .build()
 
     override fun login(activity: Activity) {
@@ -30,7 +33,7 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?,
                                   successBlock: (token: String) -> Unit,
                                   errorBlock: ((error: SocialLoginError) -> Unit)?) {
-        if (requestCode == GOOGLE_SIGN_IN_ACTIVITY_REQUEST_CODE){
+        if (requestCode == GOOGLE_SIGN_IN_ACTIVITY_REQUEST_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
