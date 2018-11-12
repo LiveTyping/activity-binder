@@ -46,8 +46,6 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
                 }
             } catch (e: ApiException) {
                 errorBlock?.invoke(GoogleLoginError(e))
-            } finally {
-                context = null
             }
         }
     }
