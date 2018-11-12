@@ -9,7 +9,6 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
-import java.util.*
 
 
 class FacebookNetwork : SocialNetwork {
@@ -17,7 +16,8 @@ class FacebookNetwork : SocialNetwork {
     private val callbackManager = CallbackManager.Factory.create()
 
     override fun login(activity: Activity) {
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(activity,
+                arrayListOf("public_profile", "email"))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?,
