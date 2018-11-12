@@ -28,7 +28,7 @@ class VkNetwork : SocialNetwork {
     }
 
     override fun login(activity: Activity) {
-        VKSdk.login(activity, VKScope.WALL)
+        VKSdk.login(activity, VKScope.EMAIL)
     }
 
 }
