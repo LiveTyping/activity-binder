@@ -9,6 +9,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class GoogleNetwork(serverClientId: String) : SocialNetwork {
     companion object {
@@ -37,8 +39,10 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                val accessToken = GoogleAuthUtil.getToken(context, account!!.account, null)
-                successBlock(accessToken)
+                GlobalScope.launch {
+                    val accessToken = GoogleAuthUtil.getToken(context, account!!.account, null)
+                    successBlock(accessToken)
+                }
             } catch (e: ApiException) {
                 errorBlock?.invoke(GoogleLoginError(e))
             } finally {
