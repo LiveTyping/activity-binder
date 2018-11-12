@@ -39,8 +39,9 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
+                val scopes = "oauth2:profile email"
                 launch(CommonPool) {
-                    val accessToken = GoogleAuthUtil.getToken(this@GoogleNetwork.context, account!!.account, null)
+                    val accessToken = GoogleAuthUtil.getToken(this@GoogleNetwork.context, account!!.account, scopes)
                     successBlock(accessToken)
                 }
             } catch (e: ApiException) {
