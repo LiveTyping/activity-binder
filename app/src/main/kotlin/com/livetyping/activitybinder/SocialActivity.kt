@@ -16,6 +16,10 @@ class SocialActivity : AppCompatActivity() {
 
     private lateinit var socialLoginBinder: SocialLoginBinder
 
+    private companion object {
+        const val GOOGLE_SERVER_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_social)
@@ -40,7 +44,7 @@ class SocialActivity : AppCompatActivity() {
         }
 
         login_google.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleNetwork("some_temp_app")) {
+            socialLoginBinder.loginWith(GoogleNetwork(GOOGLE_SERVER_CLIENT_ID)) {
                 Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
