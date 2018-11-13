@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.livetyping.facebook.FacebookNetwork
-import com.livetyping.google.GoogleNetwork
+import com.livetyping.google.GoogleAccountNetwork
 import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkNetwork
@@ -49,7 +49,7 @@ class SocialActivity : AppCompatActivity() {
         }
 
         login_google.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
+            socialLoginBinder.loginWith(GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
                 //                Toast.makeText(this, it.account.accessToken, Toast.LENGTH_SHORT).show()
 
                 GlobalScope.launch(Dispatchers.IO) {

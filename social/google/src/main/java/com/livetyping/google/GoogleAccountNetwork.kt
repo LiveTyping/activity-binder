@@ -9,7 +9,7 @@ import com.google.android.gms.common.api.ApiException
 import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
 
-class GoogleNetwork(androidClientId: String, webClientId: String) : SocialNetwork<GoogleLoginResult> {
+class GoogleAccountNetwork(androidClientId: String, webClientId: String) : SocialNetwork<GoogleLoginResult> {
 
 
     companion object {
