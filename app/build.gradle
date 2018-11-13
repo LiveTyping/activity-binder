@@ -48,6 +48,7 @@ dependencies {
     implementation project(':social:vk')
     implementation project(':social:facebook')
     implementation project(':social:instagram')
+    implementation project(':social:google')
 
     implementation project(':permission')
 }

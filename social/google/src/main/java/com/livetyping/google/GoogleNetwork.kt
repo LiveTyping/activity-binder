@@ -4,13 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
 
-class GoogleNetwork(serverClientId: String) : SocialNetwork<GoogleSignInAccount> {
+class GoogleNetwork(serverClientId: String) : SocialNetwork<GoogleLoginResult> {
 
 
     companion object {
@@ -31,13 +30,13 @@ class GoogleNetwork(serverClientId: String) : SocialNetwork<GoogleSignInAccount>
 
     override fun onActivityResult(requestCode: Int,
                                   resultCode: Int, data: Intent?,
-                                  successBlock: (result: GoogleSignInAccount) -> Unit,
+                                  successBlock: (result: GoogleLoginResult) -> Unit,
                                   errorBlock: ((error: SocialLoginError) -> Unit)?) {
         if (requestCode == GOOGLE_SIGN_IN_ACTIVITY_REQUEST_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                successBlock(account!!)
+                successBlock(account!!.toSocialResult())
             } catch (e: ApiException) {
                 errorBlock?.invoke(GoogleLoginError(e))
             } finally {

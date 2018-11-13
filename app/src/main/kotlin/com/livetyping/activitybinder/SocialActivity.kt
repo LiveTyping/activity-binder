@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.livetyping.facebook.FacebookNetwork
+import com.livetyping.google.GoogleNetwork
 import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkNetwork
@@ -34,6 +35,12 @@ class SocialActivity : AppCompatActivity() {
         }
         login_instagram.setOnClickListener {
             socialLoginBinder.loginWith(InstagramNetwork()) {
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        login_google.setOnClickListener {
+            socialLoginBinder.loginWith(GoogleNetwork("some_temp_app")) {
                 Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
