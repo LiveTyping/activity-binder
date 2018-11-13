@@ -28,7 +28,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("signatures/debug-key.keystore")
+            storeFile file("signatures/new-debug-key.keystore")
             storePassword "123456"
             keyAlias "debug_alias"
             keyPassword "123456"
