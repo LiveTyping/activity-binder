@@ -8,9 +8,9 @@ import com.nikola.jakshic.instagramauth.AuthManager
 import com.nikola.jakshic.instagramauth.InstagramAuthException
 
 
-class InstagramNetwork : SocialNetwork {
+class InstagramNetwork : SocialNetwork<InstagramLoginResult> {
 
-    private var successBlock: ((token: String) -> Unit)? = null
+    private var successBlock: ((token: InstagramLoginResult) -> Unit)? = null
     private var errorBlock: ((error: SocialLoginError) -> Unit)? = null
 
     override fun login(activity: Activity) {
@@ -20,15 +20,21 @@ class InstagramNetwork : SocialNetwork {
             }
 
             override fun onSuccess() {
-                successBlock?.apply { invoke(AuthManager.getInstance().getToken().orEmpty()) }
+                successBlock?.apply {
+                    invoke(InstagramLoginResult(AuthManager.getInstance().getToken().orEmpty()))
+                }
             }
 
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, successBlock: (token: String) -> Unit, errorBlock: ((error: SocialLoginError) -> Unit)?) {
+    override fun onActivityResult(requestCode: Int,
+                                  resultCode: Int,
+                                  data: Intent?,
+                                  successBlock: (token: InstagramLoginResult) -> Unit,
+                                  errorBlock: ((error: SocialLoginError) -> Unit)?) {
         this.successBlock = successBlock
-
+        this.errorBlock = errorBlock
         AuthManager.getInstance().onActivityResult(requestCode, resultCode, data);
     }
 

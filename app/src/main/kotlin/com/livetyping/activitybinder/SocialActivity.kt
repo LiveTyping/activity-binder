@@ -23,18 +23,18 @@ class SocialActivity : AppCompatActivity() {
 
         login_vk.setOnClickListener {
             socialLoginBinder.loginWith(VkNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
 
         login_fb.setOnClickListener {
             socialLoginBinder.loginWith(FacebookNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
         login_instagram.setOnClickListener {
             socialLoginBinder.loginWith(InstagramNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
     }
