@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.livetyping.facebook.FacebookNetwork
 import com.livetyping.google.GoogleAccountNetwork
+import com.livetyping.google.GoogleTokenNetwork
 import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkNetwork
@@ -50,8 +51,6 @@ class SocialActivity : AppCompatActivity() {
 
         login_google.setOnClickListener {
             socialLoginBinder.loginWith(GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
-                //                Toast.makeText(this, it.account.accessToken, Toast.LENGTH_SHORT).show()
-
                 GlobalScope.launch(Dispatchers.IO) {
                     val scopes = "oauth2:profile email"
                     val token = GoogleAuthUtil.getToken(this@SocialActivity, it.account.account, scopes)
@@ -59,6 +58,11 @@ class SocialActivity : AppCompatActivity() {
                         Toast.makeText(this@SocialActivity, token.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+        }
+        login_google_token.setOnClickListener {
+            socialLoginBinder.loginWith(GoogleTokenNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
     }
