@@ -4,16 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.livetyping.facebook.FacebookNetwork
+import com.livetyping.google.GoogleNetwork
 import com.livetyping.instagram.InstagramNetwork
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.vk.VkNetwork
 import kotlinx.android.synthetic.main.activity_social.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class SocialActivity : AppCompatActivity() {
 
     private lateinit var socialLoginBinder: SocialLoginBinder
+
+    private companion object {
+        const val GOOGLE_ANDROID_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
+        const val GOOGLE_WEB_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,18 +33,32 @@ class SocialActivity : AppCompatActivity() {
 
         login_vk.setOnClickListener {
             socialLoginBinder.loginWith(VkNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
 
         login_fb.setOnClickListener {
             socialLoginBinder.loginWith(FacebookNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }
         login_instagram.setOnClickListener {
             socialLoginBinder.loginWith(InstagramNetwork()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        login_google.setOnClickListener {
+            socialLoginBinder.loginWith(GoogleNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
+                //                Toast.makeText(this, it.account.accessToken, Toast.LENGTH_SHORT).show()
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    val scopes = "oauth2:profile email"
+                    val token = GoogleAuthUtil.getToken(this@SocialActivity, it.account.account, scopes)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        Toast.makeText(this@SocialActivity, token.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
