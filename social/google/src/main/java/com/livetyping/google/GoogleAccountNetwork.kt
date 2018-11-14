@@ -9,7 +9,7 @@ import com.google.android.gms.common.api.ApiException
 import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
 
-class GoogleAccountNetwork(androidClientId: String, webClientId: String) : SocialNetwork<GoogleLoginResult> {
+class GoogleAccountNetwork(androidClientId: String) : SocialNetwork<GoogleLoginResult> {
 
 
     companion object {
@@ -21,7 +21,7 @@ class GoogleAccountNetwork(androidClientId: String, webClientId: String) : Socia
     private val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestServerAuthCode(androidClientId)
             .requestId()
-            .requestIdToken(webClientId)
+            .requestIdToken(androidClientId)
             .requestEmail()
             .build()
 
