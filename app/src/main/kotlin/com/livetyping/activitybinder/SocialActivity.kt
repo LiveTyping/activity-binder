@@ -23,7 +23,6 @@ class SocialActivity : AppCompatActivity() {
 
     private companion object {
         const val GOOGLE_ANDROID_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
-        const val GOOGLE_WEB_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,7 @@ class SocialActivity : AppCompatActivity() {
         }
 
         login_google.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
+            socialLoginBinder.loginWith(GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID)) {
                 GlobalScope.launch(Dispatchers.IO) {
                     val scopes = "oauth2:profile email"
                     val token = GoogleAuthUtil.getToken(this@SocialActivity, it.account.account, scopes)
@@ -61,7 +60,7 @@ class SocialActivity : AppCompatActivity() {
             }
         }
         login_google_token.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleTokenNetwork(GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID)) {
+            socialLoginBinder.loginWith(GoogleTokenNetwork(GOOGLE_ANDROID_CLIENT_ID)) {
                 Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
             }
         }

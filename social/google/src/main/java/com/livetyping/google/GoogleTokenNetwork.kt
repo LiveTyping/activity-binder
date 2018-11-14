@@ -14,7 +14,7 @@ import com.livetyping.logincore.SocialLoginError
 import com.livetyping.logincore.SocialNetwork
 
 
-class GoogleTokenNetwork(androidClientId: String, webClientId: String) :
+class GoogleTokenNetwork(androidClientId: String) :
         SocialNetwork<GoogleTokenResult> {
 
     companion object {
@@ -30,7 +30,7 @@ class GoogleTokenNetwork(androidClientId: String, webClientId: String) :
     private val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestServerAuthCode(androidClientId)
             .requestId()
-            .requestIdToken(webClientId)
+            .requestIdToken(androidClientId)
             .requestEmail()
             .build()
 
