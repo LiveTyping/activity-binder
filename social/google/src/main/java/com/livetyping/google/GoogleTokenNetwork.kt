@@ -1,14 +1,11 @@
 package com.livetyping.google
 
 import android.app.Activity
-import android.arch.lifecycle.*
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
-import android.os.Bundle
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.AsyncTaskLoader
-import android.support.v4.content.Loader
+import android.os.Handler
+import android.os.HandlerThread
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -18,26 +15,14 @@ import com.livetyping.logincore.SocialNetwork
 
 
 class GoogleTokenNetwork(androidClientId: String, webClientId: String) :
-        SocialNetwork<GoogleTokenResult>, LoaderManager.LoaderCallbacks<String>, LifecycleOwner, ViewModelStoreOwner {
-
-    override fun getViewModelStore(): ViewModelStore {
-        return object : ViewModelStore() {}
-    }
-
-    private val registry: LifecycleRegistry by lazy {
-        LifecycleRegistry(this)
-    }
-
-    override fun getLifecycle(): Lifecycle = registry
-
+        SocialNetwork<GoogleTokenResult> {
 
     companion object {
         private const val GOOGLE_SIGN_IN_ACTIVITY_REQUEST_CODE = 231
-        private const val LOADER_KEY = "GoogleTokenNetwork"
-        private const val LOADER_VALUE = "GetGoogleToken"
-        private const val LOADER_ID = 134
     }
 
+    private var handlerThread = HandlerThread("GoogleTokenNetwork")
+    private lateinit var handler: Handler
     private var context: Context? = null
     private lateinit var account: GoogleSignInAccount
     private lateinit var successBlock: (result: GoogleTokenResult) -> Unit
@@ -53,7 +38,6 @@ class GoogleTokenNetwork(androidClientId: String, webClientId: String) :
         context = activity
         val signInClient = GoogleSignIn.getClient(activity, signInOptions)
         activity.startActivityForResult(signInClient.signInIntent, GOOGLE_SIGN_IN_ACTIVITY_REQUEST_CODE)
-        registry.markState(Lifecycle.State.STARTED)
     }
 
     override fun onActivityResult(requestCode: Int,
@@ -65,25 +49,21 @@ class GoogleTokenNetwork(androidClientId: String, webClientId: String) :
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 account = task.getResult(ApiException::class.java)!!
-                val loaderBundle = Bundle().apply { putString(LOADER_KEY, LOADER_VALUE) }
-                LoaderManager.getInstance(this).initLoader(LOADER_ID, loaderBundle, this).forceLoad()
+                handlerThread.start()
+                handler = Handler(handlerThread.looper)
+                handler.post(loadToken)
             } catch (e: ApiException) {
                 errorBlock?.invoke(GoogleLoginError(e))
-            } finally {
                 context = null
             }
         }
     }
 
-    override fun onCreateLoader(p0: Int, p1: Bundle?): Loader<String> {
-        return GoogleTokenLoader(context!!, account)
+    private val loadToken: () -> Unit = {
+        val scopes = "oauth2:profile email"
+        val token = GoogleAuthUtil.getToken(context, account.account, scopes)
+        successBlock.invoke(GoogleTokenResult(token))
+        handler.removeMessages(0)
+        context = null
     }
-
-    override fun onLoadFinished(p0: Loader<String>, p1: String) {
-        successBlock.invoke(GoogleTokenResult(p1))
-    }
-
-    override fun onLoaderReset(p0: Loader<String>) {
-    }
-
 }

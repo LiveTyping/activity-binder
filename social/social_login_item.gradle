@@ -7,16 +7,4 @@ dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-android {
-    buildTypes {
-        release {
-            minifyEnabled false
-            useProguard false
-        }
-        debug {
-            minifyEnabled false
-            useProguard false
-        }
-    }
-}
 
