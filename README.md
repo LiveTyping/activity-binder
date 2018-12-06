@@ -40,27 +40,27 @@ allprojects {
 
 The second step is to include LiveTyping Binder into your project. 
 
-Please replace ```$version``` with the latest version numbers  [![](https://jitpack.io/v/LiveTyping/activity-binder.svg)](https://jitpack.io/#LiveTyping/activity-binder)
+Please replace ```$latest_version``` with the latest version numbers  [![](https://jitpack.io/v/LiveTyping/activity-binder.svg)](https://jitpack.io/#LiveTyping/activity-binder)
 
 
 ### Permissions 
 You have to include core to follow the life cycle of activity
 ```gradle
-implementation "com.github.LiveTyping.activity-binder:core:$version"
+implementation "com.github.LiveTyping.activity-binder:core:$latest_version"
 ```
 Getting permissions:
 ```
-implementation "com.github.LiveTyping.activity-binder:permission:$version"
+implementation "com.github.LiveTyping.activity-binder:permission:$latest_version"
 ```
 
 ### Social Networks
 You have to include login core to follow the life cycle of activity
 ```
-implementation "com.github.LiveTyping.activity-binder:logincore:$version"
+implementation "com.github.LiveTyping.activity-binder:logincore:$latest_version"
 ```
 Then you can get social network to log in or sign up:
 ```
-implementation "com.github.LiveTyping.activity-binder:socialnetwork:$version"
+implementation "com.github.LiveTyping.activity-binder:socialnetwork:$latest_version"
 ```
 Instead of ```socialnetwork```, please, use a name of approptiate social network: vk, facebook, instagram or google
 
