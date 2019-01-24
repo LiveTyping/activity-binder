@@ -28,7 +28,7 @@ class ImagesBinder : Binder() {
         imageRequest(gallerySingleRequest)
     }
 
-    fun takePhotoFromCamera(rationaleText: String, settingsButtonText: String, result: (Bitmap) -> Unit) {
+    fun takeThumbnailFromCamera(rationaleText: String, settingsButtonText: String, result: (Bitmap) -> Unit) {
         permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
             if (it) {
                 val cameraRequest = CameraRequest(result)
