@@ -1,8 +1,11 @@
 package com.livetyping.activitybinder
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImagesBinder
+import kotlinx.android.synthetic.main.activity_images.*
 
 
 class ImagesExampleActivity : AppCompatActivity() {
@@ -13,5 +16,26 @@ class ImagesExampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_images)
         imagesBinder = (application as BinderExampleApplication).imagesBinder
+
+        gallery.setOnClickListener {
+            imagesBinder.pickImageFromGallery { imageFile ->
+                image.setImageURI(Uri.fromFile(imageFile))
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        imagesBinder.attach(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        imagesBinder.detach(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        imagesBinder.onActivityResult(requestCode, resultCode, data, this)
     }
 }
