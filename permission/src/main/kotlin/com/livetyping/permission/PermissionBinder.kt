@@ -2,8 +2,8 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
-import android.support.annotation.StringRes
-import android.support.v4.content.PermissionChecker
+import androidx.annotation.StringRes
+import androidx.core.content.PermissionChecker
 import com.livetyping.core.Binder
 
 
