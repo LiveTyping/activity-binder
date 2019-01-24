@@ -3,6 +3,7 @@ package com.livetyping.images
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Environment
 import com.livetyping.core.Binder
 import com.livetyping.permission.PermissionBinder
@@ -27,12 +28,13 @@ class ImagesBinder : Binder() {
         imageRequest(gallerySingleRequest)
     }
 
-    fun takePhotoFromCamera(rationaleText: String, settingsButtonText: String, result: (File) -> Unit) {
+    fun takePhotoFromCamera(rationaleText: String, settingsButtonText: String, result: (Bitmap) -> Unit) {
         permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
-            val cameraRequest = CameraRequest(result)
-            imageRequest(cameraRequest)
+            if (it) {
+                val cameraRequest = CameraRequest(result)
+                imageRequest(cameraRequest)
+            }
         }
-
     }
 
     fun multiplePickFromGallery(result: (List<File>) -> Unit) {

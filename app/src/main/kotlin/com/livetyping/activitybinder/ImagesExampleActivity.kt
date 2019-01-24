@@ -22,6 +22,12 @@ class ImagesExampleActivity : AppCompatActivity() {
                 image.setImageURI(Uri.fromFile(imageFile))
             }
         }
+        camera.setOnClickListener {
+            imagesBinder.takePhotoFromCamera("rationale text for active permission", "settings")
+            { bitmap ->
+                image.setImageBitmap(bitmap)
+            }
+        }
     }
 
     override fun onStart() {
@@ -37,5 +43,10 @@ class ImagesExampleActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imagesBinder.onActivityResult(requestCode, resultCode, data, this)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        imagesBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
