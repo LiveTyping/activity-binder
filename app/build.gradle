@@ -54,4 +54,6 @@ dependencies {
     implementation project(':social:google')
 
     implementation project(':permission')
+
+    implementation project(':images')
 }
