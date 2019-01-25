@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
 import com.livetyping.core.Binder
 import com.livetyping.permission.PermissionBinder
@@ -41,7 +42,7 @@ class ImagesBinder : Binder() {
         }
     }
 
-    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (File) -> Unit) {
+    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (Uri) -> Unit) {
         permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
             if (it) {
                 val cameraRequest = FullSizePhotoRequest(result)
