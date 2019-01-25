@@ -3,4 +3,5 @@ apply from: "$rootDir//kotlin_android_library.gradle"
 dependencies {
     implementation project(":core")
     implementation project(':permission')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }

@@ -19,13 +19,17 @@ class ImagesBinder : Binder() {
     private val permissionBinder = PermissionBinder()
 
     internal companion object {
-        internal val TEMP_CATALOG_PATH = Environment.DIRECTORY_PICTURES + "/" + "tmp" + "/";
+        internal val TEMP_CATALOG_PATH = Environment.DIRECTORY_PICTURES + "/" + "tmp" + "/"
     }
 
 
     fun pickImageFromGallery(result: (File) -> Unit) {
         val gallerySingleRequest = GallerySingleRequest(result)
         imageRequest(gallerySingleRequest)
+    }
+
+    fun multiplePickFromGallery(result: (List<File>) -> Unit) {
+        imageRequest(MultipleGalleryRequest(result))
     }
 
     fun takeThumbnailFromCamera(rationaleText: String, settingsButtonText: String, result: (Bitmap) -> Unit) {
@@ -37,16 +41,22 @@ class ImagesBinder : Binder() {
         }
     }
 
-    fun multiplePickFromGallery(result: (List<File>) -> Unit) {
-        imageRequest(MultipleGalleryRequest(result))
+    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (File) -> Unit) {
+        permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
+            if (it) {
+                val cameraRequest = FullSizePhotoRequest(result)
+                imageRequest(cameraRequest)
+            }
+        }
     }
 
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity) {
-        if (resultCode == Activity.RESULT_OK) {
-            val request = requests[requestCode]
-            data?.let { request?.activityResult(activity, data) }
-        }
+//        if (resultCode == Activity.RESULT_OK) {
+        val request = requests[requestCode]
+        request?.let { it.activityResult(activity, Intent()) }
+        data?.let { request?.activityResult(activity, data) }
+//        }
         permissionBinder.onActivityResult(requestCode, data, activity)
     }
 

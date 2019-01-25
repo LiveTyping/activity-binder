@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--<external-path-->
+        <!--name="my_mages"-->
+        <!--path="Android/data/com.livetyping.activity_binder/files/Pictures" />-->
+    <files-path
+        name="images/"
+        path="." />
+    <external-path name="external_files" path="."/>
+</paths>
