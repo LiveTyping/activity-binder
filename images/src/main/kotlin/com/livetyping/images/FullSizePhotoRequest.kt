@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-internal class FullSizePhotoRequest(private val function: (filePath: Uri) -> Unit) : ImageRequest<Uri>(function) {
+internal class FullSizePhotoRequest(private val function: (filePath: File) -> Unit) : ImageRequest<File>(function) {
 
     private lateinit var mCurrentPhotoPath: Uri
 
@@ -39,7 +39,7 @@ internal class FullSizePhotoRequest(private val function: (filePath: Uri) -> Uni
     }
 
     override fun concreteResult(activity: Activity, data: Intent) {
-        function.invoke(mCurrentPhotoPath)
+        function.invoke(fileFromUri(activity, mCurrentPhotoPath))
     }
 
     override fun requestCode() = 9467

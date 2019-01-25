@@ -38,7 +38,7 @@ class ImagesExampleActivity : AppCompatActivity() {
         full_size_from_camera.setOnClickListener {
             imagesBinder.takeFullSizeFromCamera("rationale text for active permission", "settings")
             { filePath ->
-                image.setImageURI(filePath)
+                image.setImageURI(Uri.fromFile(filePath))
             }
         }
     }

@@ -42,7 +42,7 @@ class ImagesBinder : Binder() {
         }
     }
 
-    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (Uri) -> Unit) {
+    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (File) -> Unit) {
         permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
             if (it) {
                 val cameraRequest = FullSizePhotoRequest(result)
