@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Environment
 import com.livetyping.core.Binder
 import com.livetyping.permission.PermissionBinder
@@ -53,11 +52,10 @@ class ImagesBinder : Binder() {
 
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity) {
-//        if (resultCode == Activity.RESULT_OK) {
-        val request = requests[requestCode]
-        request?.let { it.activityResult(activity, Intent()) }
-        data?.let { request?.activityResult(activity, data) }
-//        }
+        if (resultCode == Activity.RESULT_OK) {
+            val request = requests[requestCode]
+            data?.let { request?.activityResult(activity, data) }
+        }
         permissionBinder.onActivityResult(requestCode, data, activity)
     }
 
