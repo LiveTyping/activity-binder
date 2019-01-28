@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-internal class FullSizePhotoRequest(private val function: (filePath: File) -> Unit) : ImageRequest<File>(function) {
+internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings,
+                                    private val function: (filePath: File) -> Unit) : ImageRequest<File>(function) {
 
     private lateinit var mCurrentPhotoPath: Uri
 
@@ -28,7 +29,7 @@ internal class FullSizePhotoRequest(private val function: (filePath: File) -> Un
                     it.deleteOnExit()
                     mCurrentPhotoPath = FileProvider.getUriForFile(
                             activity,
-                            activity.applicationContext.packageName + ".provider",
+                            photoSettings.providerPath(),
                             it)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoPath)
                     activity.startActivityForResult(intent, requestCode())

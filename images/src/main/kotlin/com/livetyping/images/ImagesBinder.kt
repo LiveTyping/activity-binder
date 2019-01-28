@@ -41,13 +41,10 @@ class ImagesBinder : Binder() {
         }
     }
 
-    fun takeFullSizeFromCamera(rationaleText: String, settingsButtonText: String, result: (File) -> Unit) {
-        permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
-            if (it) {
-                val cameraRequest = FullSizePhotoRequest(result)
-                imageRequest(cameraRequest)
-            }
-        }
+    fun takeFullSizeFromCamera(settings: TakePhotoSettings? = null, result: (File) -> Unit) {
+        val takePhotoSettings = settings ?: DefaultTakePhotoSettings()
+        val cameraRequest = FullSizePhotoRequest(takePhotoSettings, result)
+        imageRequest(cameraRequest)
     }
 
 
@@ -68,7 +65,7 @@ class ImagesBinder : Binder() {
         if (attachedObject == null) {
             waitedContextRequests.put(imageRequest.requestCode(), imageRequest)
         } else {
-            val requestCode = imageRequest.requestCode();
+            val requestCode = imageRequest.requestCode()
             requests.put(requestCode, imageRequest)
             imageRequest.makeRequest(attachedObject)
         }

@@ -1,22 +1,28 @@
 package com.livetyping.activitybinder
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImagesBinder
+import com.livetyping.images.TakePhotoSettings
+import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_images.*
 
 
 class ImagesExampleActivity : AppCompatActivity() {
 
     private lateinit var imagesBinder: ImagesBinder
+    private lateinit var permissionBinder: PermissionBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_images)
-        imagesBinder = (application as BinderExampleApplication).imagesBinder
+        val binderExampleApplication = application as BinderExampleApplication
+        imagesBinder = binderExampleApplication.imagesBinder
+        permissionBinder = binderExampleApplication.permissionBinder
 
         gallery.setOnClickListener {
             imagesBinder.pickImageFromGallery { imageFile ->
@@ -36,9 +42,23 @@ class ImagesExampleActivity : AppCompatActivity() {
         }
 
         full_size_from_camera.setOnClickListener {
-            imagesBinder.takeFullSizeFromCamera("rationale text for active permission", "settings")
-            { filePath ->
-                image.setImageURI(Uri.fromFile(filePath))
+            permissionBinder.activePermission(Manifest.permission.CAMERA,
+                    "rationale text for camera permission") { granted ->
+                if (granted) {
+                    permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            "rationale text for write external storage permission") {
+                        if (it) {
+                            val settings = object : TakePhotoSettings {
+                                override fun providerPath() = application.applicationContext.packageName + ".provider"
+                            }
+                            imagesBinder.takeFullSizeFromCamera(settings) { file ->
+                                image.setImageURI(Uri.fromFile(file))
+                            }
+                        }
+                    }
+
+                }
+
             }
         }
     }
@@ -46,20 +66,24 @@ class ImagesExampleActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         imagesBinder.attach(this)
+        permissionBinder.attach(this)
     }
 
     override fun onStop() {
         super.onStop()
         imagesBinder.detach(this)
+        permissionBinder.detach(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imagesBinder.onActivityResult(requestCode, resultCode, data, this)
+        permissionBinder.onActivityResult(requestCode, data, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         imagesBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
     }
 }
