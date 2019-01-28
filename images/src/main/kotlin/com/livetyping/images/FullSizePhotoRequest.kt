@@ -1,6 +1,7 @@
 package com.livetyping.images
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
@@ -21,7 +22,7 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
             intent.resolveActivity(activity.packageManager)?.also {
                 val imageFile: File? = try {
-                    createImageFile()
+                    createImageFile(activity)
                 } catch (ex: IOException) {
                     null
                 }
@@ -39,18 +40,20 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
         }
     }
 
-    override fun concreteResult(activity: Activity, data: Intent) {
+    override fun concreteResult(activity: Activity, data: Intent?) {
         function.invoke(fileFromUri(activity, mCurrentPhotoPath))
     }
 
     override fun requestCode() = 9467
 
     @Throws(IOException::class)
-    private fun createImageFile(): File {
+    private fun createImageFile(context: Context): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? =
-                Environment.getExternalStorageDirectory()
+        val storageDir: File? = if (photoSettings is DefaultTakePhotoSettings) {
+            context.filesDir
+        } else
+            Environment.getExternalStorageDirectory()
         val fileName = timeStamp + "_tempfile"
         return File.createTempFile(
                 fileName, /* prefix */

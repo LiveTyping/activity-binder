@@ -16,23 +16,25 @@ internal class MultipleGalleryRequest(result: (List<File>) -> Unit) : ImageReque
         activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode())
     }
 
-    override fun concreteResult(activity: Activity, data: Intent) {
-        val clipData = data.clipData
-        if (clipData != null) {
-            val itemCount = clipData.itemCount
-            if (itemCount > 0) {
-                val list = ArrayList<File>(itemCount)
-                (0 until itemCount)
-                        .mapTo(list) { fileFromUri(activity, clipData.getItemAt(it).uri) }
-                result(list)
-            }
-        } else {
-            if (data.data != null) {
-                val list = ArrayList<File>(1)
-                list.add(fileFromUri(activity, data.data))
-                result(list)
+    override fun concreteResult(activity: Activity, data: Intent?) {
+        data?.let {
+            val clipData = it.clipData
+            if (clipData != null) {
+                val itemCount = clipData.itemCount
+                if (itemCount > 0) {
+                    val list = ArrayList<File>(itemCount)
+                    (0 until itemCount)
+                            .mapTo(list) { fileFromUri(activity, clipData.getItemAt(it).uri) }
+                    result(list)
+                }
+            } else {
+                    val list = ArrayList<File>(1)
+                    list.add(fileFromUri(activity, it?.data))
+                    result(list)
+
             }
         }
+
 
     }
 

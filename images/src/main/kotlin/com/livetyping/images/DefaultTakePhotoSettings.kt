@@ -1,7 +1,8 @@
 package com.livetyping.images
 
 
-class DefaultTakePhotoSettings : TakePhotoSettings {
+internal class DefaultTakePhotoSettings : TakePhotoSettings {
 
-    override fun providerPath(): String = ""
+    override fun providerPath(): String = "com.livetyping.images.default_provider"
+
 }

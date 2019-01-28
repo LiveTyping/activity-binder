@@ -17,13 +17,13 @@ internal abstract class ImageRequest<T>(protected val result: (T) -> Unit) {
         concreteMakeRequest(activity)
     }
 
-    fun activityResult(activity: Activity, data: Intent) {
+    fun activityResult(activity: Activity, data: Intent?) {
         concreteResult(activity, data)
     }
 
     protected abstract fun concreteMakeRequest(activity: Activity)
 
-    protected abstract fun concreteResult(activity: Activity, data: Intent)
+    protected abstract fun concreteResult(activity: Activity, data: Intent?)
 
 
     abstract fun requestCode(): Int

@@ -51,7 +51,7 @@ class ImagesBinder : Binder() {
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity) {
         if (resultCode == Activity.RESULT_OK) {
             val request = requests[requestCode]
-            data?.let { request?.activityResult(activity, data) }
+            request?.let { request.activityResult(activity, data) }
         }
         permissionBinder.onActivityResult(requestCode, data, activity)
     }

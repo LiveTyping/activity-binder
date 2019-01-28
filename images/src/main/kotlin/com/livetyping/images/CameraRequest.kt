@@ -17,8 +17,8 @@ internal class CameraRequest(result: (Bitmap) -> Unit) : ImageRequest<Bitmap>(re
         }
     }
 
-    override fun concreteResult(activity: Activity, data: Intent) {
-        data.extras?.let {
+    override fun concreteResult(activity: Activity, data: Intent?) {
+        data?.extras?.let {
             result(it.get("data") as Bitmap)
         }
     }

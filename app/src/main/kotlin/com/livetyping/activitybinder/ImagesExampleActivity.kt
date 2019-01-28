@@ -41,7 +41,16 @@ class ImagesExampleActivity : AppCompatActivity() {
             }
         }
 
-        full_size_from_camera.setOnClickListener {
+        full_size_from_camera_internal_storage.setOnClickListener {
+            permissionBinder.activePermission(Manifest.permission.CAMERA,
+                    "rationale text for camera permission") { granted ->
+                imagesBinder.takeFullSizeFromCamera {
+                    image.setImageURI(Uri.fromFile(it))
+                }
+
+            }
+        }
+        full_size_from_camera_external_storage.setOnClickListener {
             permissionBinder.activePermission(Manifest.permission.CAMERA,
                     "rationale text for camera permission") { granted ->
                 if (granted) {
@@ -58,7 +67,6 @@ class ImagesExampleActivity : AppCompatActivity() {
                     }
 
                 }
-
             }
         }
     }

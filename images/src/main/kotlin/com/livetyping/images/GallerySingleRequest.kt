@@ -27,8 +27,9 @@ internal class GallerySingleRequest(result: (File) -> Unit) : ImageRequest<File>
         activity.startActivityForResult(photoPickerIntent, requestCode())
     }
 
-    override fun concreteResult(activity: Activity, data: Intent) {
-        result(fileFromUri(activity, data.data))
+    override fun concreteResult(activity: Activity, data: Intent?) {
+        data?.let { result(fileFromUri(activity, data.data)) }
+
     }
 
     override fun requestCode(): Int = 2233

@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,9 +20,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:text="from_gallery"
+        app:layout_constraintBottom_toTopOf="@+id/thumbnail_camera"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image" />
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/thumbnail_camera"
@@ -29,9 +33,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="thumbnail_from_camera"
+        app:layout_constraintBottom_toTopOf="@+id/multiple_gallery"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gallery" />
+        app:layout_constraintTop_toBottomOf="@+id/gallery" />
 
     <Button
         android:id="@+id/multiple_gallery"
@@ -39,20 +45,36 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="multiple_from gallery"
+        app:layout_constraintBottom_toTopOf="@+id/full_size_from_camera_internal_storage"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/thumbnail_camera" />
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_camera" />
 
     <Button
-        android:id="@+id/full_size_from_camera"
+        android:id="@+id/full_size_from_camera_internal_storage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="full size photo from camera"
+        android:text="full size photo from camera internal_storage"
+        app:layout_constraintBottom_toTopOf="@+id/full_size_from_camera_external_storage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/multiple_gallery" />
+
+    <Button
+        android:id="@+id/full_size_from_camera_external_storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="full size photo from camera external_storage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/full_size_from_camera_internal_storage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
