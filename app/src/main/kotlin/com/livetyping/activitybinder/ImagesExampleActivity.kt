@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImagesBinder
-import com.livetyping.images.TakePhotoSettings
+import com.livetyping.images.settings.FilesPathSettings
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_images.*
 
@@ -57,15 +57,12 @@ class ImagesExampleActivity : AppCompatActivity() {
                     permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             "rationale text for write external storage permission") {
                         if (it) {
-                            val settings = object : TakePhotoSettings {
-                                override fun providerPath() = application.applicationContext.packageName + ".provider"
-                            }
+                            val settings = FilesPathSettings(application.applicationContext.packageName + ".provider")
                             imagesBinder.takeFullSizeFromCamera(settings) { file ->
                                 image.setImageURI(Uri.fromFile(file))
                             }
                         }
                     }
-
                 }
             }
         }

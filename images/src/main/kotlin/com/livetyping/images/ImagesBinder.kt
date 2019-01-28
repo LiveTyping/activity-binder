@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Environment
 import com.livetyping.core.Binder
+import com.livetyping.images.settings.DefaultTakePhotoSettings
+import com.livetyping.images.settings.TakePhotoSettings
 import com.livetyping.permission.PermissionBinder
 import com.livetyping.utils.image.CameraRequest
 import com.livetyping.utils.image.GallerySingleRequest

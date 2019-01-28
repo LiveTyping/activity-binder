@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import com.livetyping.images.settings.DefaultTakePhotoSettings
+import com.livetyping.images.settings.TakePhotoSettings
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -30,7 +31,7 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
                     it.deleteOnExit()
                     mCurrentPhotoPath = FileProvider.getUriForFile(
                             activity,
-                            photoSettings.providerPath(),
+                            photoSettings.providerAuthority,
                             it)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoPath)
                     activity.startActivityForResult(intent, requestCode())
@@ -53,7 +54,7 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
         val storageDir: File? = if (photoSettings is DefaultTakePhotoSettings) {
             context.filesDir
         } else
-            Environment.getExternalStorageDirectory()
+            photoSettings.getFilePath(context)
         val fileName = timeStamp + "_tempfile"
         return File.createTempFile(
                 fileName, /* prefix */
