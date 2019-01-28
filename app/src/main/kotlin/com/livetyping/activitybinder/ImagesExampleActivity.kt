@@ -50,18 +50,14 @@ class ImagesExampleActivity : AppCompatActivity() {
 
             }
         }
-        full_size_from_camera_external_storage.setOnClickListener {
+        full_size_from_camera_file_path.setOnClickListener {
             permissionBinder.activePermission(Manifest.permission.CAMERA,
                     "rationale text for camera permission") { granted ->
                 if (granted) {
-                    permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            "rationale text for write external storage permission") {
-                        if (it) {
-                            val settings = FilesPathSettings(application.applicationContext.packageName + ".provider")
-                            imagesBinder.takeFullSizeFromCamera(settings) { file ->
-                                image.setImageURI(Uri.fromFile(file))
-                            }
-                        }
+                    val providerAuthority = application.applicationContext.packageName + ".provider"
+                    val settings = FilesPathSettings(providerAuthority, attrPath = "images")
+                    imagesBinder.takeFullSizeFromCamera(settings) { file ->
+                        image.setImageURI(Uri.fromFile(file))
                     }
                 }
             }

@@ -10,8 +10,6 @@ import com.livetyping.images.settings.DefaultTakePhotoSettings
 import com.livetyping.images.settings.TakePhotoSettings
 import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings,
@@ -50,16 +48,18 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
     @Throws(IOException::class)
     private fun createImageFile(context: Context): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = if (photoSettings is DefaultTakePhotoSettings) {
             context.filesDir
         } else
             photoSettings.getFilePath(context)
-        val fileName = timeStamp + "_tempfile"
-        return File.createTempFile(
-                fileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir /* directory */
-        )
+        storageDir?.let {
+            if (!storageDir.exists()) {
+                storageDir.mkdirs()
+            }
+            val fileName = photoSettings.fileName
+            val tempFile = File(it.absolutePath, "$fileName.jpg")
+            tempFile.createNewFile()
+            return tempFile
+        }
     }
 }

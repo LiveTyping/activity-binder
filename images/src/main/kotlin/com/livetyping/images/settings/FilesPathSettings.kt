@@ -1,9 +1,11 @@
 package com.livetyping.images.settings
 
 import android.content.Context
-import android.os.Environment
+import java.io.File
 
-
+/**
+ * crete file in data/data/{applicationId}/attrPath for file path
+ */
 class FilesPathSettings(override val providerAuthority: String,
                         override val attrName: String = "images/",
                         override val attrPath: String = ".",
@@ -11,5 +13,7 @@ class FilesPathSettings(override val providerAuthority: String,
 
     override val tagPath = "files-path"
 
-    override fun getFilePath(context: Context) = context.filesDir
+    override fun getFilePath(context: Context): File {
+        return File(context.filesDir, attrPath)
+    }
 }
