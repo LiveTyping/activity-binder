@@ -23,8 +23,8 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
             xmlParser.next()
         }
         xmlParser.close()
-        throw IllegalArgumentException("can`t find attr with name $attrName " +
-                "in ${context.resources.getResourceEntryName(paths)} xml file")
+        throw IllegalArgumentException("can`t find attr with name '$attrName' " +
+                "in '${context.resources.getResourceEntryName(paths)}' xml file")
     }
 
     private fun getTakePhotoSettingsByParser(parser: XmlPullParser, attrName: String): TakePhotoSettings {
@@ -35,6 +35,7 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
             "cache-path" -> CachePathSettings(providerAuthority, attrName, attrPath)
             "external-path" -> ExternalPathSettings(providerAuthority, attrName, attrPath)
             "external-files-path" -> ExternalFilesPathSettings(providerAuthority, attrName, attrPath)
+            "external-cache-path" -> ExternalCachePathSettings(providerAuthority, attrName, attrPath)
             else -> DefaultTakePhotoSettings()
         }
     }

@@ -13,4 +13,7 @@
     <external-files-path
         name="external_app_files_path"
         path="." />
+    <external-cache-path
+        name="external_app_cache_path"
+        path="new_folder" />
 </paths>
