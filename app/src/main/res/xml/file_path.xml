@@ -7,4 +7,7 @@
     <cache-path
         name="cache_files"
         path="tempfolder" />
+    <external-path
+        name="external_files"
+        path="." />
 </paths>

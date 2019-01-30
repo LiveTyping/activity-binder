@@ -41,6 +41,20 @@ class FullSizeImagesActivity : AppCompatActivity() {
                 }
             }
         }
+
+        external_path.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
+                if (cameraGranted) {
+                    permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
+                        if (storageGranted) {
+                            imagesBinder.takeFullSizeFromCamera("external_files") { file ->
+                                image.setImageURI(Uri.fromFile(file))
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onStart() {
