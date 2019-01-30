@@ -5,13 +5,13 @@ import androidx.annotation.XmlRes
 import org.xmlpull.v1.XmlPullParser
 
 
-internal class FilesFactory(private val providerAuthority: String, @XmlRes private val paths: Int) {
+internal class FilePathFactory(private val providerAuthority: String, @XmlRes private val paths: Int) {
 
     fun createSettings(context: Context, attrName: String): TakePhotoSettings {
         val xmlParser = context.resources.getXml(paths)
-        val event = xmlParser.eventType
-        while (event != XmlPullParser.END_DOCUMENT) {
-            if (event == XmlPullParser.START_TAG) {
+        while (xmlParser.eventType != XmlPullParser.END_DOCUMENT) {
+            if (xmlParser.eventType == XmlPullParser.END_TAG) {
+                xmlParser.next()
                 continue
             }
             val pathName = xmlParser.getAttributeValue(null, "name")
@@ -23,7 +23,8 @@ internal class FilesFactory(private val providerAuthority: String, @XmlRes priva
             xmlParser.next()
         }
         xmlParser.close()
-        throw IllegalArgumentException("")
+        throw IllegalArgumentException("can`t find attr with name $attrName " +
+                "in ${context.resources.getResourceEntryName(paths)} xml file")
     }
 
     private fun getTakePhotoSettingsByParser(parser: XmlPullParser, attrName: String): TakePhotoSettings {
@@ -31,6 +32,7 @@ internal class FilesFactory(private val providerAuthority: String, @XmlRes priva
         val attrPath = if (attributeValue == "." || attributeValue == "/") null else attrName
         return when (parser.name) {
             "files-path" -> FilesPathSettings(providerAuthority, attrName, attrPath)
+            "cache-path" -> CachPathSettings(providerAuthority, attrName, attrPath)
             else -> DefaultTakePhotoSettings()
         }
     }
