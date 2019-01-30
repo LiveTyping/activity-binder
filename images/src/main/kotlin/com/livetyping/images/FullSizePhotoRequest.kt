@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.livetyping.images.settings.DefaultTakePhotoSettings
 import com.livetyping.images.settings.TakePhotoSettings
 import java.io.File
 import java.io.IOException
@@ -48,10 +47,7 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
     @Throws(IOException::class)
     private fun createImageFile(context: Context): File {
         // Create an image file name
-        val storageDir: File? = if (photoSettings is DefaultTakePhotoSettings) {
-            context.filesDir
-        } else
-            photoSettings.getFilePath(context)
+        val storageDir = photoSettings.getFilePath(context)
         storageDir?.let {
             if (!storageDir.exists()) {
                 storageDir.mkdirs()

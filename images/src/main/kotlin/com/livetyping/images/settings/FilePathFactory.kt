@@ -34,6 +34,7 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
             "files-path" -> FilesPathSettings(providerAuthority, attrName, attrPath)
             "cache-path" -> CachePathSettings(providerAuthority, attrName, attrPath)
             "external-path" -> ExternalPathSettings(providerAuthority, attrName, attrPath)
+            "external-files-path" -> ExternalFilesPathSettings(providerAuthority, attrName, attrPath)
             else -> DefaultTakePhotoSettings()
         }
     }

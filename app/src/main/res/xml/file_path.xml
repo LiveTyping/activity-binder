@@ -10,4 +10,7 @@
     <external-path
         name="external_files"
         path="." />
+    <external-files-path
+        name="external_app_files_path"
+        path="." />
 </paths>
