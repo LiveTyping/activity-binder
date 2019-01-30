@@ -83,10 +83,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Default"
+        app:layout_constraintBottom_toTopOf="@+id/cach_path"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/file_path" />
+
+    <Button
+        android:id="@+id/cach_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="cach-path"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/file_path"
-        tools:layout_editor_absoluteX="164dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/default_provider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

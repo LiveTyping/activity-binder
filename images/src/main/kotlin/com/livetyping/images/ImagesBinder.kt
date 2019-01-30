@@ -8,7 +8,7 @@ import android.os.Environment
 import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
 import com.livetyping.images.settings.DefaultTakePhotoSettings
-import com.livetyping.images.settings.FilesFactory
+import com.livetyping.images.settings.FilePathFactory
 import com.livetyping.images.settings.TakePhotoSettings
 import com.livetyping.permission.PermissionBinder
 import com.livetyping.utils.image.CameraRequest
@@ -21,8 +21,8 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
     private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val permissionBinder = PermissionBinder()
-    private val filesFactory: FilesFactory by lazy {
-        FilesFactory(providerAuthority, paths)
+    private val settingsFactory: FilePathFactory by lazy {
+        FilePathFactory(providerAuthority, paths)
     }
 
     internal companion object {
@@ -49,10 +49,9 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
     }
 
 
-
-    fun takeFullSizeFromCamera(attrName: String? = null, result: (File) -> Unit) {
+    fun takeFullSizeFromCamera(attrName: String, result: (File) -> Unit) {
         getAttachedObject()?.let { activity ->
-            val createSettings = filesFactory.createSettings(activity, attrName ?: "")
+            val createSettings = settingsFactory.createSettings(activity, attrName)
             takeFullSizeFromCamera(createSettings) {
                 result.invoke(it)
             }

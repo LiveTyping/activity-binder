@@ -32,7 +32,7 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
         val attrPath = if (attributeValue == "." || attributeValue == "/") null else attrName
         return when (parser.name) {
             "files-path" -> FilesPathSettings(providerAuthority, attrName, attrPath)
-            "cache-path" -> CachPathSettings(providerAuthority, attrName, attrPath)
+            "cache-path" -> CachePathSettings(providerAuthority, attrName, attrPath)
             else -> DefaultTakePhotoSettings()
         }
     }

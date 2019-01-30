@@ -4,4 +4,7 @@
     <files-path
         name="images"
         path="." />
+    <cache-path
+        name="cache_files"
+        path="." />
 </paths>

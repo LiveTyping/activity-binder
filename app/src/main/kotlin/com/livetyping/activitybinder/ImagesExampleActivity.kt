@@ -61,6 +61,14 @@ class ImagesExampleActivity : AppCompatActivity() {
                 image.setImageURI(Uri.fromFile(file))
             }
         }
+
+        cach_path.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                imagesBinder.takeFullSizeFromCamera("cache_files") { file ->
+                    image.setImageURI(Uri.fromFile(file))
+                }
+            }
+        }
     }
 
     override fun onStart() {
