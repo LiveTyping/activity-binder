@@ -6,8 +6,6 @@ import java.io.File
 
 abstract class TakePhotoSettings {
 
-    abstract val providerAuthority: String
-
     abstract val attrName: String
 
     abstract val attrPath: String?

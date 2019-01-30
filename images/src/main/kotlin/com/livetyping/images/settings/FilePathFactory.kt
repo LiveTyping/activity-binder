@@ -5,7 +5,7 @@ import androidx.annotation.XmlRes
 import org.xmlpull.v1.XmlPullParser
 
 
-internal class FilePathFactory(private val providerAuthority: String, @XmlRes private val paths: Int) {
+internal class FilePathFactory(@XmlRes private val paths: Int) {
 
     fun createSettings(context: Context, attrName: String): TakePhotoSettings {
         val xmlParser = context.resources.getXml(paths)
@@ -31,11 +31,11 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
         val attributePath = parser.getAttributeValue(null, "path")
         val attrPath = if (attributePath == "." || attributePath == "/") null else attributePath
         return when (parser.name) {
-            "files-path" -> FilesPathSettings(providerAuthority, attrName, attrPath)
-            "cache-path" -> CachePathSettings(providerAuthority, attrName, attrPath)
-            "external-path" -> ExternalPathSettings(providerAuthority, attrName, attrPath)
-            "external-files-path" -> ExternalFilesPathSettings(providerAuthority, attrName, attrPath)
-            "external-cache-path" -> ExternalCachePathSettings(providerAuthority, attrName, attrPath)
+            "files-path" -> FilesPathSettings(attrName, attrPath)
+            "cache-path" -> CachePathSettings(attrName, attrPath)
+            "external-path" -> ExternalPathSettings(attrName, attrPath)
+            "external-files-path" -> ExternalFilesPathSettings(attrName, attrPath)
+            "external-cache-path" -> ExternalCachePathSettings(attrName, attrPath)
             else -> DefaultTakePhotoSettings()
         }
     }

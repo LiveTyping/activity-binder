@@ -7,8 +7,7 @@ import java.io.File
 /**
  * crete file in data/data/{applicationId}/cache/attrPath
  */
-internal class CachePathSettings(override val providerAuthority: String,
-                                 override val attrName: String,
+internal class CachePathSettings(override val attrName: String,
                                  override val attrPath: String?,
                                  override val fileName: String = "tempFileInCashDir")
     : TakePhotoSettings() {

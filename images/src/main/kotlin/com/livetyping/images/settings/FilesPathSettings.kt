@@ -6,10 +6,10 @@ import java.io.File
 /**
  * crete file in data/data/{applicationId}/files/attrPath
  */
-class FilesPathSettings(override val providerAuthority: String,
-                        override val attrName: String = "images/",
+class FilesPathSettings(override val attrName: String = "images/",
                         override val attrPath: String? = null,
-                        override val fileName: String = "tempFileInFilesPath") : TakePhotoSettings() {
+                        override val fileName: String = "tempFileInFilesPath")
+    : TakePhotoSettings() {
 
 
     override fun getFilePath(context: Context): File {

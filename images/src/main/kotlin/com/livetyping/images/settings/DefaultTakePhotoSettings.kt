@@ -8,7 +8,6 @@ import java.io.File
  */
 internal class DefaultTakePhotoSettings : TakePhotoSettings() {
 
-    override val providerAuthority = "com.livetyping.images.default_provider"
     override val attrName = "images"
     override val attrPath: String? = null
     override val fileName = "tempPhotoFile"

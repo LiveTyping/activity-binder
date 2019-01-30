@@ -7,8 +7,7 @@ import java.io.File
 /**
  * crete file in storage/emulated/0/files/attrPath
  */
-internal class ExternalPathSettings(override val providerAuthority: String,
-                                    override val attrName: String,
+internal class ExternalPathSettings(override val attrName: String,
                                     override val attrPath: String?,
                                     override val fileName: String = "external_path_file")
     : TakePhotoSettings() {

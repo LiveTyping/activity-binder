@@ -19,7 +19,7 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
     private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val settingsFactory: FilePathFactory by lazy {
-        FilePathFactory(providerAuthority, paths)
+        FilePathFactory(paths)
     }
 
     internal companion object {
@@ -53,7 +53,7 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
 
     fun takeFullSizeFromCamera(result: (File) -> Unit) {
         getAttachedObject()?.let {
-            takeFullSizeFromCamera(DefaultTakePhotoSettings()) { file ->
+            takeFullSizeFromCamera(null) { file ->
                 result.invoke(file)
             }
         }
@@ -70,8 +70,11 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
         //nothing
     }
 
-    private fun takeFullSizeFromCamera(settings: TakePhotoSettings, result: (File) -> Unit) {
-        val cameraRequest = FullSizePhotoRequest(settings, result)
+    private fun takeFullSizeFromCamera(settings: TakePhotoSettings? = null, result: (File) -> Unit) {
+        val providerAuthority = if (settings == null) "com.livetyping.images.default_provider" else this.providerAuthority
+        val cameraRequest = FullSizePhotoRequest(providerAuthority,
+                settings ?: DefaultTakePhotoSettings(),
+                result)
         imageRequest(cameraRequest)
     }
 

@@ -11,8 +11,10 @@ import java.io.File
 import java.io.IOException
 
 
-internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings,
-                                    private val function: (filePath: File) -> Unit) : ImageRequest<File>(function) {
+internal class FullSizePhotoRequest(private val providerAuthority: String,
+                                    val photoSettings: TakePhotoSettings,
+                                    private val function: (filePath: File) -> Unit)
+    : ImageRequest<File>(function) {
 
     private lateinit var mCurrentPhotoPath: Uri
 
@@ -26,9 +28,8 @@ internal class FullSizePhotoRequest(private val photoSettings: TakePhotoSettings
                 }
                 imageFile?.let {
                     it.deleteOnExit()
-                    mCurrentPhotoPath = FileProvider.getUriForFile(
-                            activity,
-                            photoSettings.providerAuthority,
+                    mCurrentPhotoPath = FileProvider.getUriForFile(activity,
+                            providerAuthority,
                             it)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoPath)
                     activity.startActivityForResult(intent, requestCode())
