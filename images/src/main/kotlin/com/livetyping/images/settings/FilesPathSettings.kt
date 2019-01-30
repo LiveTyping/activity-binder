@@ -4,16 +4,15 @@ import android.content.Context
 import java.io.File
 
 /**
- * crete file in data/data/{applicationId}/attrPath for file path
+ * crete file in data/data/{applicationId}/files/attrPath
  */
 class FilesPathSettings(override val providerAuthority: String,
                         override val attrName: String = "images/",
-                        override val attrPath: String = ".",
+                        override val attrPath: String? = null,
                         override val fileName: String = "tempFileInFilesPath") : TakePhotoSettings() {
 
-    override val tagPath = "files-path"
 
     override fun getFilePath(context: Context): File {
-        return File(context.filesDir, attrPath)
+        return if (attrPath == null) File(context.filesDir.path) else File(context.filesDir, attrPath)
     }
 }

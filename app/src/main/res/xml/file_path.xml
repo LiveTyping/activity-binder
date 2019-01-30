@@ -3,5 +3,5 @@
 
     <files-path
         name="images"
-        path="images" />
+        path="." />
 </paths>

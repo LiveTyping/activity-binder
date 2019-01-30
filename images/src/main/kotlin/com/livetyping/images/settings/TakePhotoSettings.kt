@@ -8,11 +8,9 @@ abstract class TakePhotoSettings {
 
     abstract val providerAuthority: String
 
-    abstract val tagPath: String
-
     abstract val attrName: String
 
-    abstract val attrPath: String
+    abstract val attrPath: String?
 
     abstract val fileName: String
 

@@ -50,9 +50,15 @@ class ImagesExampleActivity : AppCompatActivity() {
             }
         }
 
-        factory.setOnClickListener {
+        file_path.setOnClickListener {
             imagesBinder.takeFullSizeFromCamera("images") {
                 image.setImageURI(Uri.fromFile(it))
+            }
+        }
+
+        default_provider.setOnClickListener {
+            imagesBinder.takeFullSizeFromCamera { file ->
+                image.setImageURI(Uri.fromFile(file))
             }
         }
     }
