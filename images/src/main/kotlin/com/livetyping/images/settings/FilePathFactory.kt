@@ -28,8 +28,8 @@ internal class FilePathFactory(private val providerAuthority: String, @XmlRes pr
     }
 
     private fun getTakePhotoSettingsByParser(parser: XmlPullParser, attrName: String): TakePhotoSettings {
-        val attributeValue = parser.getAttributeValue(null, "path")
-        val attrPath = if (attributeValue == "." || attributeValue == "/") null else attrName
+        val attributePath = parser.getAttributeValue(null, "path")
+        val attrPath = if (attributePath == "." || attributePath == "/") null else attributePath
         return when (parser.name) {
             "files-path" -> FilesPathSettings(providerAuthority, attrName, attrPath)
             "cache-path" -> CachePathSettings(providerAuthority, attrName, attrPath)

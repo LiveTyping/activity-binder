@@ -3,8 +3,8 @@
 
     <files-path
         name="images"
-        path="." />
+        path="file_path_temp_folder" />
     <cache-path
         name="cache_files"
-        path="." />
+        path="tempfolder" />
 </paths>

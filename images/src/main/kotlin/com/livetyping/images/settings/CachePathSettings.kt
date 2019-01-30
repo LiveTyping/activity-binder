@@ -4,6 +4,9 @@ import android.content.Context
 import java.io.File
 
 
+/**
+ * crete file in data/data/{applicationId}/cache/attrPath
+ */
 internal class CachePathSettings(override val providerAuthority: String,
                                  override val attrName: String,
                                  override val attrPath: String?,
@@ -12,7 +15,7 @@ internal class CachePathSettings(override val providerAuthority: String,
 
 
     override fun getFilePath(context: Context): File {
-        return if (attrPath == null) File(context.cacheDir.path) else File(context.filesDir, attrPath)
+        return if (attrPath == null) File(context.cacheDir.path) else File(context.cacheDir, attrPath)
     }
 
 }
