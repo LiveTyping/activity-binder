@@ -19,7 +19,7 @@ class BinderExampleApplication : Application() {
     }
 
     val imagesBinder: ImagesBinder by lazy {
-        ImagesBinder()
+        ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
     }
 
     override fun onCreate() {

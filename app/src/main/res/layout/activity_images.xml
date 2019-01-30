@@ -59,21 +59,21 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="full size photo from camera internal_storage"
-        app:layout_constraintBottom_toTopOf="@+id/full_size_from_camera_file_path"
+        app:layout_constraintBottom_toTopOf="@+id/factory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/multiple_gallery" />
 
     <Button
-        android:id="@+id/full_size_from_camera_file_path"
+        android:id="@+id/factory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="full_size_from_camera_file_path"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="factory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/full_size_from_camera_internal_storage" />
 
