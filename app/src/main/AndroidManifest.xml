@@ -5,14 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BinderExampleApplication"
@@ -34,6 +34,7 @@
         <activity android:name=".PermissionExampleActivity" />
         <activity android:name=".ShowGlobalExplanationActivity" />
         <activity android:name=".ImagesExampleActivity" />
+        <activity android:name=".FullSizeImagesActivity" />
 
         <!--Facebook-->
         <meta-data
@@ -56,7 +57,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"/>
+                android:resource="@xml/file_path" />
         </provider>
 
 
