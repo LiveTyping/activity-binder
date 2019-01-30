@@ -25,8 +25,7 @@ class ImagesExampleActivity : AppCompatActivity() {
             }
         }
         thumbnail_camera.setOnClickListener {
-            imagesBinder.takeThumbnailFromCamera("rationale text for active permission", "settings")
-            { bitmap ->
+            imagesBinder.takeThumbnailFromCamera { bitmap ->
                 image.setImageBitmap(bitmap)
             }
         }

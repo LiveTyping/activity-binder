@@ -1,6 +1,5 @@
 package com.livetyping.images
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,7 +9,6 @@ import com.livetyping.core.Binder
 import com.livetyping.images.settings.DefaultTakePhotoSettings
 import com.livetyping.images.settings.FilePathFactory
 import com.livetyping.images.settings.TakePhotoSettings
-import com.livetyping.permission.PermissionBinder
 import com.livetyping.utils.image.CameraRequest
 import com.livetyping.utils.image.GallerySingleRequest
 import com.livetyping.utils.image.MultipleGalleryRequest
@@ -20,7 +18,6 @@ import java.io.File
 class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : Binder() {
     private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
-    private val permissionBinder = PermissionBinder()
     private val settingsFactory: FilePathFactory by lazy {
         FilePathFactory(providerAuthority, paths)
     }
@@ -39,13 +36,9 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
         imageRequest(MultipleGalleryRequest(result))
     }
 
-    fun takeThumbnailFromCamera(rationaleText: String, settingsButtonText: String, result: (Bitmap) -> Unit) {
-        permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText, settingsButtonText) {
-            if (it) {
-                val cameraRequest = CameraRequest(result)
-                imageRequest(cameraRequest)
-            }
-        }
+    fun takeThumbnailFromCamera(result: (Bitmap) -> Unit) {
+        val cameraRequest = CameraRequest(result)
+        imageRequest(cameraRequest)
     }
 
 
@@ -71,16 +64,14 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
             val request = requests[requestCode]
             request?.let { request.activityResult(activity, data) }
         }
-        permissionBinder.onActivityResult(requestCode, data, activity)
     }
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
+        //nothing
     }
 
-    private fun takeFullSizeFromCamera(settings: TakePhotoSettings? = null, result: (File) -> Unit) {
-        val takePhotoSettings = settings ?: DefaultTakePhotoSettings()
-        val cameraRequest = FullSizePhotoRequest(takePhotoSettings, result)
+    private fun takeFullSizeFromCamera(settings: TakePhotoSettings, result: (File) -> Unit) {
+        val cameraRequest = FullSizePhotoRequest(settings, result)
         imageRequest(cameraRequest)
     }
 
@@ -90,26 +81,19 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
             waitedContextRequests.put(imageRequest.requestCode(), imageRequest)
         } else {
             val requestCode = imageRequest.requestCode()
-            requests.put(requestCode, imageRequest)
+            requests[requestCode] = imageRequest
             imageRequest.makeRequest(attachedObject)
         }
     }
 
     override fun attach(obj: Activity) {
         super.attach(obj)
-        permissionBinder.attach(obj)
-        waitedContextRequests.isNotEmpty().let {
-            waitedContextRequests.forEach {
-                imageRequest(it.value)
-            }.let {
+        waitedContextRequests.isNotEmpty().let { notEmpty ->
+            if (notEmpty) {
+                waitedContextRequests.forEach { imageRequest(it.value) }
                 waitedContextRequests.clear()
             }
 
         }
-    }
-
-    override fun detach(obj: Activity) {
-        permissionBinder.detach(obj)
-        super.detach(obj)
     }
 }
