@@ -29,8 +29,16 @@ class FullSizeImagesActivity : AppCompatActivity() {
         }
 
         file_path.setOnClickListener {
-            imagesBinder.takeFullSizeFromCamera("images") { file ->
-                image.setImageURI(Uri.fromFile(file))
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
+                if (cameraGranted) {
+                    permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
+                        if (storageGranted) {
+                            imagesBinder.takeFullSizeFromCamera("images") { file ->
+                                image.setImageURI(Uri.fromFile(file))
+                            }
+                        }
+                    }
+                }
             }
         }
 
