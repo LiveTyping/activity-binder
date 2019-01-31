@@ -1,7 +1,6 @@
 package com.livetyping.images
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -26,7 +25,7 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
             intent.resolveActivity(activity.packageManager)?.also {
                 val imageFile: File? = try {
-                    createImageFile(activity)
+                    photoSettings.getImageFile(activity)
                 } catch (ex: IOException) {
                     null
                 }
@@ -46,41 +45,33 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
     override fun concreteResult(activity: Activity, data: Intent?) {
         val contentResolver = activity.application.contentResolver
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mCurrentPhotoPath)
-        val rotation = ImageHeaderParser(contentResolver.openInputStream(mCurrentPhotoPath)).orientation
+        val rotationInputStream = contentResolver.openInputStream(mCurrentPhotoPath)
+        val rotation = ImageHeaderParser(rotationInputStream).orientation
         val angle = when (rotation) {
             ExifInterface.ORIENTATION_ROTATE_90 -> 90
             ExifInterface.ORIENTATION_ROTATE_180 -> 180
             ExifInterface.ORIENTATION_ROTATE_270 -> 270
             else -> 0
         }
-        val file = File(photoSettings.getRootPath(activity), "${photoSettings.fileName}.jpg")
-        file.delete()
-        file.createNewFile()
-        val out = FileOutputStream(file)
-        val orientationMatrix = Matrix()
-        orientationMatrix.postRotate(angle.toFloat())
-        val picture = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, orientationMatrix, false)
-        picture.compress(Bitmap.CompressFormat.JPEG, 100, out)
-        picture.recycle()
-        out.close()
-        function.invoke(file)
+        rotationInputStream?.close()
+        if (angle == 0) {
+            function.invoke(photoSettings.getImageFile(activity))
+        } else {
+            val file = photoSettings.getImageFile(activity)
+            file.delete()
+            file.createNewFile()
+            val out = FileOutputStream(file)
+            val orientationMatrix = Matrix()
+            orientationMatrix.postRotate(angle.toFloat())
+            val picture = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, orientationMatrix, false)
+            picture.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            picture.recycle()
+            out.close()
+            function.invoke(file)
+        }
+
 
     }
 
     override fun requestCode() = 9467
-
-    @Throws(IOException::class)
-    private fun createImageFile(context: Context): File {
-        // Create an image file name
-        val storageDir = photoSettings.getFilePath(context)
-        storageDir?.let {
-            if (!storageDir.exists()) {
-                storageDir.mkdirs()
-            }
-            val fileName = photoSettings.fileName
-            val tempFile = File(it.absolutePath, "$fileName.jpg")
-            tempFile.createNewFile()
-            return tempFile
-        }
-    }
 }
