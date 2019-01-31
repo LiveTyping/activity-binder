@@ -41,19 +41,17 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
         imageRequest(cameraRequest)
     }
 
-
-    fun takeFullSizeFromCamera(attrName: String, result: (File) -> Unit) {
-        getAttachedObject()?.let { activity ->
-            val createSettings = settingsFactory.createSettings(activity, attrName)
-            takeFullSizeFromCamera(createSettings) {
-                result.invoke(it)
+    fun takeFullSizeFromCamera(result: (File) -> Unit) {
+        getAttachedObject()?.let {
+            takeFullSizeFromCamera(null) { file ->
+                result.invoke(file)
             }
         }
     }
 
-    fun takeFullSizeFromCamera(result: (File) -> Unit) {
+    fun takeFullSizePhotoFromCamera(settings: TakePhotoSettings, result: (File) -> Unit) {
         getAttachedObject()?.let {
-            takeFullSizeFromCamera(null) { file ->
+            takeFullSizeFromCamera(settings) { file ->
                 result.invoke(file)
             }
         }
@@ -86,6 +84,15 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
             val requestCode = imageRequest.requestCode()
             requests[requestCode] = imageRequest
             imageRequest.makeRequest(attachedObject)
+        }
+    }
+
+    fun takeFullSizeFromCamera(attrName: String, result: (File) -> Unit) {
+        getAttachedObject()?.let { activity ->
+            val createSettings = settingsFactory.createSettings(activity, attrName)
+            takeFullSizeFromCamera(createSettings) {
+                result.invoke(it)
+            }
         }
     }
 

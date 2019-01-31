@@ -1,7 +1,6 @@
 package com.livetyping.images.settings
 
 import android.content.Context
-import java.io.File
 
 /**
  * crete file in /storage/emulated/0/Android/data/{applicationId}/cache/attrPath
