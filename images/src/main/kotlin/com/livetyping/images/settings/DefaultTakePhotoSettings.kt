@@ -12,9 +12,7 @@ internal class DefaultTakePhotoSettings : TakePhotoSettings() {
     override val attrPath: String? = null
     override val fileName = "tempPhotoFile"
 
-    override fun getFilePath(context: Context): File {
-        return File(context.filesDir.path)
-    }
+    override fun getRootPath(context: Context) = context.filesDir.path
 
 
 }

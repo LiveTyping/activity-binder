@@ -12,8 +12,5 @@ internal class ExternalPathSettings(override val attrName: String,
                                     override val fileName: String = "external_path_file")
     : TakePhotoSettings() {
 
-    override fun getFilePath(context: Context): File {
-        val externalStorageDirectory = Environment.getExternalStorageDirectory()
-        return if (attrPath == null) File(externalStorageDirectory.path) else File(externalStorageDirectory, attrPath)
-    }
+    override fun getRootPath(context: Context) = Environment.getExternalStorageDirectory().path
 }

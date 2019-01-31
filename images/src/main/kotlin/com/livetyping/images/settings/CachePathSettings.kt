@@ -13,8 +13,6 @@ internal class CachePathSettings(override val attrName: String,
     : TakePhotoSettings() {
 
 
-    override fun getFilePath(context: Context): File {
-        return if (attrPath == null) File(context.cacheDir.path) else File(context.cacheDir, attrPath)
-    }
+    override fun getRootPath(context: Context) = context.cacheDir.path
 
 }

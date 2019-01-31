@@ -12,5 +12,14 @@ abstract class TakePhotoSettings {
 
     abstract val fileName: String
 
-   internal abstract fun getFilePath(context: Context):File
+    internal fun getFilePath(context: Context): File {
+        val rootPath = getRootPath(context)
+        val path = if (attrPath == null) File(rootPath) else File(rootPath, attrPath)
+        if (path.exists().not()) {
+            path.mkdirs()
+        }
+        return path
+    }
+
+    internal abstract fun getRootPath(context: Context): String
 }
