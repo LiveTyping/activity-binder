@@ -8,7 +8,8 @@ import java.io.File
  */
 class ExternalCachePathSettings(override val attrName: String,
                                 override val attrPath: String?,
-                                override val fileName: String = "temp_external_cache_file") : TakePhotoSettings() {
+                                override val fileName: String = "file_in_external_cache_dir")
+    : TakePhotoSettings() {
 
 
     override fun getRootPath(context: Context) = context.externalCacheDir.path

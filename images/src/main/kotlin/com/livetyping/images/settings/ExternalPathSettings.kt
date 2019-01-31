@@ -9,7 +9,7 @@ import java.io.File
  */
 internal class ExternalPathSettings(override val attrName: String,
                                     override val attrPath: String?,
-                                    override val fileName: String = "external_path_file")
+                                    override val fileName: String = "file_in_external_dir")
     : TakePhotoSettings() {
 
     override fun getRootPath(context: Context) = Environment.getExternalStorageDirectory().path

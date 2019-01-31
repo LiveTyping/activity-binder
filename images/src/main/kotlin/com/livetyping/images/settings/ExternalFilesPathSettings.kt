@@ -8,7 +8,7 @@ import java.io.File
  */
 class ExternalFilesPathSettings(override val attrName: String,
                                 override val attrPath: String?,
-                                override val fileName: String = "tmp_external_app_file")
+                                override val fileName: String = "file_in_external_files_dir")
     : TakePhotoSettings() {
 
     override fun getRootPath(context: Context) = context.getExternalFilesDir(null).path

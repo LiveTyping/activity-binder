@@ -7,7 +7,7 @@ import android.content.Context
  */
 class FilesPathSettings(override val attrName: String = "images/",
                         override val attrPath: String? = null,
-                        override val fileName: String = "tempFileInFilesPath")
+                        override val fileName: String = "file_in_app_files_dir")
     : TakePhotoSettings() {
 
     override fun getRootPath(context: Context) = context.filesDir.path

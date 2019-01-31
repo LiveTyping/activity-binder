@@ -9,7 +9,7 @@ import java.io.File
  */
 internal class CachePathSettings(override val attrName: String,
                                  override val attrPath: String?,
-                                 override val fileName: String = "tempFileInCashDir")
+                                 override val fileName: String = "file_in_cache_dir")
     : TakePhotoSettings() {
 
 
