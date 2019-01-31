@@ -3,11 +3,15 @@ package com.livetyping.images
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import com.livetyping.images.settings.TakePhotoSettings
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 
@@ -40,7 +44,27 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
     }
 
     override fun concreteResult(activity: Activity, data: Intent?) {
-        function.invoke(fileFromUri(activity, mCurrentPhotoPath))
+        val contentResolver = activity.application.contentResolver
+        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mCurrentPhotoPath)
+        val rotation = ImageHeaderParser(contentResolver.openInputStream(mCurrentPhotoPath)).orientation
+        val angle = when (rotation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
+        val file = File(photoSettings.getRootPath(activity), "${photoSettings.fileName}.jpg")
+        file.delete()
+        file.createNewFile()
+        val out = FileOutputStream(file)
+        val orientationMatrix = Matrix()
+        orientationMatrix.postRotate(angle.toFloat())
+        val picture = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, orientationMatrix, false)
+        picture.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        picture.recycle()
+        out.close()
+        function.invoke(file)
+
     }
 
     override fun requestCode() = 9467
