@@ -15,7 +15,8 @@ import com.livetyping.utils.image.MultipleGalleryRequest
 import java.io.File
 
 
-class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : Binder() {
+class ImagesBinder(private val providerAuthority: String,
+                   @XmlRes private val paths: Int) : Binder() {
     private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val settingsFactory: FilePathFactory by lazy {
@@ -70,7 +71,7 @@ class ImagesBinder(private val providerAuthority: String, @XmlRes paths: Int) : 
 
     private fun takeFullSizeFromCamera(settings: TakePhotoSettings? = null, result: (File) -> Unit) {
         val providerAuthority = if (settings == null) "com.livetyping.images.default_provider" else this.providerAuthority
-        val cameraRequest = FullSizePhotoRequest(providerAuthority,
+        val cameraRequest = FullSizePhotoRequest(providerAuthority, paths,
                 settings ?: DefaultTakePhotoSettings(),
                 result)
         imageRequest(cameraRequest)

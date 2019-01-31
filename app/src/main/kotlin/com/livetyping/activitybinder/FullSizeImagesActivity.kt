@@ -42,6 +42,7 @@ class FullSizeImagesActivity : AppCompatActivity() {
             }
         }
 
+
         cach_path.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
                 imagesBinder.takeFullSizeFromCamera("cache_files") { file ->

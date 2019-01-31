@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.annotation.XmlRes
 import androidx.core.content.FileProvider
 import com.livetyping.images.settings.TakePhotoSettings
 import java.io.File
@@ -15,6 +16,7 @@ import java.io.IOException
 
 
 internal class FullSizePhotoRequest(private val providerAuthority: String,
+                                    @XmlRes private val paths: Int,
                                     val photoSettings: TakePhotoSettings,
                                     private val function: (filePath: File) -> Unit)
     : ImageRequest<File>(function) {
@@ -25,7 +27,7 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
             intent.resolveActivity(activity.packageManager)?.also {
                 val imageFile: File? = try {
-                    photoSettings.getImageFile(activity)
+                    photoSettings.getImageFile(activity, paths)
                 } catch (ex: IOException) {
                     null
                 }
@@ -54,20 +56,20 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
             else -> 0
         }
         rotationInputStream?.close()
+        val imageFile = photoSettings.getImageFile(activity, paths)
         if (angle == 0) {
-            function.invoke(photoSettings.getImageFile(activity))
+            function.invoke(imageFile)
         } else {
-            val file = photoSettings.getImageFile(activity)
-            file.delete()
-            file.createNewFile()
-            val out = FileOutputStream(file)
+            imageFile.delete()
+            imageFile.createNewFile()
+            val out = FileOutputStream(imageFile)
             val orientationMatrix = Matrix()
             orientationMatrix.postRotate(angle.toFloat())
             val picture = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, orientationMatrix, false)
             picture.compress(Bitmap.CompressFormat.JPEG, 100, out)
             picture.recycle()
             out.close()
-            function.invoke(file)
+            function.invoke(imageFile)
         }
 
 

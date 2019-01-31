@@ -8,8 +8,12 @@ import android.content.Context
 class DefaultTakePhotoSettings : TakePhotoSettings() {
 
     override val attrName = "images"
-    override val attrPath: String? = null
+    override val additionalPath: String? = null
     override val fileName = "file_in_app_files_dir"
+
+    override val pathAttr: String
+        get() = "files-path"
+
 
     override fun getRootPath(context: Context) = context.filesDir.path
 
