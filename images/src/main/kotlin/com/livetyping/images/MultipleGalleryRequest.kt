@@ -1,8 +1,7 @@
-package com.livetyping.utils.image
+package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
-import com.livetyping.images.ImageRequest
 import java.io.File
 
 

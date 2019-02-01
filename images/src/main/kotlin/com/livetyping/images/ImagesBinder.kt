@@ -8,9 +8,6 @@ import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
 import com.livetyping.images.settings.DefaultTakePhotoSettings
 import com.livetyping.images.settings.TakePhotoSettings
-import com.livetyping.utils.image.CameraRequest
-import com.livetyping.utils.image.GallerySingleRequest
-import com.livetyping.utils.image.MultipleGalleryRequest
 import java.io.File
 
 
@@ -77,17 +74,13 @@ class ImagesBinder(private val providerAuthority: String,
     private fun imageRequest(imageRequest: ImageRequest<out Any>) {
         val attachedObject = getAttachedObject()
         if (attachedObject == null) {
-            waitedContextRequests.put(imageRequest.requestCode(), imageRequest)
+            waitedContextRequests[imageRequest.requestCode()] = imageRequest
         } else {
             val requestCode = imageRequest.requestCode()
             requests[requestCode] = imageRequest
             imageRequest.makeRequest(attachedObject)
         }
     }
-
-
-
-
 
     override fun attach(obj: Activity) {
         super.attach(obj)

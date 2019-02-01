@@ -1,11 +1,9 @@
-package com.livetyping.utils.image
+package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import com.livetyping.images.ImageRequest
-import java.io.File
 
 
 internal class CameraRequest(result: (Bitmap) -> Unit) : ImageRequest<Bitmap>(result) {
