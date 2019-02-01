@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImagesBinder
+import com.livetyping.images.settings.*
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_full_size_images.*
 
@@ -23,9 +24,12 @@ class FullSizeImagesActivity : AppCompatActivity() {
         permissionBinder = binderExampleApplication.permissionBinder
 
         default_provider.setOnClickListener {
-            imagesBinder.takeFullSizeFromCamera { file ->
-                image.setImageURI(Uri.fromFile(file))
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                imagesBinder.takeFullSizeFromCamera { file ->
+                    image.setImageURI(Uri.fromFile(file))
+                }
             }
+
         }
 
         file_path.setOnClickListener {
@@ -33,7 +37,8 @@ class FullSizeImagesActivity : AppCompatActivity() {
                 if (cameraGranted) {
                     permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
                         if (storageGranted) {
-                            imagesBinder.takeFullSizeFromCamera("images") { file ->
+                            val settings = FilesPathSettings("images", additionalPath = "my_folder", fileName = "my_file")
+                            imagesBinder.takeFullSizePhotoFromCamera(settings) { file ->
                                 image.setImageURI(Uri.fromFile(file))
                             }
                         }
@@ -42,34 +47,22 @@ class FullSizeImagesActivity : AppCompatActivity() {
             }
         }
 
-
         cach_path.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
-                imagesBinder.takeFullSizeFromCamera("cache_files") { file ->
+                val cachePathSettings = CachePathSettings("cache_files", fileName = "my_file_in_cache")
+                imagesBinder.takeFullSizePhotoFromCamera(cachePathSettings) { file ->
                     image.setImageURI(Uri.fromFile(file))
                 }
             }
         }
-
+//
         external_path.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
                 if (cameraGranted) {
                     permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
                         if (storageGranted) {
-                            imagesBinder.takeFullSizeFromCamera("external_files") { file ->
-                                image.setImageURI(Uri.fromFile(file))
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        external_files_path.setOnClickListener {
-            permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
-                if (cameraGranted) {
-                    permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
-                        if (storageGranted) {
-                            imagesBinder.takeFullSizeFromCamera("external_app_files_path") { file ->
+                            val externalPathSettings = ExternalFilesPathSettings("external_files")
+                            imagesBinder.takeFullSizePhotoFromCamera(externalPathSettings) { file ->
                                 image.setImageURI(Uri.fromFile(file))
                             }
                         }
@@ -78,12 +71,28 @@ class FullSizeImagesActivity : AppCompatActivity() {
             }
         }
 
+        external_files_path.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
+                if (cameraGranted) {
+                    permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
+                        if (storageGranted) {
+                            val settings = ExternalFilesPathSettings("external_app_files_path")
+                            imagesBinder.takeFullSizePhotoFromCamera(settings) { file ->
+                                image.setImageURI(Uri.fromFile(file))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//
         external_cache_path.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) { cameraGranted ->
                 if (cameraGranted) {
                     permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { storageGranted ->
                         if (storageGranted) {
-                            imagesBinder.takeFullSizeFromCamera("external_app_cache_path") { file ->
+                            val settings = ExternalCachePathSettings("external_app_cache_path")
+                            imagesBinder.takeFullSizePhotoFromCamera(settings) { file ->
                                 image.setImageURI(Uri.fromFile(file))
                             }
                         }

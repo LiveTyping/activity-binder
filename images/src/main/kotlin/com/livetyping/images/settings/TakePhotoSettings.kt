@@ -18,9 +18,11 @@ abstract class TakePhotoSettings {
     protected abstract val pathAttr: String
 
     @Throws(IOException::class, IllegalStateException::class)
-    internal fun getImageFile(context: Context): File {
+    internal fun getImageFile(context: Context, attrPath: String): File {
         val rootPath = getRootPath(context)
-        val path = if (additionalPath == null) File(rootPath) else File(rootPath, additionalPath)
+        val path = if (additionalPath == null) File(rootPath, attrPath) else {
+            File(File(rootPath, attrPath), additionalPath)
+        }
         if (path.exists().not()) {
             path.mkdirs()
         }
@@ -41,11 +43,12 @@ abstract class TakePhotoSettings {
                 continue
             }
             val pathName = xmlParser.getAttributeValue(null, "name")
-            if (pathName != null && pathName == attrName && xmlParser.name == pathName) {
+            if (pathName != null && pathName == attrName && xmlParser.name == pathAttr) {
+                val attrPath = xmlParser.getAttributeValue(null, "path")
                 xmlParser.close()
+                return getImageFile(context, attrPath)
             }
             xmlParser.next()
-            return getImageFile(context)
         }
         xmlParser.close()
         throw IllegalArgumentException("can`t find attr with name '$attrName' " +

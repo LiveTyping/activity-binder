@@ -6,7 +6,7 @@ import android.content.Context
  * crete file in /storage/emulated/0/Android/data/{applicationId}/cache/additionalPath
  */
 class ExternalCachePathSettings(override val attrName: String,
-                                override val additionalPath: String?,
+                                override val additionalPath: String? = null,
                                 override val fileName: String = "file_in_external_cache_dir")
     : TakePhotoSettings() {
 

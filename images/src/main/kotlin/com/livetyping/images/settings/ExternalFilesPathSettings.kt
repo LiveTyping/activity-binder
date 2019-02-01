@@ -6,7 +6,7 @@ import android.content.Context
  * crete file in storage/emulated/0/Android/{applicationId}/files/additionalPath
  */
 class ExternalFilesPathSettings(override val attrName: String,
-                                override val additionalPath: String?,
+                                override val additionalPath: String? = null,
                                 override val fileName: String = "file_in_external_files_dir")
     : TakePhotoSettings() {
 
