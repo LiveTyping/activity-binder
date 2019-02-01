@@ -6,10 +6,11 @@ import android.os.Environment
 /**
  * crete file in storage/emulated/0/files/additionalPath
  */
-class ExternalPathSettings(override val attrName: String,
-                           override val additionalPath: String? = null,
-                           override val fileName: String = "file_in_external_dir")
-    : TakePhotoSettings() {
+class ExternalPathSettings(attrName: String,
+                           additionalPath: String?,
+                           fileName: String = "file_in_external_dir")
+
+    : TakePhotoSettings(attrName, additionalPath, fileName) {
 
     override val pathAttr: String
         get() = "external-path"

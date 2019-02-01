@@ -7,13 +7,10 @@ import java.io.File
 import java.io.IOException
 
 
-abstract class TakePhotoSettings {
+abstract class TakePhotoSettings(private val attrName: String,
+                                 private val additionalPath: String? = null,
+                                 private val fileName: String) {
 
-    abstract val attrName: String
-
-    abstract val additionalPath: String?
-
-    abstract val fileName: String
 
     protected abstract val pathAttr: String
 
