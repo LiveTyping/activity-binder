@@ -6,7 +6,9 @@ import android.os.Build
 import android.provider.MediaStore
 import java.io.File
 
-
+/**
+ * crete file in data/data/{applicationId}/cache/images
+ */
 internal class GallerySingleRequest(result: (File) -> Unit) : ImageRequest<File>(result) {
 
     override fun concreteMakeRequest(activity: Activity) {

@@ -3,7 +3,6 @@ package com.livetyping.images
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Environment
 import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
 import com.livetyping.images.settings.DefaultTakePhotoSettings
@@ -13,14 +12,9 @@ import java.io.File
 
 class ImagesBinder(private val providerAuthority: String,
                    @XmlRes private val paths: Int) : Binder() {
+
     private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
     private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
-
-
-    internal companion object {
-        internal val TEMP_CATALOG_PATH = Environment.DIRECTORY_PICTURES + "/" + "tmp" + "/"
-    }
-
 
     fun pickImageFromGallery(result: (File) -> Unit) {
         val gallerySingleRequest = GallerySingleRequest(result)
@@ -89,7 +83,6 @@ class ImagesBinder(private val providerAuthority: String,
                 waitedContextRequests.forEach { imageRequest(it.value) }
                 waitedContextRequests.clear()
             }
-
         }
     }
 }
