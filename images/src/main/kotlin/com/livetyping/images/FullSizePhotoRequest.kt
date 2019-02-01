@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.annotation.XmlRes
@@ -48,13 +47,8 @@ internal class FullSizePhotoRequest(private val providerAuthority: String,
         val contentResolver = activity.application.contentResolver
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mCurrentPhotoPath)
         val rotationInputStream = contentResolver.openInputStream(mCurrentPhotoPath)
-        val rotation = ImageHeaderParser(rotationInputStream).orientation
-        val angle = when (rotation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> 90
-            ExifInterface.ORIENTATION_ROTATE_180 -> 180
-            ExifInterface.ORIENTATION_ROTATE_270 -> 270
-            else -> 0
-        }
+        //TODO check for null
+        val angle = getRotationAngle(rotationInputStream)
         rotationInputStream?.close()
         val imageFile = photoSettings.getImageFile(activity, paths)
         if (angle == 0) {

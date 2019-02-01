@@ -9,6 +9,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 
 
 internal abstract class ImageRequest<T>(protected val result: (T) -> Unit) {
@@ -31,19 +32,15 @@ internal abstract class ImageRequest<T>(protected val result: (T) -> Unit) {
     protected fun fileFromUri(activity: Activity, uri: Uri): File {
         val contentResolver = activity.application.contentResolver
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-        val storageDir = activity.application.getExternalFilesDir(ImagesBinder.TEMP_CATALOG_PATH)
+        val storageDir = File(activity.application.cacheDir, "images") // 'images' initialized in default_file_path.xml
         if (!storageDir.exists()) {
             storageDir.mkdirs()
         }
-        val tempFile = File.createTempFile("temp", ".jpg", storageDir)
+        val tempFile = File.createTempFile(uri.lastPathSegment.toString(), ".jpg", storageDir)
         val out = FileOutputStream(tempFile)
-        val rotation = ImageHeaderParser(contentResolver.openInputStream(uri)).orientation
-        val angle = when (rotation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> 90
-            ExifInterface.ORIENTATION_ROTATE_180 -> 180
-            ExifInterface.ORIENTATION_ROTATE_270 -> 270
-            else -> 0
-        }
+        val openInputStream = contentResolver.openInputStream(uri)
+        val angle = getRotationAngle(openInputStream)
+        openInputStream?.close()
         val orientationMatrix = Matrix()
         orientationMatrix.postRotate(angle.toFloat())
         val picture = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, orientationMatrix, false)
@@ -51,5 +48,15 @@ internal abstract class ImageRequest<T>(protected val result: (T) -> Unit) {
         picture.recycle()
         out.close()
         return tempFile
+    }
+
+    protected fun getRotationAngle(stream: InputStream): Int {
+        val rotation = ImageHeaderParser(stream).orientation
+        return when (rotation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
     }
 }
