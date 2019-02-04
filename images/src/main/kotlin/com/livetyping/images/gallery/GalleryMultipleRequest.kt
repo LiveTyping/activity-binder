@@ -2,12 +2,11 @@ package com.livetyping.images.gallery
 
 import android.app.Activity
 import android.content.Intent
-import com.livetyping.images.ImageRequest
 import java.io.File
 
 
 class GalleryMultipleRequest(chooserText: String? = null, result: (List<File>) -> Unit)
-    : ImageRequest<List<File>>(chooserText, result) {
+    : GalleryRequest<List<File>>(chooserText, result) {
 
     override val requestCode: Int
         get() = 2233
@@ -17,8 +16,7 @@ class GalleryMultipleRequest(chooserText: String? = null, result: (List<File>) -
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.action = Intent.ACTION_GET_CONTENT
-        // TODO add title as param
-        attachedObject.startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
+        startIntentConsideringChooserText(intent, attachedObject)
     }
 
     override fun activityResult(attachedObject: Activity, data: Intent?) {

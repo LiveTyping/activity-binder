@@ -4,12 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
-import com.livetyping.images.ImageRequest
 import java.io.File
 
 
 class GallerySingleRequest(chooserText: String? = null, result: (File) -> Unit)
-    : ImageRequest<File>(chooserText, result) {
+    : GalleryRequest<File>(chooserText, result) {
 
     override val requestCode: Int
         get() = 3322
