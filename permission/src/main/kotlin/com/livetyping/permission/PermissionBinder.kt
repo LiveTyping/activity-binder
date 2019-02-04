@@ -13,7 +13,7 @@ class PermissionBinder : Binder() {
 
 
     fun passivePermission(permission: String, resultListener: (result: Boolean) -> Unit) {
-        needPermission(permission, PassivePermissionRequest(resultListener))
+        needPermissions(listOf(permission), PassivePermissionRequest(resultListener))
     }
 
     fun passivePermission(permissions: Iterable<String>, resultListener: (result: Boolean) -> Unit) {
@@ -24,11 +24,22 @@ class PermissionBinder : Binder() {
                          rationaleText: String,
                          @StringRes settingsButtonText: String = "settings",
                          resultListener: (result: Boolean) -> Unit) {
-        needPermission(permission, ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
+        needPermissions(listOf(permission), ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
+    }
+
+    fun activePermission(permissions: Iterable<String>,
+                         rationaleText: String,
+                         @StringRes settingsButtonText: String = "settings",
+                         resultListener: (result: Boolean) -> Unit) {
+        needPermissions(permissions, ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
     fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {
-        needPermission(permission, GlobalPermissionRequest(clazz, resultListener))
+        needPermissions(listOf(permission), GlobalPermissionRequest(clazz, resultListener))
+    }
+
+    fun globalPermission(permissions: Iterable<String>, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {
+        needPermissions(permissions, GlobalPermissionRequest(clazz, resultListener))
     }
 
     fun onRequestPermissionResult(code: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -43,9 +54,6 @@ class PermissionBinder : Binder() {
         requests[requestCode]?.afterSettingsActivityResult(requestCode, data, activity)
     }
 
-    private fun needPermission(permission: String, request: PermissionRequest) {
-        needPermissions(arrayListOf(permission), request)
-    }
 
     private fun needPermissions(permissions: Iterable<String>, request: PermissionRequest) {
         getAttachedObject()

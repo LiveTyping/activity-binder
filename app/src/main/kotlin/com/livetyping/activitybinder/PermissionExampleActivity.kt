@@ -17,7 +17,7 @@ class PermissionExampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permissions)
         permissionBinder = (application as BinderExampleApplication).permissionBinder
-
+        
         passive.setOnClickListener {
             permissionBinder.passivePermission(arrayListOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)) { granted ->
                 if (granted) granted() else denied()
@@ -28,12 +28,12 @@ class PermissionExampleActivity : AppCompatActivity() {
         //cab be placed in active permission method as third parameter
         val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
         active.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, rationaleText) { granted ->
+            permissionBinder.activePermission(arrayListOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE), rationaleText) { granted ->
                 if (granted) granted() else denied()
             }
         }
         global.setOnClickListener {
-            permissionBinder.globalPermission(Manifest.permission.SEND_SMS,
+            permissionBinder.globalPermission(arrayListOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
                     ShowGlobalExplanationActivity::class.java) { granted ->
                 if (granted) granted() else denied()
             }

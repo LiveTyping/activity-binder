@@ -3,25 +3,17 @@ package com.livetyping.permission
 import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.ActivityCompat
-import android.util.Log
 
 
 internal class PassivePermissionRequest(resultListener: (result: Boolean) -> Unit)
     : PermissionRequest(resultListener) {
 
-
-    override fun concreteNeedPermission(requestCode: Int, permission: String, activity: Activity) {
-        bunchNeedPermissions(requestCode, arrayListOf(permission), activity)
-    }
-
-    override fun bunchNeedPermissions(requestCode: Int, permissions: Iterable<String>, activity: Activity) {
-        if (checkPermissions(permissions, activity)) {
-            resultListener.invoke(true)
+    override fun onPermissionsNeedDenied(activity: Activity) {
+        val permissionsWithoutRationale = getPermissionsWithoutRationale(activity)
+        if (!permissionsWithoutRationale.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, permissionsWithoutRationale.toTypedArray(), requestCode)
         } else {
-            val permissionList = permissions.toMutableList().filter { !ActivityCompat.shouldShowRequestPermissionRationale(activity, it) }
-            if (!permissionList.isEmpty())
-                ActivityCompat.requestPermissions(activity, permissionList.toList().toTypedArray(), requestCode)
-            else resultListener.invoke(false)
+            resultListener.invoke(false)
         }
     }
 
