@@ -5,7 +5,7 @@ import android.content.Context
 /**
  * crete file in data/data/{applicationId}/files/additionalPath
  */
-class FilesPathSettings(attrName: String,
+internal class FilesPathSettings(attrName: String,
                         additionalPath: String?,
                         fileName: String = "file_in_app_files_dir")
 

@@ -6,7 +6,7 @@ import android.content.Context
 /**
  * crete file in data/data/{applicationId}/cache/additionalPath
  */
-class CachePathSettings(attrName: String,
+internal class CachePathSettings(attrName: String,
                         additionalPath: String? = null,
                         fileName: String = "file_in_cache_dir")
 

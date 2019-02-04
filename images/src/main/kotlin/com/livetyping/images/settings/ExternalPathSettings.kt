@@ -6,7 +6,7 @@ import android.os.Environment
 /**
  * crete file in storage/emulated/0/files/additionalPath
  */
-class ExternalPathSettings(attrName: String,
+internal class ExternalPathSettings(attrName: String,
                            additionalPath: String?,
                            fileName: String = "file_in_external_dir")
 

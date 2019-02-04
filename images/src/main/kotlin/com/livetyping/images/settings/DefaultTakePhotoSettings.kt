@@ -5,7 +5,7 @@ import android.content.Context
 /**
  * crete file in data/data/{applicationId}/files
  */
-class DefaultTakePhotoSettings
+internal class DefaultTakePhotoSettings
     : TakePhotoSettings("images", null, "file_in_app_files_dir") {
 
     override val pathAttr: String

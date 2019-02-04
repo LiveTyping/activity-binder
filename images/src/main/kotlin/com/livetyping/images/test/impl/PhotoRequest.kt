@@ -19,7 +19,7 @@ abstract class PhotoRequest(chooserText: String? = null,
                             result: (File) -> Unit)
     : TestImageRequest<File>(chooserText, result) {
 
-    private lateinit var mCurrentPhotoPath: Uri
+    internal lateinit var mCurrentPhotoPath: Uri
     internal lateinit var providerAuthority: String
     internal var paths: Int? = null
     override val requestCode = 9467
