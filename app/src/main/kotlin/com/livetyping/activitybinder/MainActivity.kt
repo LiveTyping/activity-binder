@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         pictures.setOnClickListener {
             open(ImagesExampleActivity::class.java)
         }
+        new_binder.setOnClickListener {
+            open(NewBinderActivity::class.java)
+        }
     }
 
     private fun open(clazz: Class<out Activity>) {

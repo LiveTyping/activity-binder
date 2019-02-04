@@ -42,6 +42,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/social" />
 
+    <Button
+        android:id="@+id/new_binder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="new binder"
+        app:layout_constraintEnd_toEndOf="@+id/permissions"
+        app:layout_constraintStart_toStartOf="@+id/permissions"
+        app:layout_constraintTop_toBottomOf="@+id/pictures" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
