@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
+import com.livetyping.images.test.impl.PhotoRequest
 
 
 class TestImageBinder(private val providerAuthority: String,
@@ -29,6 +30,13 @@ class TestImageBinder(private val providerAuthority: String,
             requests[request.requestCode] = request
             request.request(attachedObject)
         }
+    }
+
+    fun requestPhoto(request: PhotoRequest) {
+        //TODO add nullable paths and authority. Error if null
+        request.paths = paths
+        request.providerAuthority = providerAuthority
+        imageRequest(request)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity) {

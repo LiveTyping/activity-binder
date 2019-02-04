@@ -1,11 +1,13 @@
 package com.livetyping.activitybinder
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.test.TestImageBinder
+import com.livetyping.images.test.impl.DefaultPhotoRequest
 import com.livetyping.images.test.impl.GalleryMultipleRequest
 import com.livetyping.images.test.impl.GallerySingleRequest
 import com.livetyping.permission.PermissionBinder
@@ -36,10 +38,19 @@ class NewBinderActivity : AppCompatActivity() {
                 image.setImageURI(Uri.fromFile(file))
             })
         }
+
         single_request_chooser.setOnClickListener {
             imagesBinder.requestPhoto(GallerySingleRequest("select file") { file ->
                 image.setImageURI(Uri.fromFile(file))
             })
+        }
+
+        default_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                imagesBinder.requestPhoto(DefaultPhotoRequest { file ->
+                    image.setImageURI(Uri.fromFile(file))
+                })
+            }
         }
 
     }
