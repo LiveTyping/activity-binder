@@ -19,7 +19,7 @@ class PermissionExampleActivity : AppCompatActivity() {
         permissionBinder = (application as BinderExampleApplication).permissionBinder
 
         passive.setOnClickListener {
-            permissionBinder.passivePermission(Manifest.permission.CAMERA) { granted ->
+            permissionBinder.passivePermission(arrayListOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)) { granted ->
                 if (granted) granted() else denied()
             }
         }
@@ -57,7 +57,7 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
+        permissionBinder.onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     private fun granted() {

@@ -11,8 +11,13 @@ class PermissionBinder : Binder() {
     private val requests: MutableMap<Int, PermissionRequest> = mutableMapOf()
     private val permissionCodes: PermissionRequestCodes = PermissionRequestCodes()
 
+
     fun passivePermission(permission: String, resultListener: (result: Boolean) -> Unit) {
         needPermission(permission, PassivePermissionRequest(resultListener))
+    }
+
+    fun passivePermission(permissions: Iterable<String>, resultListener: (result: Boolean) -> Unit) {
+        needPermissions(permissions, PassivePermissionRequest(resultListener))
     }
 
     fun activePermission(permission: String,
@@ -26,7 +31,7 @@ class PermissionBinder : Binder() {
         needPermission(permission, GlobalPermissionRequest(clazz, resultListener))
     }
 
-    fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
+    fun onRequestPermissionResult(code: Int, permissions: Array<out String>, grantResults: IntArray) {
         val granted = grantResults.isNotEmpty() && grantResults[0] == PermissionChecker.PERMISSION_GRANTED
         val requester = requests[code]
         getAttachedObject()
@@ -38,13 +43,23 @@ class PermissionBinder : Binder() {
         requests[requestCode]?.afterSettingsActivityResult(requestCode, data, activity)
     }
 
-
     private fun needPermission(permission: String, request: PermissionRequest) {
-        getAttachedObject()
-                ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
-        val requestCode = permissionCodes.getCode(permission)
-        requests.put(requestCode, request)
-        requests[requestCode]!!.needPermission(requestCode, permission, getAttachedObject()!!)
+        needPermissions(arrayListOf(permission), request)
     }
 
+    private fun needPermissions(permissions: Iterable<String>, request: PermissionRequest) {
+        getAttachedObject()
+                ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
+        val requestCode = calculateRequestCode(permissions)
+        requests[requestCode] = request
+        request.needPermissions(requestCode, permissions, getAttachedObject()!!)
+    }
+
+    private fun calculateRequestCode(permissions: Iterable<String>): Int {
+        return if (permissions.toList().size == 1) {
+            permissionCodes.getCode(permissions.iterator().next())
+        } else {
+            PermissionRequestCodes.MULTIPLE_PERMISSIONS_CODE
+        }
+    }
 }

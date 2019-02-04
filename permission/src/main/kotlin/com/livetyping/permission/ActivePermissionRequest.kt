@@ -32,6 +32,10 @@ internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit
         }
     }
 
+    override fun bunchNeedPermissions(requestCode: Int, permissions: Iterable<String>, activity: Activity) {
+        //TODO: DO
+    }
+
     override fun afterRequest(granted: Boolean, activity: Activity) {
         if (granted) {
             resultListener.invoke(true)

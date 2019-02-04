@@ -24,6 +24,14 @@ internal class GlobalPermissionRequest(
         }
     }
 
+    override fun bunchNeedPermissions(requestCode: Int, permissions: Iterable<String>, activity: Activity) {
+        if (checkPermissions(permissions, activity)){
+            resultListener.invoke(true)
+        } else {
+            ActivityCompat.requestPermissions(activity, permissions.toList().toTypedArray(), requestCode)
+        }
+    }
+
     override fun afterRequest(granted: Boolean, activity: Activity) {
         if (granted) {
             resultListener.invoke(true)
