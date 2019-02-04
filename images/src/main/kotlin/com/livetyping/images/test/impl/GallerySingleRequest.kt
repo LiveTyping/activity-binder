@@ -8,7 +8,8 @@ import com.livetyping.images.test.TestImageRequest
 import java.io.File
 
 
-class GallerySilngleRequest(result: (File) -> Unit) : TestImageRequest<File>(result) {
+class GallerySingleRequest(chooserText: String? = null, result: (File) -> Unit)
+    : TestImageRequest<File>(chooserText, result) {
 
     override val requestCode: Int
         get() = 3322
@@ -27,12 +28,12 @@ class GallerySilngleRequest(result: (File) -> Unit) : TestImageRequest<File>(res
                 setType("image/*")
             }
         }
-        attachedObject.startActivityForResult(photoPickerIntent, requestCode)
+        startIntentConsideringChooserText(photoPickerIntent, attachedObject)
     }
 
-    override fun activityResult(activity: Activity, data: Intent?) {
+    override fun activityResult(attachedObject: Activity, data: Intent?) {
         if (data != null && data.data != null) {
-            result(saveToProjectFiles(activity, data.data!!))
+            result(saveToProjectFiles(attachedObject, data.data!!))
         }
 
     }

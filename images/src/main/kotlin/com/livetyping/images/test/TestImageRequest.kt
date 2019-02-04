@@ -13,13 +13,13 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 
-abstract class TestImageRequest<T>(protected val result: (T) -> Unit) {
+abstract class TestImageRequest<T>(private val chooserText: String? = null, protected val result: (T) -> Unit) {
 
     abstract val requestCode: Int
 
     abstract fun request(attachedObject: Activity)
 
-    abstract fun activityResult(activity: Activity, data: Intent?)
+    abstract fun activityResult(attachedObject: Activity, data: Intent?)
 
     protected fun saveToProjectFiles(activity: Activity, uri: Uri): File {
         val contentResolver = activity.application.contentResolver
@@ -49,6 +49,14 @@ abstract class TestImageRequest<T>(protected val result: (T) -> Unit) {
             ExifInterface.ORIENTATION_ROTATE_180 -> 180
             ExifInterface.ORIENTATION_ROTATE_270 -> 270
             else -> 0
+        }
+    }
+
+    protected fun startIntentConsideringChooserText(intent: Intent, attachedObject: Activity) {
+        if (chooserText == null) {
+            attachedObject.startActivityForResult(intent, requestCode)
+        } else {
+            attachedObject.startActivityForResult(Intent.createChooser(intent, chooserText), requestCode)
         }
     }
 }

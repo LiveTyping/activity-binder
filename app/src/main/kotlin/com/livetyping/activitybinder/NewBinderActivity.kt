@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.test.TestImageBinder
 import com.livetyping.images.test.impl.GalleryMultipleRequest
-import com.livetyping.images.test.impl.GallerySilngleRequest
+import com.livetyping.images.test.impl.GallerySingleRequest
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
 
@@ -32,7 +32,12 @@ class NewBinderActivity : AppCompatActivity() {
         }
 
         single_gallery.setOnClickListener {
-            imagesBinder.requestPhoto(GallerySilngleRequest { file ->
+            imagesBinder.requestPhoto(GallerySingleRequest { file ->
+                image.setImageURI(Uri.fromFile(file))
+            })
+        }
+        single_request_chooser.setOnClickListener {
+            imagesBinder.requestPhoto(GallerySingleRequest("select file") { file ->
                 image.setImageURI(Uri.fromFile(file))
             })
         }

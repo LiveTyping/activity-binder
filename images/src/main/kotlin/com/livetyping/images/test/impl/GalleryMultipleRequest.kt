@@ -6,7 +6,8 @@ import com.livetyping.images.test.TestImageRequest
 import java.io.File
 
 
-class GalleryMultipleRequest(result: (List<File>) -> Unit) : TestImageRequest<List<File>>(result) {
+class GalleryMultipleRequest(chooserText: String? = null, result: (List<File>) -> Unit)
+    : TestImageRequest<List<File>>(chooserText, result) {
 
     override val requestCode: Int
         get() = 2233
@@ -20,7 +21,7 @@ class GalleryMultipleRequest(result: (List<File>) -> Unit) : TestImageRequest<Li
         attachedObject.startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
     }
 
-    override fun activityResult(activity: Activity, data: Intent?) {
+    override fun activityResult(attachedObject: Activity, data: Intent?) {
         data?.let {
             val clipData = it.clipData
             if (clipData != null) {
@@ -28,12 +29,12 @@ class GalleryMultipleRequest(result: (List<File>) -> Unit) : TestImageRequest<Li
                 if (itemCount > 0) {
                     val list = ArrayList<File>(itemCount)
                     (0 until itemCount)
-                            .mapTo(list) { saveToProjectFiles(activity, clipData.getItemAt(it).uri) }
+                            .mapTo(list) { saveToProjectFiles(attachedObject, clipData.getItemAt(it).uri) }
                     result(list)
                 }
             } else {
                 val list = ArrayList<File>(1)
-                list.add(saveToProjectFiles(activity, it?.data))
+                list.add(saveToProjectFiles(attachedObject, it?.data))
                 result(list)
             }
         }
