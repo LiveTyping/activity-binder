@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.test.TestImageBinder
-import com.livetyping.images.test.impl.GalleryMultipeRequest
+import com.livetyping.images.test.impl.GalleryMultipleRequest
+import com.livetyping.images.test.impl.GallerySilngleRequest
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
 
@@ -24,9 +25,15 @@ class NewBinderActivity : AppCompatActivity() {
         permissionBinder = binderExampleApplication.permissionBinder
 
         multiple_gallery.setOnClickListener {
-            imagesBinder.requestPhoto(GalleryMultipeRequest { files ->
+            imagesBinder.requestPhoto(GalleryMultipleRequest { files ->
                 image.setImageURI(Uri.fromFile(files[0]))
                 Toast.makeText(this, files.size.toString(), Toast.LENGTH_SHORT).show()
+            })
+        }
+
+        single_gallery.setOnClickListener {
+            imagesBinder.requestPhoto(GallerySilngleRequest { file ->
+                image.setImageURI(Uri.fromFile(file))
             })
         }
 

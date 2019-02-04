@@ -6,7 +6,7 @@ import com.livetyping.images.test.TestImageRequest
 import java.io.File
 
 
-class GalleryMultipeRequest(result: (List<File>) -> Unit) : TestImageRequest<List<File>>(result) {
+class GalleryMultipleRequest(result: (List<File>) -> Unit) : TestImageRequest<List<File>>(result) {
 
     override val requestCode: Int
         get() = 2233
