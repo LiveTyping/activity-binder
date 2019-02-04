@@ -85,5 +85,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/default_photo" />
 
+    <Button
+        android:id="@+id/external_cahce_path_photo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="external_cahce_path_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/multiple_gallery" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

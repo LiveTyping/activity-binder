@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.test.TestImageBinder
-import com.livetyping.images.test.impl.PhotoRequestCachePath
-import com.livetyping.images.test.impl.PhotoRequestDefaultPath
-import com.livetyping.images.test.impl.GalleryMultipleRequest
-import com.livetyping.images.test.impl.GallerySingleRequest
+import com.livetyping.images.test.impl.*
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
 
@@ -59,6 +56,16 @@ class NewBinderActivity : AppCompatActivity() {
                 imagesBinder.requestPhoto(PhotoRequestCachePath("cache_files") { file ->
                     image.setImageURI(Uri.fromFile(file))
                 })
+            }
+        }
+
+        external_cahce_path_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    imagesBinder.requestPhoto(PhotoRequestExternalCachePath("external_app_cache_path") { file ->
+                        image.setImageURI(Uri.fromFile(file))
+                    })
+                }
             }
         }
 
