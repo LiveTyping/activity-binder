@@ -1,6 +1,6 @@
-package com.livetyping.images.test.impl
+package com.livetyping.images.photo
 
-import com.livetyping.images.settings.*
+import com.livetyping.images.photo.settings.*
 import java.io.File
 
 

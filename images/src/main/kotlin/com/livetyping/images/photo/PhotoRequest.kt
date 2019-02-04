@@ -1,4 +1,4 @@
-package com.livetyping.images.test.impl
+package com.livetyping.images.photo
 
 import android.app.Activity
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.livetyping.images.settings.TakePhotoSettings
-import com.livetyping.images.test.TestImageRequest
+import com.livetyping.images.photo.settings.TakePhotoSettings
+import com.livetyping.images.ImageRequest
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -17,7 +17,7 @@ import java.io.IOException
 abstract class PhotoRequest(chooserText: String? = null,
                             private val photoSettings: TakePhotoSettings,
                             result: (File) -> Unit)
-    : TestImageRequest<File>(chooserText, result) {
+    : ImageRequest<File>(chooserText, result) {
 
     internal lateinit var mCurrentPhotoPath: Uri
     internal lateinit var providerAuthority: String

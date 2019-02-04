@@ -1,15 +1,15 @@
-package com.livetyping.images.test.impl
+package com.livetyping.images.gallery
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
-import com.livetyping.images.test.TestImageRequest
+import com.livetyping.images.ImageRequest
 import java.io.File
 
 
 class GallerySingleRequest(chooserText: String? = null, result: (File) -> Unit)
-    : TestImageRequest<File>(chooserText, result) {
+    : ImageRequest<File>(chooserText, result) {
 
     override val requestCode: Int
         get() = 3322

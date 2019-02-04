@@ -3,7 +3,7 @@
 
     <application>
         <provider
-            android:name=".DefaultProvider"
+            android:name=".photo.DefaultProvider"
             android:authorities="com.livetyping.images.default_provider"
             android:exported="false"
             android:grantUriPermissions="true">

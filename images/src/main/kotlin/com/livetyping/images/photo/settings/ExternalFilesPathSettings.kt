@@ -1,4 +1,4 @@
-package com.livetyping.images.settings
+package com.livetyping.images.photo.settings
 
 import android.content.Context
 

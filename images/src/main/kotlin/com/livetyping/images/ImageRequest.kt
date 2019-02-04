@@ -1,4 +1,4 @@
-package com.livetyping.images.test
+package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
@@ -7,13 +7,12 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
-import com.livetyping.images.ImageHeaderParser
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
 
-abstract class TestImageRequest<T>(private val chooserText: String? = null, protected val result: (T) -> Unit) {
+abstract class ImageRequest<T>(private val chooserText: String? = null, protected val result: (T) -> Unit) {
 
     abstract val requestCode: Int
 

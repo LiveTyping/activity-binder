@@ -6,15 +6,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.livetyping.images.test.TestImageBinder
-import com.livetyping.images.test.impl.*
+import com.livetyping.images.ImagesBinder
+import com.livetyping.images.gallery.*
+import com.livetyping.images.photo.*
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
 
 
 class ImageBinderActivity : AppCompatActivity() {
 
-    private lateinit var imagesBinder: TestImageBinder
+    private lateinit var imagesBinder: ImagesBinder
     private lateinit var permissionBinder: PermissionBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {

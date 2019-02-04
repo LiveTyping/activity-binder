@@ -1,28 +1,28 @@
-package com.livetyping.images.test
+package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
 import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
-import com.livetyping.images.test.impl.PhotoRequest
+import com.livetyping.images.photo.PhotoRequest
 
 
-class TestImageBinder(private val providerAuthority: String,
-                      @XmlRes private val paths: Int) : Binder() {
+class ImagesBinder(private val providerAuthority: String,
+                   @XmlRes private val paths: Int) : Binder() {
 
-    private val requests: MutableMap<Int, TestImageRequest<out Any>> by lazy {
-        mutableMapOf<Int, TestImageRequest<out Any>>()
+    private val requests: MutableMap<Int, ImageRequest<out Any>> by lazy {
+        mutableMapOf<Int, ImageRequest<out Any>>()
     }
 
-    private val waitedContextRequests: MutableMap<Int, TestImageRequest<out Any>> by lazy {
-        mutableMapOf<Int, TestImageRequest<out Any>>()
+    private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> by lazy {
+        mutableMapOf<Int, ImageRequest<out Any>>()
     }
 
-    fun requestPhoto(request: TestImageRequest<out Any>) {
+    fun requestPhoto(request: ImageRequest<out Any>) {
         imageRequest(request)
     }
 
-    private fun imageRequest(request: TestImageRequest<out Any>) {
+    private fun imageRequest(request: ImageRequest<out Any>) {
         val attachedObject = getAttachedObject()
         if (attachedObject == null) {
             waitedContextRequests[request.requestCode] = request
