@@ -33,9 +33,7 @@
         <activity android:name=".SocialActivity" />
         <activity android:name=".PermissionExampleActivity" />
         <activity android:name=".ShowGlobalExplanationActivity" />
-        <activity android:name=".ImagesExampleActivity" />
-        <activity android:name=".FullSizeImagesActivity" />
-        <activity android:name=".NewBinderActivity" />
+        <activity android:name=".ImageBinderActivity" />
 
         <!--Facebook-->
         <meta-data

@@ -2,7 +2,6 @@ package com.livetyping.activitybinder
 
 import android.app.Application
 import com.livetyping.facebook.FacebookInitializer
-import com.livetyping.images.ImagesBinder
 import com.livetyping.images.test.TestImageBinder
 import com.livetyping.instagram.InstagramInitializer
 import com.livetyping.logincore.SocialLoginBinder
@@ -17,10 +16,6 @@ class BinderExampleApplication : Application() {
 
     val permissionBinder: PermissionBinder by lazy {
         PermissionBinder()
-    }
-
-    val imagesBinder: ImagesBinder by lazy {
-        ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
     }
 
     val testImagesBinder: TestImageBinder by lazy {

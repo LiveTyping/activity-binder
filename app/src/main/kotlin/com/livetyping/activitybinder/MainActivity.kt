@@ -19,10 +19,7 @@ class MainActivity : AppCompatActivity() {
             open(SocialActivity::class.java)
         }
         pictures.setOnClickListener {
-            open(ImagesExampleActivity::class.java)
-        }
-        new_binder.setOnClickListener {
-            open(NewBinderActivity::class.java)
+            open(ImageBinderActivity::class.java)
         }
     }
 

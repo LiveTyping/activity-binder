@@ -12,7 +12,7 @@ import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
 
 
-class NewBinderActivity : AppCompatActivity() {
+class ImageBinderActivity : AppCompatActivity() {
 
     private lateinit var imagesBinder: TestImageBinder
     private lateinit var permissionBinder: PermissionBinder
