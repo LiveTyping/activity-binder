@@ -7,7 +7,7 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.livetyping.images.photo.settings.TakePhotoSettings
+import com.livetyping.images.photo.filecreator.FileCreator
 import com.livetyping.images.ImageRequest
 import java.io.File
 import java.io.FileOutputStream
@@ -15,7 +15,7 @@ import java.io.IOException
 
 
 abstract class PhotoRequest(chooserText: String? = null,
-                            private val photoSettings: TakePhotoSettings,
+                            private val fileCreator: FileCreator,
                             result: (File) -> Unit)
     : ImageRequest<File>(chooserText, result) {
 
@@ -28,7 +28,7 @@ abstract class PhotoRequest(chooserText: String? = null,
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
             intent.resolveActivity(attachedObject.packageManager)?.also {
                 val imageFile: File? = try {
-                    photoSettings.getImageFile(attachedObject, paths!!)
+                    fileCreator.getImageFile(attachedObject, paths!!)
                 } catch (ex: IOException) {
                     //TODO add work on exception
                     null
@@ -52,7 +52,7 @@ abstract class PhotoRequest(chooserText: String? = null,
         //TODO check for null
         val angle = getRotationAngle(rotationInputStream)
         rotationInputStream?.close()
-        val imageFile = photoSettings.getImageFile(attachedObject, paths!!)
+        val imageFile = fileCreator.getImageFile(attachedObject, paths!!)
         if (angle == 0) {
             result.invoke(imageFile)
         } else {

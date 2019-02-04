@@ -1,4 +1,4 @@
-package com.livetyping.images.photo.settings
+package com.livetyping.images.photo.filecreator
 
 import android.content.Context
 import android.os.Environment
@@ -6,11 +6,11 @@ import android.os.Environment
 /**
  * crete file in storage/emulated/0/files/additionalPath
  */
-internal class ExternalPathSettings(attrName: String,
-                           additionalPath: String?,
-                           fileName: String = "file_in_external_dir")
+internal class ExternalPathCreator(attrName: String,
+                                   additionalPath: String?,
+                                   fileName: String = "file_in_external_dir")
 
-    : TakePhotoSettings(attrName, additionalPath, fileName) {
+    : FileCreator(attrName, additionalPath, fileName) {
 
     override val pathAttr: String
         get() = "external-path"
