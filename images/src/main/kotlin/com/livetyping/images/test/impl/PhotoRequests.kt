@@ -1,8 +1,6 @@
 package com.livetyping.images.test.impl
 
-import com.livetyping.images.settings.CachePathSettings
-import com.livetyping.images.settings.DefaultTakePhotoSettings
-import com.livetyping.images.settings.ExternalCachePathSettings
+import com.livetyping.images.settings.*
 import java.io.File
 
 
@@ -23,3 +21,24 @@ class PhotoRequestExternalCachePath(attrName: String,
                                     result: (file: File) -> Unit)
     : PhotoRequest(chooser, ExternalCachePathSettings(attrName, additionalPath, fileName), result)
 
+class PhotoRequestExternalFilesPath(attrName: String,
+                                    additionalPath: String? = null,
+                                    fileName: String = "file_in_external_files_dir",
+                                    chooser: String? = null,
+                                    result: (file: File) -> Unit)
+    : PhotoRequest(chooser, ExternalFilesPathSettings(attrName, additionalPath, fileName), result)
+
+
+class PhotoRequestExternalPath(attrName: String,
+                               additionalPath: String? = null,
+                               fileName: String = "file_in_external_dir",
+                               chooser: String? = null,
+                               result: (file: File) -> Unit)
+    : PhotoRequest(chooser, ExternalPathSettings(attrName, additionalPath, fileName), result)
+
+class PhotoRequestFilesPath(attrName: String,
+                            additionalPath: String? = null,
+                            fileName: String = "file_in_app_files_dir",
+                            chooser: String? = null,
+                            result: (file: File) -> Unit)
+    : PhotoRequest(chooser, FilesPathSettings(attrName, additionalPath, fileName), result)

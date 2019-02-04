@@ -69,6 +69,36 @@ class NewBinderActivity : AppCompatActivity() {
             }
         }
 
+        external_files_path_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    imagesBinder.requestPhoto(PhotoRequestExternalFilesPath("external_app_files_path") { file ->
+                        image.setImageURI(Uri.fromFile(file))
+                    })
+                }
+            }
+        }
+
+        external_path_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    imagesBinder.requestPhoto(PhotoRequestExternalPath("external_files") { file ->
+                        image.setImageURI(Uri.fromFile(file))
+                    })
+                }
+            }
+        }
+
+        files_path_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    imagesBinder.requestPhoto(PhotoRequestFilesPath("images") { file ->
+                        image.setImageURI(Uri.fromFile(file))
+                    })
+                }
+            }
+        }
+
     }
 
     override fun onStart() {
