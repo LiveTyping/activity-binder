@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 
 
 abstract class GalleryRequest<T>(chooserText: String? = null, result: (T) -> Unit)
-    : ImageRequest<T>(chooserText, result) {
+    : ImageRequest<T>(chooserText, result), Gallery {
 
     protected fun saveToProjectFiles(activity: Activity, uri: Uri): File {
         val contentResolver = activity.application.contentResolver
@@ -34,3 +34,5 @@ abstract class GalleryRequest<T>(chooserText: String? = null, result: (T) -> Uni
         return tempFile
     }
 }
+
+interface Gallery

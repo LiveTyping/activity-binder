@@ -19,6 +19,10 @@ class ImagesBinder(private val providerAuthority: String,
     }
 
     fun requestPhoto(request: ImageRequest<out Any>) {
+        if (request is PhotoRequest) {
+            request.paths = paths
+            request.providerAuthority = providerAuthority
+        }
         imageRequest(request)
     }
 
@@ -30,13 +34,6 @@ class ImagesBinder(private val providerAuthority: String,
             requests[request.requestCode] = request
             request.request(attachedObject)
         }
-    }
-
-    fun requestPhoto(request: PhotoRequest) {
-        //TODO add nullable paths and authority. Error if null
-        request.paths = paths
-        request.providerAuthority = providerAuthority
-        imageRequest(request)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity) {
