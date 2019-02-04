@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.test.TestImageBinder
-import com.livetyping.images.test.impl.DefaultPhotoRequest
+import com.livetyping.images.test.impl.PhotoRequestCachePath
+import com.livetyping.images.test.impl.PhotoRequestDefaultPath
 import com.livetyping.images.test.impl.GalleryMultipleRequest
 import com.livetyping.images.test.impl.GallerySingleRequest
 import com.livetyping.permission.PermissionBinder
@@ -47,7 +48,15 @@ class NewBinderActivity : AppCompatActivity() {
 
         default_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
-                imagesBinder.requestPhoto(DefaultPhotoRequest { file ->
+                imagesBinder.requestPhoto(PhotoRequestDefaultPath { file ->
+                    image.setImageURI(Uri.fromFile(file))
+                })
+            }
+        }
+
+        cahche_path_photo.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.CAMERA) {
+                imagesBinder.requestPhoto(PhotoRequestCachePath("cache_files") { file ->
                     image.setImageURI(Uri.fromFile(file))
                 })
             }
