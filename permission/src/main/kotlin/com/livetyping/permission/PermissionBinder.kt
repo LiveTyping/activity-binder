@@ -12,37 +12,46 @@ class PermissionBinder : Binder() {
     private val permissionCodes: PermissionRequestCodes = PermissionRequestCodes()
 
 
-    fun passivePermission(permission: String, resultListener: (result: Boolean) -> Unit) {
+    fun passivePermission(permission: String, singleResultListener: (Boolean) -> Unit) {
+        val resultListener: (HashMap<String, Boolean>) -> Unit = {
+            singleResultListener(it[permission]!!)
+        }
         needPermissions(listOf(permission), PassivePermissionRequest(resultListener))
     }
 
-    fun passivePermission(permissions: Iterable<String>, resultListener: (result: Boolean) -> Unit) {
+    fun passivePermission(permissions: Iterable<String>, resultListener: (HashMap<String, Boolean>) -> Unit) {
         needPermissions(permissions, PassivePermissionRequest(resultListener))
     }
 
     fun activePermission(permission: String,
                          rationaleText: String,
                          @StringRes settingsButtonText: String = "settings",
-                         resultListener: (result: Boolean) -> Unit) {
+                         singleResultListener: (Boolean) -> Unit) {
+        val resultListener: (HashMap<String, Boolean>) -> Unit = {
+            singleResultListener(it[permission]!!)
+        }
         needPermissions(listOf(permission), ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
     fun activePermission(permissions: Iterable<String>,
                          rationaleText: String,
                          @StringRes settingsButtonText: String = "settings",
-                         resultListener: (result: Boolean) -> Unit) {
+                         resultListener: (HashMap<String, Boolean>) -> Unit) {
         needPermissions(permissions, ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
-    fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {
+    fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, singleResultListener: (Boolean) -> Unit) {
+        val resultListener: (HashMap<String, Boolean>) -> Unit = {
+            singleResultListener(it[permission]!!)
+        }
         needPermissions(listOf(permission), GlobalPermissionRequest(clazz, resultListener))
     }
 
-    fun globalPermission(permissions: Iterable<String>, clazz: Class<out PreSettingsActivity>, resultListener: (result: Boolean) -> Unit) {
+    fun globalPermission(permissions: Iterable<String>, clazz: Class<out PreSettingsActivity>, resultListener: (HashMap<String, Boolean>) -> Unit) {
         needPermissions(permissions, GlobalPermissionRequest(clazz, resultListener))
     }
 
-    fun onRequestPermissionResult(code: Int, permissions: Array<out String>, grantResults: IntArray) {
+    fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
         val granted = grantResults.isNotEmpty() && grantResults[0] == PermissionChecker.PERMISSION_GRANTED
         val requester = requests[code]
         getAttachedObject()

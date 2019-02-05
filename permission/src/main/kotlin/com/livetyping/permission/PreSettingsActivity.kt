@@ -28,7 +28,7 @@ abstract class PreSettingsActivity : Activity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override final fun onBackPressed() {
+    final override fun onBackPressed() {
         finishApp()
     }
 
@@ -38,7 +38,7 @@ abstract class PreSettingsActivity : Activity() {
         finishAndRemoveTask()
     }
 
-    override final fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    final override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

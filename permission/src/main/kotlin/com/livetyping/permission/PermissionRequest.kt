@@ -5,38 +5,51 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.PermissionChecker
 import android.support.v4.content.PermissionChecker.PERMISSION_DENIED
 import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
 
 
-internal abstract class PermissionRequest(protected val resultListener: (result: Boolean) -> Unit) {
-
+internal abstract class PermissionRequest(protected val resultListener: (HashMap<String, Boolean>) -> Unit) {
+    protected val permissionHashMap = HashMap<String, Boolean>()
     protected var requestCode = 0
     protected lateinit var permissions: MutableList<String>
 
     internal fun needPermissions(requestCode: Int, permissions: Iterable<String>, activity: Activity) {
         this.requestCode = requestCode
         this.permissions = permissions.toMutableList()
+        initPermissionHashMap()
         bunchNeedPermissions(requestCode, activity)
     }
 
-    fun bunchNeedPermissions(requestCode: Int, activity: Activity){
+    private fun initPermissionHashMap() {
+        permissionHashMap.clear()
+        permissions.forEach {
+            permissionHashMap[it] = false
+        }
+    }
+
+    fun bunchNeedPermissions(requestCode: Int, activity: Activity) {
         if (areAllPermissionGranted(activity)) {
-            resultListener.invoke(true)
+            syncPermissionsGrantedResult(activity)
+            resultListener.invoke(permissionHashMap)
         } else {
             onPermissionsNeedDenied(activity)
         }
     }
+
     internal abstract fun onPermissionsNeedDenied(activity: Activity)
 
     internal abstract fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity)
 
     internal abstract fun afterRequest(granted: Boolean, activity: Activity)
 
+    @PermissionChecker.PermissionResult
     private fun isPermissionGranted(permission: String, activity: Activity): Boolean {
         return ContextCompat.checkSelfPermission(activity, permission) == PERMISSION_GRANTED
     }
 
+    @PermissionChecker.PermissionResult
     protected fun isPermissionDenied(permission: String, activity: Activity): Boolean {
         return ContextCompat.checkSelfPermission(activity, permission) == PERMISSION_DENIED
     }
@@ -51,10 +64,19 @@ internal abstract class PermissionRequest(protected val resultListener: (result:
         return permissions.filter { isPermissionDenied(it, activity) }
     }
 
-    protected fun getGrantedPermissions(activity: Activity): List<String> {
-        return permissions.filter { isPermissionGranted(it, activity) }.toMutableList()
+
+    protected fun syncPermissionsGrantedResult(activity: Activity) {
+        for ((permission) in permissionHashMap) {
+            permissionHashMap[permission] = isPermissionGranted(permission, activity)
+        }
     }
 
+    protected fun invokeResult(activity: Activity) {
+        syncPermissionsGrantedResult(activity)
+        resultListener.invoke(permissionHashMap)
+    }
+
+    @PermissionChecker.PermissionResult
     protected fun areAllPermissionGranted(activity: Activity): Boolean {
         permissions.forEach {
             if (!isPermissionGranted(it, activity)) return@areAllPermissionGranted false

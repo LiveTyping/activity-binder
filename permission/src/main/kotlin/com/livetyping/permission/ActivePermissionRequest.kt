@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 
 
-internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit,
+internal class ActivePermissionRequest(resultListener: (HashMap<String, Boolean>) -> Unit,
                                        @StringRes val settingsButtonText: String,
                                        private val rationaleText: String)
     : PermissionRequest(resultListener) {
@@ -34,7 +34,7 @@ internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit
 
     override fun afterRequest(granted: Boolean, activity: Activity) {
         if (areAllPermissionGranted(activity)) {
-            resultListener.invoke(true)
+            invokeResult(activity)
         } else {
             if (!rationaleShowed) {
                 AlertDialog.Builder(activity)
@@ -44,17 +44,16 @@ internal class ActivePermissionRequest(resultListener: (result: Boolean) -> Unit
                                     Uri.parse("package:" + activity.packageName))
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                             activity.startActivityForResult(intent, requestCode)
-                        }.setNegativeButton(android.R.string.cancel) { _, _ -> resultListener.invoke(false) }
-                        .setOnCancelListener { resultListener.invoke(false) }
+                        }.setNegativeButton(android.R.string.cancel) { _, _ -> invokeResult(activity) }
+                        .setOnCancelListener { invokeResult(activity) }
                         .create().show()
             } else {
-                resultListener.invoke(false)
+                invokeResult(activity)
             }
         }
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
-        val permissionWithoutRationale = getPermissionsWithoutRationale(activity)
-        resultListener.invoke(permissionWithoutRationale.isEmpty())
+        invokeResult(activity)
     }
 }

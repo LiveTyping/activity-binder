@@ -5,7 +5,7 @@ import android.content.Intent
 import android.support.v4.app.ActivityCompat
 
 
-internal class PassivePermissionRequest(resultListener: (result: Boolean) -> Unit)
+internal class PassivePermissionRequest(resultListener: (permissionMap: HashMap<String, Boolean>) -> Unit)
     : PermissionRequest(resultListener) {
 
     override fun onPermissionsNeedDenied(activity: Activity) {
@@ -13,12 +13,14 @@ internal class PassivePermissionRequest(resultListener: (result: Boolean) -> Uni
         if (!permissionsWithoutRationale.isEmpty()) {
             ActivityCompat.requestPermissions(activity, permissionsWithoutRationale.toTypedArray(), requestCode)
         } else {
-            resultListener.invoke(false)
+            syncPermissionsGrantedResult(activity)
+            resultListener.invoke(permissionHashMap)
         }
     }
 
     override fun afterRequest(granted: Boolean, activity: Activity) {
-        resultListener.invoke(granted)
+        syncPermissionsGrantedResult(activity)
+        resultListener.invoke(permissionHashMap)
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {

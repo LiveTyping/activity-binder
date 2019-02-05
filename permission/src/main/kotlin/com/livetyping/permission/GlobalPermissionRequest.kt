@@ -7,7 +7,7 @@ import android.support.v4.app.ActivityCompat
 
 internal class GlobalPermissionRequest(
         private val clazz: Class<out PreSettingsActivity>,
-        resultListener: (result: Boolean) -> Unit)
+        resultListener: (HashMap<String, Boolean>) -> Unit)
     : PermissionRequest(resultListener) {
 
     companion object {
@@ -23,7 +23,7 @@ internal class GlobalPermissionRequest(
 
     override fun afterRequest(granted: Boolean, activity: Activity) {
         if (areAllPermissionGranted(activity)) {
-            resultListener.invoke(true)
+            invokeResult(activity)
         } else {
             val intent = Intent(activity, clazz)
             with(intent) {
