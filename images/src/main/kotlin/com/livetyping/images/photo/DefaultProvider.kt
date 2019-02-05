@@ -1,4 +1,4 @@
-package com.livetyping.images
+package com.livetyping.images.photo
 
 import androidx.core.content.FileProvider
 

@@ -2,47 +2,38 @@ package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import androidx.annotation.XmlRes
 import com.livetyping.core.Binder
-import com.livetyping.images.settings.DefaultTakePhotoSettings
-import com.livetyping.images.settings.TakePhotoSettings
-import java.io.File
+import com.livetyping.images.photo.PhotoRequest
 
 
 class ImagesBinder(private val providerAuthority: String,
                    @XmlRes private val paths: Int) : Binder() {
 
-    private val requests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
-    private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> = mutableMapOf()
-
-    fun pickImageFromGallery(result: (File) -> Unit) {
-        val gallerySingleRequest = GallerySingleRequest(result)
-        imageRequest(gallerySingleRequest)
+    private val requests: MutableMap<Int, ImageRequest<out Any>> by lazy {
+        mutableMapOf<Int, ImageRequest<out Any>>()
     }
 
-    fun multiplePickFromGallery(result: (List<File>) -> Unit) {
-        imageRequest(MultipleGalleryRequest(result))
+    private val waitedContextRequests: MutableMap<Int, ImageRequest<out Any>> by lazy {
+        mutableMapOf<Int, ImageRequest<out Any>>()
     }
 
-    fun takeThumbnailFromCamera(result: (Bitmap) -> Unit) {
-        val cameraRequest = CameraRequest(result)
-        imageRequest(cameraRequest)
-    }
-
-    fun takeFullSizeFromCamera(result: (File) -> Unit) {
-        getAttachedObject()?.let {
-            takeFullSizeFromCamera(null) { file ->
-                result.invoke(file)
-            }
+    fun <T : Any> requestPhoto(request: ImageRequest<out T>, result: (T) -> Unit) {
+        if (request is PhotoRequest) {
+            request.paths = paths
+            request.providerAuthority = providerAuthority
         }
+        request.resultFunction = result
+        imageRequest(request)
     }
 
-    fun takeFullSizePhotoFromCamera(settings: TakePhotoSettings, result: (File) -> Unit) {
-        getAttachedObject()?.let {
-            takeFullSizeFromCamera(settings) { file ->
-                result.invoke(file)
-            }
+    private fun imageRequest(request: ImageRequest<out Any>) {
+        val attachedObject = getAttachedObject()
+        if (attachedObject == null) {
+            waitedContextRequests[request.requestCode] = request
+        } else {
+            requests[request.requestCode] = request
+            request.request(attachedObject)
         }
     }
 
@@ -50,29 +41,6 @@ class ImagesBinder(private val providerAuthority: String,
         if (resultCode == Activity.RESULT_OK) {
             val request = requests[requestCode]
             request?.let { request.activityResult(activity, data) }
-        }
-    }
-
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        //nothing
-    }
-
-    private fun takeFullSizeFromCamera(settings: TakePhotoSettings? = null, result: (File) -> Unit) {
-        val providerAuthority = if (settings == null) "com.livetyping.images.default_provider" else this.providerAuthority
-        val cameraRequest = FullSizePhotoRequest(providerAuthority, paths,
-                settings ?: DefaultTakePhotoSettings(),
-                result)
-        imageRequest(cameraRequest)
-    }
-
-    private fun imageRequest(imageRequest: ImageRequest<out Any>) {
-        val attachedObject = getAttachedObject()
-        if (attachedObject == null) {
-            waitedContextRequests[imageRequest.requestCode()] = imageRequest
-        } else {
-            val requestCode = imageRequest.requestCode()
-            requests[requestCode] = imageRequest
-            imageRequest.makeRequest(attachedObject)
         }
     }
 
@@ -85,4 +53,9 @@ class ImagesBinder(private val providerAuthority: String,
             }
         }
     }
+
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        //nothing
+    }
+
 }

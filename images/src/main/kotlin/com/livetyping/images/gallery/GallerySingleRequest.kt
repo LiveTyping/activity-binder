@@ -1,4 +1,4 @@
-package com.livetyping.images
+package com.livetyping.images.gallery
 
 import android.app.Activity
 import android.content.Intent
@@ -6,12 +6,14 @@ import android.os.Build
 import android.provider.MediaStore
 import java.io.File
 
-/**
- * crete file in data/data/{applicationId}/cache/images
- */
-internal class GallerySingleRequest(result: (File) -> Unit) : ImageRequest<File>(result) {
 
-    override fun concreteMakeRequest(activity: Activity) {
+class GallerySingleRequest(chooserText: String? = null)
+    : GalleryRequest<File>(chooserText) {
+
+    override val requestCode: Int
+        get() = 3322
+
+    override fun request(attachedObject: Activity) {
         val photoPickerIntent: Intent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             photoPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
@@ -25,14 +27,13 @@ internal class GallerySingleRequest(result: (File) -> Unit) : ImageRequest<File>
                 setType("image/*")
             }
         }
-        activity.startActivityForResult(photoPickerIntent, requestCode())
+        startIntentConsideringChooserText(photoPickerIntent, attachedObject)
     }
 
-    override fun concreteResult(activity: Activity, data: Intent?) {
-        data?.let { result(fileFromUri(activity, data.data)) }
+    override fun activityResult(attachedObject: Activity, data: Intent?) {
+        if (data != null && data.data != null) {
+            resultFunction(saveToProjectFiles(attachedObject, data.data!!))
+        }
 
     }
-
-    override fun requestCode(): Int = 2233
-
 }

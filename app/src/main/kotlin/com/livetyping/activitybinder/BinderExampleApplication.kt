@@ -18,7 +18,7 @@ class BinderExampleApplication : Application() {
         PermissionBinder()
     }
 
-    val imagesBinder: ImagesBinder by lazy {
+    val testImagesBinder: ImagesBinder by lazy {
         ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
     }
 
