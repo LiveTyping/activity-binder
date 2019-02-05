@@ -13,14 +13,12 @@ internal class PassivePermissionRequest(resultListener: (permissionMap: HashMap<
         if (!permissionsWithoutRationale.isEmpty()) {
             ActivityCompat.requestPermissions(activity, permissionsWithoutRationale.toTypedArray(), requestCode)
         } else {
-            syncPermissionsGrantedResult(activity)
-            resultListener.invoke(permissionHashMap)
+            invokeResult(activity)
         }
     }
 
     override fun afterRequest(activity: Activity) {
-        syncPermissionsGrantedResult(activity)
-        resultListener.invoke(permissionHashMap)
+        invokeResult(activity)
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
