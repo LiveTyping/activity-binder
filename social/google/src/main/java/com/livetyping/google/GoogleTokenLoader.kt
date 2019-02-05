@@ -2,7 +2,7 @@ package com.livetyping.google
 
 import android.content.Context
 import android.os.AsyncTask
-import android.support.v4.content.AsyncTaskLoader
+import androidx.loader.content.AsyncTaskLoader
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 

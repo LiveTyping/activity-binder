@@ -8,3 +8,5 @@ include ':social:logincore',
         ':social:google'
 
 include ':permission'
+
+include ':images'
