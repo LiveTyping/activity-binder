@@ -7,22 +7,22 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.livetyping.images.photo.filecreator.FileCreator
 import com.livetyping.images.ImageRequest
+import com.livetyping.images.photo.filecreator.FileCreator
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
 abstract class PhotoRequest(chooserText: String? = null,
-                            private val fileCreator: FileCreator,
-                            result: (File) -> Unit)
-    : ImageRequest<File>(chooserText, result) {
+                            private val fileCreator: FileCreator)
+    : ImageRequest<File>(chooserText) {
 
     internal lateinit var mCurrentPhotoPath: Uri
     internal lateinit var providerAuthority: String
     internal var paths: Int? = null
     override val requestCode = 9467
+
 
     override fun request(attachedObject: Activity) {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
@@ -54,7 +54,7 @@ abstract class PhotoRequest(chooserText: String? = null,
         rotationInputStream?.close()
         val imageFile = fileCreator.getImageFile(attachedObject, paths!!)
         if (angle == 0) {
-            result.invoke(imageFile)
+            resultFunction.invoke(imageFile)
         } else {
             imageFile.delete()
             imageFile.createNewFile()
@@ -65,7 +65,7 @@ abstract class PhotoRequest(chooserText: String? = null,
             picture.compress(Bitmap.CompressFormat.JPEG, 100, out)
             picture.recycle()
             out.close()
-            result.invoke(imageFile)
+            resultFunction.invoke(imageFile)
         }
     }
 }

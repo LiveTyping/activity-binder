@@ -10,8 +10,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-abstract class GalleryRequest<T>(chooserText: String? = null, result: (T) -> Unit)
-    : ImageRequest<T>(chooserText, result), Gallery {
+abstract class GalleryRequest<T>(chooserText: String? = null)
+    : ImageRequest<T>(chooserText), Gallery {
 
     protected fun saveToProjectFiles(activity: Activity, uri: Uri): File {
         val contentResolver = activity.application.contentResolver

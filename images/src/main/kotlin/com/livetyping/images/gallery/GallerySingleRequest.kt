@@ -7,8 +7,8 @@ import android.provider.MediaStore
 import java.io.File
 
 
-class GallerySingleRequest(chooserText: String? = null, result: (File) -> Unit)
-    : GalleryRequest<File>(chooserText, result) {
+class GallerySingleRequest(chooserText: String? = null)
+    : GalleryRequest<File>(chooserText) {
 
     override val requestCode: Int
         get() = 3322
@@ -32,7 +32,7 @@ class GallerySingleRequest(chooserText: String? = null, result: (File) -> Unit)
 
     override fun activityResult(attachedObject: Activity, data: Intent?) {
         if (data != null && data.data != null) {
-            result(saveToProjectFiles(attachedObject, data.data!!))
+            resultFunction(saveToProjectFiles(attachedObject, data.data!!))
         }
 
     }

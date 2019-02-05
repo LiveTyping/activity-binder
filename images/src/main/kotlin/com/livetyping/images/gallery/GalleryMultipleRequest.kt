@@ -5,8 +5,8 @@ import android.content.Intent
 import java.io.File
 
 
-class GalleryMultipleRequest(chooserText: String? = null, result: (List<File>) -> Unit)
-    : GalleryRequest<List<File>>(chooserText, result) {
+class GalleryMultipleRequest(chooserText: String? = null)
+    : GalleryRequest<List<File>>(chooserText) {
 
     override val requestCode: Int
         get() = 2233
@@ -28,12 +28,12 @@ class GalleryMultipleRequest(chooserText: String? = null, result: (List<File>) -
                     val list = ArrayList<File>(itemCount)
                     (0 until itemCount)
                             .mapTo(list) { saveToProjectFiles(attachedObject, clipData.getItemAt(it).uri) }
-                    result(list)
+                    resultFunction(list)
                 }
             } else {
                 val list = ArrayList<File>(1)
                 list.add(saveToProjectFiles(attachedObject, it?.data))
-                result(list)
+                resultFunction(list)
             }
         }
     }

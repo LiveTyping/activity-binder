@@ -18,11 +18,12 @@ class ImagesBinder(private val providerAuthority: String,
         mutableMapOf<Int, ImageRequest<out Any>>()
     }
 
-    fun requestPhoto(request: ImageRequest<out Any>) {
+    fun <T : Any> requestPhoto(request: ImageRequest<out T>, result: (T) -> Unit) {
         if (request is PhotoRequest) {
             request.paths = paths
             request.providerAuthority = providerAuthority
         }
+        request.resultFunction = result
         imageRequest(request)
     }
 

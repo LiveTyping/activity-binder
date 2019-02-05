@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImagesBinder
-import com.livetyping.images.gallery.*
+import com.livetyping.images.gallery.GalleryMultipleRequest
+import com.livetyping.images.gallery.GallerySingleRequest
 import com.livetyping.images.photo.*
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_new_binder.*
@@ -26,46 +27,47 @@ class ImageBinderActivity : AppCompatActivity() {
         permissionBinder = binderExampleApplication.permissionBinder
 
         multiple_gallery.setOnClickListener {
-            imagesBinder.requestPhoto(GalleryMultipleRequest { files ->
+            imagesBinder.requestPhoto(GalleryMultipleRequest()) { files ->
                 image.setImageURI(Uri.fromFile(files[0]))
                 Toast.makeText(this, files.size.toString(), Toast.LENGTH_SHORT).show()
-            })
+            }
         }
 
         single_gallery.setOnClickListener {
-            imagesBinder.requestPhoto(GallerySingleRequest { file ->
+            imagesBinder.requestPhoto(GallerySingleRequest()) { file ->
                 image.setImageURI(Uri.fromFile(file))
-            })
+            }
         }
 
         single_request_chooser.setOnClickListener {
-            imagesBinder.requestPhoto(GallerySingleRequest("select file") { file ->
+            imagesBinder.requestPhoto(GallerySingleRequest("select file")) { file ->
                 image.setImageURI(Uri.fromFile(file))
-            })
+            }
         }
 
         default_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
-                imagesBinder.requestPhoto(PhotoRequestDefaultPath { file ->
+                imagesBinder.requestPhoto(PhotoRequestDefaultPath()) { file ->
                     image.setImageURI(Uri.fromFile(file))
-                })
+                }
             }
         }
 
         cahche_path_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
-                imagesBinder.requestPhoto(PhotoRequestCachePath("cache_files") { file ->
+                imagesBinder.requestPhoto(PhotoRequestCachePath("cache_files")) { file ->
                     image.setImageURI(Uri.fromFile(file))
-                })
+                }
             }
         }
 
         external_cahce_path_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
                 permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                    imagesBinder.requestPhoto(PhotoRequestExternalCachePath("external_app_cache_path") { file ->
+                    val request = PhotoRequestExternalCachePath("external_app_cache_path")
+                    imagesBinder.requestPhoto(request) { file ->
                         image.setImageURI(Uri.fromFile(file))
-                    })
+                    }
                 }
             }
         }
@@ -73,9 +75,10 @@ class ImageBinderActivity : AppCompatActivity() {
         external_files_path_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
                 permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                    imagesBinder.requestPhoto(PhotoRequestExternalFilesPath("external_app_files_path") { file ->
+                    val request = PhotoRequestExternalFilesPath("external_app_files_path")
+                    imagesBinder.requestPhoto(request) { file ->
                         image.setImageURI(Uri.fromFile(file))
-                    })
+                    }
                 }
             }
         }
@@ -83,9 +86,10 @@ class ImageBinderActivity : AppCompatActivity() {
         external_path_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
                 permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                    imagesBinder.requestPhoto(PhotoRequestExternalPath("external_files") { file ->
+                    val request = PhotoRequestExternalPath("external_files")
+                    imagesBinder.requestPhoto(request) { file ->
                         image.setImageURI(Uri.fromFile(file))
-                    })
+                    }
                 }
             }
         }
@@ -93,9 +97,10 @@ class ImageBinderActivity : AppCompatActivity() {
         files_path_photo.setOnClickListener {
             permissionBinder.passivePermission(Manifest.permission.CAMERA) {
                 permissionBinder.passivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                    imagesBinder.requestPhoto(PhotoRequestFilesPath("images") { file ->
+                    val request = PhotoRequestFilesPath("images")
+                    imagesBinder.requestPhoto(request) { file ->
                         image.setImageURI(Uri.fromFile(file))
-                    })
+                    }
                 }
             }
         }
