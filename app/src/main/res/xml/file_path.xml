@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+    <files-path
+        name="images"
+        path="." />
+    <cache-path
+        name="cache_files"
+        path="tempfolder" />
+    <external-path
+        name="external_files"
+        path="." />
+    <external-files-path
+        name="external_app_files_path"
+        path="." />
+    <external-cache-path
+        name="external_app_cache_path"
+        path="new_folder" />
+</paths>
