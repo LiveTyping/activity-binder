@@ -10,11 +10,11 @@ import com.livetyping.core.Binder
 class PermissionBinder : Binder() {
     private val requests: MutableMap<Int, PermissionRequest> = mutableMapOf()
     private val permissionCodes: PermissionRequestCodes = PermissionRequestCodes()
-
+    private lateinit var resultListener: (HashMap<String, Boolean>) -> Unit
 
     fun passivePermission(permission: String, singleResultListener: (Boolean) -> Unit) {
-        val resultListener: (HashMap<String, Boolean>) -> Unit = {
-            singleResultListener(it[permission]!!)
+        resultListener = {
+            (it[permission]!!)
         }
         needPermissions(listOf(permission), PassivePermissionRequest(resultListener))
     }
@@ -27,7 +27,7 @@ class PermissionBinder : Binder() {
                          rationaleText: String,
                          @StringRes settingsButtonText: String = "settings",
                          singleResultListener: (Boolean) -> Unit) {
-        val resultListener: (HashMap<String, Boolean>) -> Unit = {
+        resultListener = {
             singleResultListener(it[permission]!!)
         }
         needPermissions(listOf(permission), ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
@@ -41,7 +41,7 @@ class PermissionBinder : Binder() {
     }
 
     fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, singleResultListener: (Boolean) -> Unit) {
-        val resultListener: (HashMap<String, Boolean>) -> Unit = {
+        resultListener = {
             singleResultListener(it[permission]!!)
         }
         needPermissions(listOf(permission), GlobalPermissionRequest(clazz, resultListener))
@@ -52,11 +52,10 @@ class PermissionBinder : Binder() {
     }
 
     fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
-        val granted = grantResults.isNotEmpty() && grantResults[0] == PermissionChecker.PERMISSION_GRANTED
         val requester = requests[code]
         getAttachedObject()
                 ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
-        requester?.afterRequest(granted, getAttachedObject()!!)
+        requester?.afterRequest(getAttachedObject()!!)
     }
 
     fun onActivityResult(requestCode: Int, data: Intent?, activity: Activity) {

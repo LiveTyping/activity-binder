@@ -18,7 +18,7 @@ internal class PassivePermissionRequest(resultListener: (permissionMap: HashMap<
         }
     }
 
-    override fun afterRequest(granted: Boolean, activity: Activity) {
+    override fun afterRequest(activity: Activity) {
         syncPermissionsGrantedResult(activity)
         resultListener.invoke(permissionHashMap)
     }

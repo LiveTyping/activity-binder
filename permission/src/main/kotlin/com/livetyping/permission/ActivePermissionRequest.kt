@@ -32,7 +32,7 @@ internal class ActivePermissionRequest(resultListener: (HashMap<String, Boolean>
     }
 
 
-    override fun afterRequest(granted: Boolean, activity: Activity) {
+    override fun afterRequest(activity: Activity) {
         if (areAllPermissionGranted(activity)) {
             invokeResult(activity)
         } else {

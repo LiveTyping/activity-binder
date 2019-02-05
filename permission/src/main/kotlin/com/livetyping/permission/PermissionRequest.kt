@@ -19,7 +19,7 @@ internal abstract class PermissionRequest(protected val resultListener: (HashMap
         this.requestCode = requestCode
         this.permissions = permissions.toMutableList()
         initPermissionHashMap()
-        bunchNeedPermissions(requestCode, activity)
+        bunchNeedPermissions(activity)
     }
 
     private fun initPermissionHashMap() {
@@ -29,7 +29,7 @@ internal abstract class PermissionRequest(protected val resultListener: (HashMap
         }
     }
 
-    fun bunchNeedPermissions(requestCode: Int, activity: Activity) {
+    fun bunchNeedPermissions(activity: Activity) {
         if (areAllPermissionGranted(activity)) {
             syncPermissionsGrantedResult(activity)
             resultListener.invoke(permissionHashMap)
@@ -42,7 +42,7 @@ internal abstract class PermissionRequest(protected val resultListener: (HashMap
 
     internal abstract fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity)
 
-    internal abstract fun afterRequest(granted: Boolean, activity: Activity)
+    internal abstract fun afterRequest(activity: Activity)
 
     @PermissionChecker.PermissionResult
     private fun isPermissionGranted(permission: String, activity: Activity): Boolean {

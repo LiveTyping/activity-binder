@@ -21,7 +21,7 @@ internal class GlobalPermissionRequest(
     }
 
 
-    override fun afterRequest(granted: Boolean, activity: Activity) {
+    override fun afterRequest(activity: Activity) {
         if (areAllPermissionGranted(activity)) {
             invokeResult(activity)
         } else {
@@ -35,6 +35,6 @@ internal class GlobalPermissionRequest(
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
-        bunchNeedPermissions(requestCode, activity)
+        bunchNeedPermissions(activity)
     }
 }

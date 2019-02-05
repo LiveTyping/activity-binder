@@ -5,8 +5,7 @@ import android.Manifest
 
 internal class PermissionRequestCodes() {
     companion object {
-        @JvmField
-        val MULTIPLE_PERMISSIONS_CODE = 116
+        const val MULTIPLE_PERMISSIONS_CODE = 116
     }
 
     fun getCode(permission: String): Int {
