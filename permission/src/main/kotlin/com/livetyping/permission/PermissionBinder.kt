@@ -27,7 +27,7 @@ class PermissionBinder : Binder() {
     }
 
     fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
-        val granted = grantResults[0] == PermissionChecker.PERMISSION_GRANTED
+        val granted = grantResults.isNotEmpty() && grantResults[0] == PermissionChecker.PERMISSION_GRANTED
         val requester = requests[code]
         getAttachedObject()
                 ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")

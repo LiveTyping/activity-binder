@@ -11,13 +11,19 @@ import com.vk.sdk.VKSdk
 import com.vk.sdk.api.VKError
 
 
-class VkNetwork : SocialNetwork {
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?,
-                                  successBlock: (token: String) -> Unit,
-                                  errorBlock: ((SocialLoginError) -> Unit)?) {
+class VkNetwork : SocialNetwork<VkLoginResult> {
+
+    override fun login(activity: Activity) {
+        VKSdk.login(activity, VKScope.EMAIL)
+    }
+
+    override fun onActivityResult(requestCode: Int,
+                                  resultCode: Int, data: Intent?,
+                                  successBlock: (result: VkLoginResult) -> Unit,
+                                  errorBlock: ((error: SocialLoginError) -> Unit)?) {
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, object : VKCallback<VKAccessToken> {
-                    override fun onResult(res: VKAccessToken) {
-                        successBlock.invoke(res.accessToken)
+                    override fun onResult(vkAccessToken: VKAccessToken) {
+                        successBlock.invoke(vkAccessToken.toVkLoginResult())
                     }
 
                     override fun onError(error: VKError) {
@@ -26,9 +32,4 @@ class VkNetwork : SocialNetwork {
                 })) {
         }
     }
-
-    override fun login(activity: Activity) {
-        VKSdk.login(activity, VKScope.WALL)
-    }
-
 }
