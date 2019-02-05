@@ -14,7 +14,7 @@ class PermissionBinder : Binder() {
 
     fun passivePermission(permission: String, singleResultListener: (Boolean) -> Unit) {
         resultListener = {
-            (it[permission]!!)
+            singleResultListener(it[permission]!!)
         }
         needPermissions(listOf(permission), PassivePermissionRequest(resultListener))
     }

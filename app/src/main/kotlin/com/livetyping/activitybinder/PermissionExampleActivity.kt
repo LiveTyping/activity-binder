@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.activity_permissions.*
 
 class PermissionExampleActivity : AppCompatActivity() {
     companion object {
-        private const val TAG_SINGLE = "acivity-binder single result"
-        private const val TAG_MULTIPLY = "acivity-binder multiple result"
+        private const val TAG_SINGLE = "single"
+        private const val TAG_MULTIPLY = "multiply"
     }
 
     private lateinit var permissionBinder: PermissionBinder
