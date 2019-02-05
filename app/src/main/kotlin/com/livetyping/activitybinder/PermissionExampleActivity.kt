@@ -38,14 +38,14 @@ class PermissionExampleActivity : AppCompatActivity() {
         //cab be placed in active permission method as third parameter
         val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
         multiply_active.setOnClickListener {
-            permissionBinder.activePermission(listOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO), rationaleText) {
+            permissionBinder.activePermission(listOf(Manifest.permission.SEND_SMS, Manifest.permission.RECORD_AUDIO), rationaleText) {
                 for ((permission, granted) in it) {
                     handleOutputResults(granted, TAG_MULTIPLY, permission)
                 }
             }
         }
         multiply_global.setOnClickListener {
-            permissionBinder.globalPermission(listOf(Manifest.permission.SEND_SMS, Manifest.permission.ADD_VOICEMAIL),
+            permissionBinder.globalPermission(listOf(Manifest.permission.BODY_SENSORS, Manifest.permission.READ_CALENDAR),
                     ShowGlobalExplanationActivity::class.java) {
                 for ((permission, granted) in it) {
                     handleOutputResults(granted, TAG_MULTIPLY, permission)
@@ -70,7 +70,7 @@ class PermissionExampleActivity : AppCompatActivity() {
             }
         }
         single_global.setOnClickListener {
-            permissionBinder.globalPermission(Manifest.permission.SEND_SMS,
+            permissionBinder.globalPermission(Manifest.permission.USE_SIP,
                     ShowGlobalExplanationActivity::class.java) {
                 handleOutputResults(it, TAG_SINGLE)
             }
