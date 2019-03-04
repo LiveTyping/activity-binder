@@ -5,24 +5,20 @@ import android.content.Intent
 import androidx.core.app.ActivityCompat
 
 
-internal class PassivePermissionRequest(resultListener: (result: Boolean) -> Unit)
+internal class PassivePermissionRequest(resultListener: (permissionMap: HashMap<String, Boolean>) -> Unit)
     : PermissionRequest(resultListener) {
 
-
-    override fun concreteNeedPermission(requestCode: Int, permission: String, activity: Activity) {
-        val checkPermission = checkPermission(permission, activity)
-        if (checkPermission) {
-            resultListener.invoke(true)
+    override fun onPermissionsNeedDenied(activity: Activity) {
+        val permissionsWithoutRationale = getPermissionsWithoutRationale(activity)
+        if (!permissionsWithoutRationale.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, permissionsWithoutRationale.toTypedArray(), requestCode)
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-                resultListener.invoke(false)
-            } else ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
-
+            invokeResult(activity)
         }
     }
 
-    override fun afterRequest(granted: Boolean, activity: Activity) {
-        resultListener.invoke(granted)
+    override fun afterRequest(activity: Activity) {
+        invokeResult(activity)
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
