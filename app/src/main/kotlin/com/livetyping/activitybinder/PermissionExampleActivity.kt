@@ -3,13 +3,17 @@ package com.livetyping.activitybinder
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_permissions.*
 
 
 class PermissionExampleActivity : AppCompatActivity() {
+    companion object {
+        private const val TAG_SINGLE = "single"
+        private const val TAG_MULTIPLY = "multiply"
+    }
 
     private lateinit var permissionBinder: PermissionBinder
 
@@ -17,27 +21,64 @@ class PermissionExampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permissions)
         permissionBinder = (application as BinderExampleApplication).permissionBinder
+        handleButtonSinglePermissions()
+        handleButtonMultiplyPermissions()
+    }
 
-        passive.setOnClickListener {
-            permissionBinder.passivePermission(Manifest.permission.CAMERA) { granted ->
-                if (granted) granted() else denied()
+    private fun handleButtonMultiplyPermissions() {
+        multiply_passive.setOnClickListener {
+            permissionBinder.passivePermission(listOf(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                for ((permission, granted) in it) {
+                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                }
             }
         }
 
         val rationaleText = getString(R.string.active_permission_rationale_text)
         //cab be placed in active permission method as third parameter
         val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
-        active.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, rationaleText) { granted ->
-                if (granted) granted() else denied()
+        multiply_active.setOnClickListener {
+            permissionBinder.activePermission(listOf(Manifest.permission.SEND_SMS, Manifest.permission.RECORD_AUDIO), rationaleText) {
+                for ((permission, granted) in it) {
+                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                }
             }
         }
-        global.setOnClickListener {
-            permissionBinder.globalPermission(Manifest.permission.SEND_SMS,
-                    ShowGlobalExplanationActivity::class.java) { granted ->
-                if (granted) granted() else denied()
+        multiply_global.setOnClickListener {
+            permissionBinder.globalPermission(listOf(Manifest.permission.BODY_SENSORS, Manifest.permission.READ_CALENDAR),
+                    ShowGlobalExplanationActivity::class.java) {
+                for ((permission, granted) in it) {
+                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                }
             }
         }
+    }
+
+    private fun handleButtonSinglePermissions() {
+        single_passive.setOnClickListener {
+            permissionBinder.passivePermission(Manifest.permission.READ_EXTERNAL_STORAGE) {
+                handleOutputResults(it, TAG_SINGLE)
+            }
+        }
+
+        val rationaleText = getString(R.string.active_permission_rationale_text)
+        //cab be placed in active permission method as third parameter
+        val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
+        single_active.setOnClickListener {
+            permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText) {
+                handleOutputResults(it, TAG_SINGLE)
+            }
+        }
+        single_global.setOnClickListener {
+            permissionBinder.globalPermission(Manifest.permission.USE_SIP,
+                    ShowGlobalExplanationActivity::class.java) {
+                handleOutputResults(it, TAG_SINGLE)
+            }
+        }
+    }
+
+    private fun handleOutputResults(result: Boolean, tag: String, permission: String = "") {
+        if (result) granted(tag, permission) else denied(tag, permission)
     }
 
     override fun onStart() {
@@ -60,11 +101,11 @@ class PermissionExampleActivity : AppCompatActivity() {
         permissionBinder.onRequestPermissionResult(requestCode, grantResults)
     }
 
-    private fun granted() {
-        Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show()
+    private fun granted(tag: String, permission: String = "") {
+        Log.i(tag, "$permission was granted")
     }
 
-    private fun denied() {
-        Toast.makeText(this, "denied", Toast.LENGTH_SHORT).show()
+    private fun denied(tag: String, permission: String = "") {
+        Log.i(tag, "$permission was denied")
     }
 }

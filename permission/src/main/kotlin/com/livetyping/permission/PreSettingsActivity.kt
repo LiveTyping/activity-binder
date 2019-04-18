@@ -6,10 +6,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.RequiresApi
 import android.view.View
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresApi
 
 
 abstract class PreSettingsActivity : Activity() {
@@ -28,7 +28,7 @@ abstract class PreSettingsActivity : Activity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override final fun onBackPressed() {
+    final override fun onBackPressed() {
         finishApp()
     }
 
@@ -38,7 +38,7 @@ abstract class PreSettingsActivity : Activity() {
         finishAndRemoveTask()
     }
 
-    override final fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    final override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,31 +8,71 @@
 
 
     <Button
-        android:id="@+id/passive"
+        android:id="@+id/single_passive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="passive"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="8dp"
+        android:text="single passive"
+        app:layout_constraintBottom_toTopOf="@+id/single_active"
+        app:layout_constraintEnd_toStartOf="@+id/multiply_passive"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/multiply_passive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="multiply passive"
+        app:layout_constraintBottom_toTopOf="@+id/multiply_active"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/single_passive" />
+
+    <Button
+        android:id="@+id/single_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="single active"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/single_passive"
+        app:layout_constraintStart_toStartOf="@+id/single_passive"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/active"
+        android:id="@+id/multiply_active"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="active"
-        app:layout_constraintTop_toBottomOf="@id/passive"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="multiply active"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/multiply_passive"
+        app:layout_constraintStart_toStartOf="@+id/multiply_passive"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/global"
+        android:id="@+id/single_global"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="global"
-        app:layout_constraintTop_toBottomOf="@id/active"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginTop="8dp"
+        android:text="single global"
+        app:layout_constraintEnd_toEndOf="@+id/single_active"
+        app:layout_constraintStart_toStartOf="@+id/single_active"
+        app:layout_constraintTop_toBottomOf="@+id/single_active" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/multiply_global"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="multiply global"
+        app:layout_constraintEnd_toEndOf="@+id/multiply_active"
+        app:layout_constraintStart_toStartOf="@+id/multiply_active"
+        app:layout_constraintTop_toBottomOf="@+id/multiply_active" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

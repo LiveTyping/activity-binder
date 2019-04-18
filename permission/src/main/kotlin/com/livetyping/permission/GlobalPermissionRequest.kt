@@ -2,12 +2,12 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 
 
 internal class GlobalPermissionRequest(
         private val clazz: Class<out PreSettingsActivity>,
-        resultListener: (result: Boolean) -> Unit)
+        resultListener: (HashMap<String, Boolean>) -> Unit)
     : PermissionRequest(resultListener) {
 
     companion object {
@@ -15,22 +15,19 @@ internal class GlobalPermissionRequest(
         internal val PERMISSION_KEY = "PermissionRepository.PermissionKey"
     }
 
-    override fun concreteNeedPermission(requestCode: Int, permission: String, activity: Activity) {
-        val checkPermission = checkPermission(permission, activity)
-        if (checkPermission) {
-            resultListener.invoke(true)
-        } else {
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
-        }
+
+    override fun onPermissionsNeedDenied(activity: Activity) {
+        ActivityCompat.requestPermissions(activity, permissions.toList().toTypedArray(), requestCode)
     }
 
-    override fun afterRequest(granted: Boolean, activity: Activity) {
-        if (granted) {
-            resultListener.invoke(true)
+
+    override fun afterRequest(activity: Activity) {
+        if (areAllPermissionGranted(activity)) {
+            invokeResult(activity)
         } else {
             val intent = Intent(activity, clazz)
             with(intent) {
-                putExtra(PERMISSION_KEY, permission)
+                putExtra(PERMISSION_KEY, permissions.toTypedArray())
                 putExtra(PERMISSION_REQUEST_CODE_KEY, requestCode)
             }
             activity.startActivityForResult(intent, requestCode)
@@ -38,6 +35,6 @@ internal class GlobalPermissionRequest(
     }
 
     override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
-        concreteNeedPermission(requestCode, permission, activity)
+        bunchNeedPermissions(activity)
     }
 }
