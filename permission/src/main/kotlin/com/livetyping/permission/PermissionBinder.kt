@@ -2,8 +2,6 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
-import androidx.annotation.StringRes
-import androidx.core.content.PermissionChecker
 import com.livetyping.core.Binder
 
 
@@ -23,32 +21,44 @@ class PermissionBinder : Binder() {
         needPermissions(permissions, PassivePermissionRequest(resultListener))
     }
 
-    fun activePermission(permission: String,
-                         rationaleText: String,
-                         @StringRes settingsButtonText: String = "settings",
-                         singleResultListener: (Boolean) -> Unit) {
+    fun activePermission(
+            permission: String,
+            rationaleText: String,
+            settingsButtonText: String = "settings",
+            singleResultListener: (Boolean) -> Unit
+    ) {
         resultListener = {
             singleResultListener(it[permission]!!)
         }
         needPermissions(listOf(permission), ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
-    fun activePermission(permissions: Iterable<String>,
-                         rationaleText: String,
-                         @StringRes settingsButtonText: String = "settings",
-                         resultListener: (HashMap<String, Boolean>) -> Unit) {
+    fun activePermission(
+            permissions: Iterable<String>,
+            rationaleText: String,
+            settingsButtonText: String = "settings",
+            resultListener: (HashMap<String, Boolean>) -> Unit
+    ) {
         needPermissions(permissions, ActivePermissionRequest(resultListener, settingsButtonText, rationaleText))
     }
 
-    fun globalPermission(permission: String, clazz: Class<out PreSettingsActivity>, singleResultListener: (Boolean) -> Unit) {
+    fun globalPermission(
+            permission: String,
+            preSettingsClass: Class<out PreSettingsActivity>,
+            singleResultListener: (Boolean) -> Unit
+    ) {
         resultListener = {
             singleResultListener(it[permission]!!)
         }
-        needPermissions(listOf(permission), GlobalPermissionRequest(clazz, resultListener))
+        needPermissions(listOf(permission), GlobalPermissionRequest(preSettingsClass, resultListener))
     }
 
-    fun globalPermission(permissions: Iterable<String>, clazz: Class<out PreSettingsActivity>, resultListener: (HashMap<String, Boolean>) -> Unit) {
-        needPermissions(permissions, GlobalPermissionRequest(clazz, resultListener))
+    fun globalPermission(
+            permissions: Iterable<String>,
+            preSettingsClass: Class<out PreSettingsActivity>,
+            resultListener: (HashMap<String, Boolean>) -> Unit
+    ) {
+        needPermissions(permissions, GlobalPermissionRequest(preSettingsClass, resultListener))
     }
 
     fun onRequestPermissionResult(code: Int, grantResults: IntArray) {
