@@ -67,7 +67,7 @@ class ImageBinderActivity : AppCompatActivity() {
         external_cahce_path_photo.setOnClickListener {
             val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
-                if (it.all { true }) {
+                if (it.all { it.value }) {
                     val request = PhotoRequestExternalCachePath("external_app_cache_path")
                     requestAndBindImage(request)
                 }
@@ -77,7 +77,7 @@ class ImageBinderActivity : AppCompatActivity() {
         external_files_path_photo.setOnClickListener {
             val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
-                if (it.all { true }) {
+                if (it.all { it.value }) {
                     val request = PhotoRequestExternalFilesPath("external_app_files_path")
                     requestAndBindImage(request)
                 }
@@ -87,7 +87,7 @@ class ImageBinderActivity : AppCompatActivity() {
         external_path_photo.setOnClickListener {
             val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
-                if (it.all { true }) {
+                if (it.all { it.value }) {
                     val request = PhotoRequestExternalPath("external_files")
                     requestAndBindImage(request)
                 }
@@ -97,7 +97,7 @@ class ImageBinderActivity : AppCompatActivity() {
         files_path_photo.setOnClickListener {
             val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
-                if (it.all { true }) {
+                if (it.all { it.value }) {
                     val request = PhotoRequestFilesPath("images")
                     requestAndBindImage(request)
                 }
