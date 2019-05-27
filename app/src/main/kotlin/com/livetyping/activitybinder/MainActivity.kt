@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun open(clazz: Class<out Activity>) {
-        startActivity(Intent(this, clazz))
+    private fun open(activityClass: Class<out Activity>) {
+        startActivity(Intent(this, activityClass))
     }
 }

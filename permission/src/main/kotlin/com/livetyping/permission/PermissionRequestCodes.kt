@@ -3,7 +3,7 @@ package com.livetyping.permission
 import android.Manifest
 
 
-internal class PermissionRequestCodes() {
+internal class PermissionRequestCodes {
     companion object {
         const val MULTIPLE_PERMISSIONS_CODE = 116
     }
@@ -41,5 +41,4 @@ internal class PermissionRequestCodes() {
         if (permissionCode == MULTIPLE_PERMISSIONS_CODE) throw IllegalStateException("Please, choose another request code!")
         return permissionCode
     }
-
 }

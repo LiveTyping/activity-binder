@@ -12,7 +12,7 @@ abstract class Binder {
 
     open fun attach(obj: Activity) {
         val weakReference = WeakReference(obj)
-        weakHashMap.put(obj, weakReference)
+        weakHashMap[obj] = weakReference
         attachedObjRef = weakReference
     }
 
@@ -29,5 +29,4 @@ abstract class Binder {
     fun getAttachedObject(): Activity? {
         return attachedObjRef?.get()
     }
-
 }
