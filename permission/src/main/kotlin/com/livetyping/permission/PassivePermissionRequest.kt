@@ -2,7 +2,7 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
-import androidx.core.app.ActivityCompat
+import android.support.v4.app.ActivityCompat
 
 
 internal class PassivePermissionRequest(

@@ -1,6 +1,6 @@
 package com.livetyping.images.photo
 
-import androidx.core.content.FileProvider
+import android.support.v4.content.FileProvider
 
 
 class DefaultProvider : FileProvider()

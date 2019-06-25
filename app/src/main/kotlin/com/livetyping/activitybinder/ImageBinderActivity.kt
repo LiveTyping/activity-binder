@@ -4,8 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.images.ImageRequest
 import com.livetyping.images.ImagesBinder
 import com.livetyping.images.gallery.GalleryMultipleRequest
