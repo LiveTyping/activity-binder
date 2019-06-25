@@ -2,7 +2,7 @@ package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
-import androidx.annotation.XmlRes
+import android.support.annotation.XmlRes
 import com.livetyping.core.Binder
 import com.livetyping.images.photo.PhotoRequest
 

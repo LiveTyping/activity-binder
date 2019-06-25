@@ -1,7 +1,7 @@
 package com.livetyping.images.photo.filecreator
 
 import android.content.Context
-import androidx.annotation.XmlRes
+import android.support.annotation.XmlRes
 import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.IOException

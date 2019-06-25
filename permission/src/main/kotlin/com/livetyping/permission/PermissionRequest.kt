@@ -2,11 +2,11 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
-import androidx.core.content.PermissionChecker.PERMISSION_DENIED
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.PermissionChecker
+import android.support.v4.content.PermissionChecker.PERMISSION_DENIED
+import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
 
 internal abstract class PermissionRequest(protected val resultListener: (HashMap<String, Boolean>) -> Unit) {
     protected val permissionHashMap = HashMap<String, Boolean>()

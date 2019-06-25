@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
+import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AlertDialog
 
 
 internal class ActivePermissionRequest(

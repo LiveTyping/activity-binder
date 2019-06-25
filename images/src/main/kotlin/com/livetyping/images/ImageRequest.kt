@@ -2,7 +2,7 @@ package com.livetyping.images
 
 import android.app.Activity
 import android.content.Intent
-import androidx.exifinterface.media.ExifInterface
+import android.support.media.ExifInterface
 import java.io.InputStream
 
 

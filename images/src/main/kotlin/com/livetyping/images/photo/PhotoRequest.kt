@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.core.content.FileProvider
+import android.support.v4.content.FileProvider
 import com.livetyping.images.ImageRequest
 import com.livetyping.images.photo.filecreator.FileCreator
 import java.io.File
