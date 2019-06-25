@@ -28,8 +28,8 @@ class PermissionExampleActivity : AppCompatActivity() {
     private fun handleButtonMultiplyPermissions() {
         multiply_passive.setOnClickListener {
             permissionBinder.passivePermission(listOf(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                for ((permission, granted) in it) {
-                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                for ((permission, isGranted) in it) {
+                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
                 }
             }
         }
@@ -39,16 +39,16 @@ class PermissionExampleActivity : AppCompatActivity() {
         val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
         multiply_active.setOnClickListener {
             permissionBinder.activePermission(listOf(Manifest.permission.SEND_SMS, Manifest.permission.RECORD_AUDIO), rationaleText) {
-                for ((permission, granted) in it) {
-                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                for ((permission, isGranted) in it) {
+                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
                 }
             }
         }
         multiply_global.setOnClickListener {
             permissionBinder.globalPermission(listOf(Manifest.permission.BODY_SENSORS, Manifest.permission.READ_CALENDAR),
                     ShowGlobalExplanationActivity::class.java) {
-                for ((permission, granted) in it) {
-                    handleOutputResults(granted, TAG_MULTIPLY, permission)
+                for ((permission, isGranted) in it) {
+                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
                 }
             }
         }
@@ -77,8 +77,8 @@ class PermissionExampleActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleOutputResults(result: Boolean, tag: String, permission: String = "") {
-        if (result) granted(tag, permission) else denied(tag, permission)
+    private fun handleOutputResults(isGranted: Boolean, tag: String, permission: String = "") {
+        if (isGranted) granted(tag, permission) else denied(tag, permission)
     }
 
     override fun onStart() {

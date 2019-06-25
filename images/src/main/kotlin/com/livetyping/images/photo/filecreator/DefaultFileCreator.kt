@@ -11,8 +11,5 @@ internal class DefaultFileCreator
     override val pathAttr: String
         get() = "files-path"
 
-
     override fun getRootPath(context: Context) = context.filesDir.path
-
-
 }

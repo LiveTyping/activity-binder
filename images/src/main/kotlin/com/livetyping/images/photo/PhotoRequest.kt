@@ -14,9 +14,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 
-abstract class PhotoRequest(chooserText: String? = null,
-                            private val fileCreator: FileCreator)
-    : ImageRequest<File>(chooserText) {
+abstract class PhotoRequest(
+        chooserText: String? = null,
+        private val fileCreator: FileCreator
+) : ImageRequest<File>(chooserText) {
 
     internal lateinit var mCurrentPhotoPath: Uri
     internal lateinit var providerAuthority: String

@@ -6,13 +6,13 @@ import androidx.core.app.ActivityCompat
 
 
 internal class GlobalPermissionRequest(
-        private val clazz: Class<out PreSettingsActivity>,
-        resultListener: (HashMap<String, Boolean>) -> Unit)
-    : PermissionRequest(resultListener) {
+        private val preSettingsClass: Class<out PreSettingsActivity>,
+        resultListener: (HashMap<String, Boolean>) -> Unit
+) : PermissionRequest(resultListener) {
 
     companion object {
-        internal val PERMISSION_REQUEST_CODE_KEY = "PermissionRepository.PermissionCodeKey"
-        internal val PERMISSION_KEY = "PermissionRepository.PermissionKey"
+        internal const val PERMISSION_REQUEST_CODE_KEY = "PermissionRepository.PermissionCodeKey"
+        internal const val PERMISSION_KEY = "PermissionRepository.PermissionKey"
     }
 
 
@@ -25,7 +25,7 @@ internal class GlobalPermissionRequest(
         if (areAllPermissionGranted(activity)) {
             invokeResult(activity)
         } else {
-            val intent = Intent(activity, clazz)
+            val intent = Intent(activity, preSettingsClass)
             with(intent) {
                 putExtra(PERMISSION_KEY, permissions.toTypedArray())
                 putExtra(PERMISSION_REQUEST_CODE_KEY, requestCode)

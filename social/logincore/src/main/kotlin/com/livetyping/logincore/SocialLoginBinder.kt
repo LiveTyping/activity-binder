@@ -20,7 +20,7 @@ class SocialLoginBinder : Binder() {
                                           successBlock: (result: T) -> Unit) {
         getAttachedObject()?.let {
             this.route = route
-            this.tokenBlock = successBlock as ((SocialLoginResult)->Unit)?
+            this.tokenBlock = successBlock as ((SocialLoginResult) -> Unit)?
             this.errorBlock = errorBlock
             route.login(it)
         }

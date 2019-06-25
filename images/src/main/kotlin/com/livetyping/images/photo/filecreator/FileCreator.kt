@@ -7,10 +7,11 @@ import java.io.File
 import java.io.IOException
 
 
- abstract class FileCreator(private val attrName: String,
-                            private val additionalPath: String? = null,
-                            private val fileName: String) {
-
+abstract class FileCreator(
+        private val attrName: String,
+        private val additionalPath: String? = null,
+        private val fileName: String
+) {
 
     protected abstract val pathAttr: String
     private lateinit var imageFile: File
