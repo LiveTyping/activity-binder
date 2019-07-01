@@ -4,7 +4,7 @@ import com.livetyping.logincore.SocialLoginResult
 import com.vk.sdk.VKAccessToken
 
 
-class VkLoginResult(val accessToken: String, val email: String) : SocialLoginResult {
+class VkLoginResult(val accessToken: String, val email: String?) : SocialLoginResult {
 
 }
 
