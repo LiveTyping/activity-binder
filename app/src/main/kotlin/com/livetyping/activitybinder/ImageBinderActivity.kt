@@ -126,7 +126,7 @@ class ImageBinderActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         imagesBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
+        permissionBinder.onRequestPermissionResult(requestCode)
     }
 
     private fun requestAndBindImage(request: ImageRequest<out File>) {
