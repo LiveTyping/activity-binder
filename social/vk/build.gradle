@@ -11,4 +11,3 @@ android {
 dependencies {
     implementation 'com.vk:androidsdk:1.6.9'
 }
-
