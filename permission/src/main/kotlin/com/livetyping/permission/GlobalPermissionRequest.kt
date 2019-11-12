@@ -15,12 +15,12 @@ internal class GlobalPermissionRequest(
         internal const val PERMISSION_KEY = "PermissionRepository.PermissionKey"
     }
 
-    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int) {
         val permissions = permissions.toTypedArray()
         ActivityCompat.requestPermissions(activity, permissions, requestCode)
     }
 
-    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int) {
         if (areAllPermissionsGranted(activity)) {
             invokeResult(activity)
         } else {
@@ -42,7 +42,7 @@ internal class GlobalPermissionRequest(
         requestCode: Int,
         data: Intent?,
         activity: Activity,
-        @StyleRes themeResId: Int?
+        @StyleRes themeResId: Int
     ) {
         bunchPermissions(activity, themeResId)
     }

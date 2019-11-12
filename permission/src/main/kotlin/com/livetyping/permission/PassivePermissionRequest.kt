@@ -9,7 +9,7 @@ internal class PassivePermissionRequest(
     resultListener: (permissionMap: Map<String, Boolean>) -> Unit
 ) : PermissionRequest(resultListener) {
 
-    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int) {
         val permissionsWithoutRationale = getFirstTimeRequestedPermissions(activity)
         val hasFirstTimeRequestedPermissions = permissionsWithoutRationale.isNotEmpty()
         if (hasFirstTimeRequestedPermissions) {
@@ -20,7 +20,7 @@ internal class PassivePermissionRequest(
         }
     }
 
-    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int) {
         invokeResult(activity)
     }
 
@@ -28,7 +28,7 @@ internal class PassivePermissionRequest(
         requestCode: Int,
         data: Intent?,
         activity: Activity,
-        @StyleRes themeResId: Int?
+        @StyleRes themeResId: Int
     ) {
         //nothing for this request
     }

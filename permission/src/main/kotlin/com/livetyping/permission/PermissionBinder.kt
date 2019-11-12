@@ -41,7 +41,7 @@ class PermissionBinder : Binder() {
     fun activePermission(
         permission: String,
         rationaleText: String,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         settingsButtonText: String = "settings",
         singleResultListener: (Boolean) -> Unit
     ) {
@@ -59,7 +59,7 @@ class PermissionBinder : Binder() {
     fun activePermission(
         permissions: Iterable<String>,
         rationaleText: String,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         settingsButtonText: String = "settings",
         resultListener: (Map<String, Boolean>) -> Unit
     ) = activePermissions(permissions, rationaleText, themeResId, settingsButtonText, resultListener)
@@ -67,7 +67,7 @@ class PermissionBinder : Binder() {
     fun activePermissions(
         permissions: Iterable<String>,
         rationaleText: String,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         settingsButtonText: String = "settings",
         resultListener: (Map<String, Boolean>) -> Unit
     ) {
@@ -78,7 +78,7 @@ class PermissionBinder : Binder() {
     fun globalPermission(
         permission: String,
         preSettingsClass: Class<out PreSettingsActivity>,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         singleResultListener: (Boolean) -> Unit
     ) {
         val permissionRequest = GlobalPermissionRequest(preSettingsClass) { permissionsResults ->
@@ -95,21 +95,21 @@ class PermissionBinder : Binder() {
     fun globalPermission(
         permissions: Iterable<String>,
         preSettingsClass: Class<out PreSettingsActivity>,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         resultListener: (Map<String, Boolean>) -> Unit
     ) = globalPermissions(permissions, preSettingsClass, themeResId, resultListener)
 
     fun globalPermissions(
         permissions: Iterable<String>,
         preSettingsClass: Class<out PreSettingsActivity>,
-        @StyleRes themeResId: Int? = null,
+        @StyleRes themeResId: Int = 0,
         resultListener: (Map<String, Boolean>) -> Unit
     ) {
         val permissionRequest = GlobalPermissionRequest(preSettingsClass, resultListener)
         needPermissions(permissions, permissionRequest, themeResId)
     }
 
-    fun onRequestPermissionResult(code: Int, @StyleRes themeResId: Int? = null) {
+    fun onRequestPermissionResult(code: Int, @StyleRes themeResId: Int = 0) {
         val requester = requests[code]
         val attachedObject = getAttachedObject()
             ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
@@ -120,7 +120,7 @@ class PermissionBinder : Binder() {
         requestCode: Int,
         data: Intent?,
         activity: Activity,
-        @StyleRes themeResId: Int? = null
+        @StyleRes themeResId: Int = 0
     ) {
         requests[requestCode]?.afterSettingsActivityResult(requestCode, data, activity, themeResId)
     }
@@ -128,7 +128,7 @@ class PermissionBinder : Binder() {
     private fun needPermissions(
         permissions: Iterable<String>,
         request: PermissionRequest,
-        @StyleRes themeResId: Int? = null
+        @StyleRes themeResId: Int = 0
     ) {
         val attachedObject = getAttachedObject()
             ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")

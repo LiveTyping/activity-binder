@@ -21,7 +21,7 @@ internal abstract class PermissionRequest(
         requestCode: Int,
         permissions: Iterable<String>,
         activity: Activity,
-        @StyleRes themeResId: Int?
+        @StyleRes themeResId: Int
     ) {
         this.requestCode = requestCode
         this.permissions = permissions.toMutableList()
@@ -36,7 +36,7 @@ internal abstract class PermissionRequest(
         }
     }
 
-    fun bunchPermissions(activity: Activity, @StyleRes themeResId: Int?) {
+    fun bunchPermissions(activity: Activity, @StyleRes themeResId: Int) {
         if (areAllPermissionsGranted(activity)) {
             syncPermissionsGrantedResult(activity)
             resultListener.invoke(permissionMap)
@@ -60,16 +60,16 @@ internal abstract class PermissionRequest(
         }
     }
 
-    internal abstract fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int?)
+    internal abstract fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int)
 
     internal abstract fun afterSettingsActivityResult(
         requestCode: Int,
         data: Intent?,
         activity: Activity,
-        @StyleRes themeResId: Int?
+        @StyleRes themeResId: Int
     )
 
-    internal abstract fun afterRequest(activity: Activity, @StyleRes themeResId: Int?)
+    internal abstract fun afterRequest(activity: Activity, @StyleRes themeResId: Int)
 
     protected fun hasDeniedByUserPermissions(activity: Activity) = permissions.any {
         ActivityCompat.shouldShowRequestPermissionRationale(activity, it)

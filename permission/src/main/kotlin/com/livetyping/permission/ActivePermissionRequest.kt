@@ -16,7 +16,7 @@ internal class ActivePermissionRequest(
 
     private var rationaleShowed = false
 
-    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int) {
         if (hasDeniedByUserPermissions(activity)) {
             showRequestPermissionDialog(activity, themeResId)
             rationaleShowed = true
@@ -26,14 +26,14 @@ internal class ActivePermissionRequest(
         }
     }
 
-    private fun showRequestPermissionDialog(activity: Activity, @StyleRes themeResId: Int?) {
-        AlertDialog.Builder(activity, themeResId ?: 0)
+    private fun showRequestPermissionDialog(activity: Activity, @StyleRes themeResId: Int) {
+        AlertDialog.Builder(activity, themeResId)
             .setMessage(rationaleText)
             .setPositiveButton(android.R.string.ok) { _, _ -> requestPermission(activity) }
             .show()
     }
 
-    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int?) {
+    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int) {
         val isAllPermissionsGrantedOrRationalShowed = rationaleShowed || areAllPermissionsGranted(activity)
         if (isAllPermissionsGrantedOrRationalShowed) {
             invokeResult(activity)
@@ -46,7 +46,7 @@ internal class ActivePermissionRequest(
         requestCode: Int,
         data: Intent?,
         activity: Activity,
-        @StyleRes themeResId: Int?
+        @StyleRes themeResId: Int
     ) {
         invokeResult(activity)
     }
@@ -59,8 +59,8 @@ internal class ActivePermissionRequest(
         )
     }
 
-    private fun showOpenSettingsDialog(activity: Activity, @StyleRes themeResId: Int?) {
-        AlertDialog.Builder(activity, themeResId ?: 0)
+    private fun showOpenSettingsDialog(activity: Activity, @StyleRes themeResId: Int) {
+        AlertDialog.Builder(activity, themeResId)
             .setMessage(rationaleText)
             .setPositiveButton(settingsButtonText) { _, _ -> openAppSettings(activity) }
             .setNegativeButton(android.R.string.cancel) { _, _ -> invokeResult(activity) }
