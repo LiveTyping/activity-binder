@@ -63,8 +63,6 @@ internal abstract class PermissionRequest(
     internal abstract fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int)
 
     internal abstract fun afterSettingsActivityResult(
-        requestCode: Int,
-        data: Intent?,
         activity: Activity,
         @StyleRes themeResId: Int
     )

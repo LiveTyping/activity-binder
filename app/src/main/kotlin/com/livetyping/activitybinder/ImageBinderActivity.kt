@@ -120,7 +120,7 @@ class ImageBinderActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imagesBinder.onActivityResult(requestCode, resultCode, data, this)
-        permissionBinder.onActivityResult(requestCode, data, this)
+        permissionBinder.onActivityResult(requestCode, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

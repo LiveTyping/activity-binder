@@ -133,7 +133,7 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        permissionBinder.onActivityResult(requestCode, data, this)
+        permissionBinder.onActivityResult(requestCode, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

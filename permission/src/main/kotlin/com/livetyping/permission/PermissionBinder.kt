@@ -118,11 +118,10 @@ class PermissionBinder : Binder() {
 
     fun onActivityResult(
         requestCode: Int,
-        data: Intent?,
         activity: Activity,
         @StyleRes themeResId: Int = 0
     ) {
-        requests[requestCode]?.afterSettingsActivityResult(requestCode, data, activity, themeResId)
+        requests[requestCode]?.afterSettingsActivityResult(activity, themeResId)
     }
 
     private fun needPermissions(

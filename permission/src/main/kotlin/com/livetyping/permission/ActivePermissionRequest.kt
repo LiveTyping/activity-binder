@@ -43,8 +43,6 @@ internal class ActivePermissionRequest(
     }
 
     override fun afterSettingsActivityResult(
-        requestCode: Int,
-        data: Intent?,
         activity: Activity,
         @StyleRes themeResId: Int
     ) {
