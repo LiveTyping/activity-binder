@@ -1,6 +1,17 @@
 apply from: "$rootDir//kotlin_android_library.gradle"
 
+android {
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
 dependencies {
     implementation project(":core")
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
 }

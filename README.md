@@ -110,11 +110,14 @@ class MainActivity : AppCompatActivity() {
 #### Step 2
 * ##### Getting permission
 ```Kotlin
-permissionBinder.activePermission(Manifest.permission.CAMERA, permissionMessage){ granted->
-    if (granted)
-        //Do something if permission of using camera was allowed
-    else
-       //Do something if permission of using camera was denied
+permissionBinder.activePermission(listOf(Manifest.permission.CAMERA), permissionMessage){ results: HashMap<String, Boolean> ->
+    for ((permission, isGranted) in results){
+        if (isGranted)
+            //Do something if permission of using camera was allowed
+        else
+            //Do something if permission of using camera was denied
+    }
+}
 ```
 
 * ##### Log in via VK
