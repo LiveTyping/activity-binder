@@ -14,6 +14,7 @@ class SocialLoginBinder : Binder() {
         initializers.forEach { it.init(app) }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : SocialLoginResult> loginWith(
         socialNetwork: SocialNetwork<T>,
         onSuccess: (result: T) -> Unit,
