@@ -6,9 +6,9 @@ import com.livetyping.core.Binder
 
 class SocialLoginBinder : Binder() {
 
-    private lateinit var socialNetwork: SocialNetwork<out SocialLoginResult>
-    private lateinit var onSuccess: (result: SocialLoginResult) -> Unit
-    private lateinit var onFail: (error: Exception) -> Unit
+    private var socialNetwork: SocialNetwork<out SocialLoginResult>? = null
+    private var onSuccess: ((result: SocialLoginResult) -> Unit)? = null
+    private var onFail: ((error: Exception) -> Unit)? = null
 
     fun initializeNetworks(app: Application, initializers: Collection<SocialInitializer>) {
         initializers.forEach { it.init(app) }
@@ -28,12 +28,14 @@ class SocialLoginBinder : Binder() {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        socialNetwork.onActivityResult(
+        onSuccess ?: return
+        onFail ?: return
+        socialNetwork?.onActivityResult(
             requestCode,
             resultCode,
             data,
-            onSuccess,
-            onFail
+            onSuccess!!,
+            onFail!!
         )
     }
 }
