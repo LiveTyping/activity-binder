@@ -1,6 +1,8 @@
 apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.LiveTyping.activity-binder'
 
+apply from: "$rootDir/versions.gradle"
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -14,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
