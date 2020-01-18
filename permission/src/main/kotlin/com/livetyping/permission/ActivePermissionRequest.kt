@@ -31,7 +31,7 @@ internal class ActivePermissionRequest(
         if (areAllPermissionGranted(activity)) {
             invokeResult(activity)
         } else {
-            if (!rationaleShowed) {
+            if (!rationaleShowed && getPermissionsWithoutRationale(activity).isNotEmpty()) {
                 showOpenSettingsDialog(activity)
             } else {
                 invokeResult(activity)
