@@ -1,6 +1,7 @@
 package com.livetyping.activitybinder
 
 import android.app.Application
+import com.livetyping.core.NewBinder
 import com.livetyping.facebook.FacebookInitializer
 import com.livetyping.images.ImagesBinder
 import com.livetyping.instagram.InstagramInitializer
@@ -20,6 +21,10 @@ class BinderExampleApplication : Application() {
 
     val testImagesBinder: ImagesBinder by lazy {
         ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
+    }
+
+    val newBinder:NewBinder by lazy {
+        NewBinder()
     }
 
     override fun onCreate() {

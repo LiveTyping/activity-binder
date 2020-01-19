@@ -3,8 +3,10 @@ package com.livetyping.activitybinder
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.livetyping.core.NewBinder
+import com.livetyping.permission.PassivePermissionBinderRequest
 import com.livetyping.permission.PermissionBinder
 import kotlinx.android.synthetic.main.activity_permissions.*
 
@@ -16,11 +18,13 @@ class PermissionExampleActivity : AppCompatActivity() {
     }
 
     private lateinit var permissionBinder: PermissionBinder
+    private lateinit var newBinder: NewBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permissions)
         permissionBinder = (application as BinderExampleApplication).permissionBinder
+        newBinder = (application as BinderExampleApplication).newBinder
         handleButtonSinglePermissions()
         handleButtonMultiplyPermissions()
     }
@@ -56,9 +60,9 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     private fun handleButtonSinglePermissions() {
         single_passive.setOnClickListener {
-            permissionBinder.passivePermission(Manifest.permission.READ_EXTERNAL_STORAGE) {
+            newBinder.request(PassivePermissionBinderRequest(Manifest.permission.READ_EXTERNAL_STORAGE) {
                 handleOutputResults(it, TAG_SINGLE)
-            }
+            })
         }
 
         val rationaleText = getString(R.string.active_permission_rationale_text)
@@ -84,28 +88,32 @@ class PermissionExampleActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         permissionBinder.attach(this)
+        newBinder.attach(this)
     }
 
     override fun onStop() {
         permissionBinder.detach(this)
+        newBinder.detach(this)
         super.onStop()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         permissionBinder.onActivityResult(requestCode, data, this)
+        newBinder.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionBinder.onRequestPermissionResult(requestCode, grantResults)
+        newBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun granted(tag: String, permission: String = "") {
-        Log.i(tag, "$permission was granted")
+        Toast.makeText(this, "$permission was granted", Toast.LENGTH_SHORT).show()
     }
 
     private fun denied(tag: String, permission: String = "") {
-        Log.i(tag, "$permission was denied")
+        Toast.makeText(this, "$permission was denied", Toast.LENGTH_SHORT).show()
     }
 }
