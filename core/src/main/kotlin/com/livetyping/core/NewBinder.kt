@@ -6,22 +6,20 @@ import kotlin.random.Random
 
 class NewBinder : Binder() {
 
-    private val activityResultRequests by lazy {
-        mutableMapOf<Int, BinderRequest<*>>()
-    }
-    private val permissionResultRequests by lazy {
+
+    private val requests by lazy {
         mutableMapOf<Int, BinderRequest<*>>()
     }
 
     fun request(request: BinderRequest<*>) {
-        request.requestCode = generateRequestCode()
-        activityResultRequests[request.requestCode] = request
-        permissionResultRequests[request.requestCode] = request
-        getAttachedObject()?.let { request.request(it) }
+        val generateRequestCode = generateRequestCode()
+        request.setRequestCode(generateRequestCode)
+        requests[generateRequestCode] = request
+        getAttachedObject()?.let { request.internalRequest(it) }
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        activityResultRequests[requestCode]?.onActivityResult(resultCode, data)
+        requests[requestCode]?.onActivityResult(resultCode, data)
     }
 
     fun onRequestPermissionsResult(
@@ -29,7 +27,7 @@ class NewBinder : Binder() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        permissionResultRequests[requestCode]?.onRequestPermissionsResult(permissions, grantResults)
+        requests[requestCode]?.onRequestPermissionsResult(permissions, grantResults)
     }
 
 
