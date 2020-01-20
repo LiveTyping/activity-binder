@@ -5,7 +5,7 @@ import kotlin.random.Random
 
 
 class NewBinder : Binder() {
-    
+
     private val requests by lazy {
         mutableMapOf<Int, BinderRequest<*>>()
     }
@@ -19,7 +19,7 @@ class NewBinder : Binder() {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        requests[requestCode]?.onActivityResult(resultCode, data)
+        requests[requestCode]?.internalActivityResult(resultCode, data)
     }
 
     fun onRequestPermissionsResult(
@@ -27,7 +27,7 @@ class NewBinder : Binder() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        requests[requestCode]?.onRequestPermissionsResult(permissions, grantResults)
+        requests[requestCode]?.internalPermissionResult(permissions, grantResults)
     }
 
 

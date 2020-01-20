@@ -30,11 +30,11 @@ abstract class BinderRequest<T> {
 
     internal fun internalRequest(activity: Activity) = request(activity)
 
-    internal fun onActivityResult(resultCode: Int, data: Intent?) {
+    protected open fun onActivityResult(resultCode: Int, data: Intent?) {
         //for override
     }
 
-    open fun onRequestPermissionsResult(
+    protected open fun onRequestPermissionsResult(
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
