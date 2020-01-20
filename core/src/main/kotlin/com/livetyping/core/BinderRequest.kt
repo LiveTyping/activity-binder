@@ -7,9 +7,14 @@ import android.content.Intent
 abstract class BinderRequest<T> {
 
     protected var requestCode: Int = 0
+    protected lateinit var block: (result: T) -> Unit
 
     internal fun setRequestCode(requestCode: Int) {
         this.requestCode = requestCode
+    }
+
+    internal fun setBlock(block: (result: T) -> Unit) {
+        this.block = block
     }
 
     internal fun internalActivityResult(resultCode: Int, data: Intent?) {

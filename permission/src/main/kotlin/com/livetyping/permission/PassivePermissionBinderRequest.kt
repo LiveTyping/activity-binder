@@ -9,8 +9,7 @@ import com.livetyping.core.BinderRequest
 
 
 class PassivePermissionBinderRequest(
-    private val permission: String,
-    private val block: (granted: Boolean) -> Unit
+    private val permission: String
 ) :
     BinderRequest<Boolean>() {
 

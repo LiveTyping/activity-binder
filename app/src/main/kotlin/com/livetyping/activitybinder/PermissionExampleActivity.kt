@@ -60,9 +60,13 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     private fun handleButtonSinglePermissions() {
         single_passive.setOnClickListener {
-            newBinder.request(PassivePermissionBinderRequest(Manifest.permission.READ_EXTERNAL_STORAGE) {
+            newBinder.request(
+                PassivePermissionBinderRequest(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
                 handleOutputResults(it, TAG_SINGLE)
-            })
+            }
         }
 
         val rationaleText = getString(R.string.active_permission_rationale_text)

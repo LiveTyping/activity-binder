@@ -5,15 +5,15 @@ import kotlin.random.Random
 
 
 class NewBinder : Binder() {
-
-
+    
     private val requests by lazy {
         mutableMapOf<Int, BinderRequest<*>>()
     }
 
-    fun request(request: BinderRequest<*>) {
+    fun <T> request(request: BinderRequest<T>, resultBlock: (result: T) -> Unit) {
         val generateRequestCode = generateRequestCode()
         request.setRequestCode(generateRequestCode)
+        request.setBlock(resultBlock)
         requests[generateRequestCode] = request
         getAttachedObject()?.let { request.internalRequest(it) }
     }
