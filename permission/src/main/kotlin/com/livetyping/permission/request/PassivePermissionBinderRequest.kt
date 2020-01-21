@@ -1,17 +1,14 @@
-package com.livetyping.permission
+package com.livetyping.permission.request
 
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
-import com.livetyping.core.BinderRequest
 
 
 class PassivePermissionBinderRequest(
     private val permission: String
 ) :
-    BinderRequest<Boolean>() {
+    SinglePermissionBinderRequest<Boolean>() {
 
     override fun request(activity: Activity) {
         if (isPermissionGranted(permission, activity)) {
@@ -24,6 +21,7 @@ class PassivePermissionBinderRequest(
     }
 
     override fun onRequestPermissionsResult(
+        activity: Activity,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
@@ -32,11 +30,5 @@ class PassivePermissionBinderRequest(
         } else block(false)
     }
 
-    @PermissionChecker.PermissionResult
-    private fun isPermissionGranted(permission: String, activity: Activity): Boolean {
-        return ContextCompat.checkSelfPermission(
-            activity,
-            permission
-        ) == PermissionChecker.PERMISSION_GRANTED
-    }
+
 }

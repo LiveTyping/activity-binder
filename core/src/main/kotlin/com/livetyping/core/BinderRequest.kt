@@ -22,10 +22,11 @@ abstract class BinderRequest<T> {
     }
 
     internal fun internalPermissionResult(
+        activity: Activity,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        onRequestPermissionsResult(permissions, grantResults)
+        onRequestPermissionsResult(activity, permissions, grantResults)
     }
 
     internal fun internalRequest(activity: Activity) = request(activity)
@@ -35,6 +36,7 @@ abstract class BinderRequest<T> {
     }
 
     protected open fun onRequestPermissionsResult(
+        activity: Activity,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {

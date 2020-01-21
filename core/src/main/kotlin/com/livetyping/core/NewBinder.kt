@@ -27,7 +27,10 @@ class NewBinder : Binder() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        requests[requestCode]?.internalPermissionResult(permissions, grantResults)
+        getAttachedObject()?.let {
+            requests[requestCode]?.internalPermissionResult(it, permissions, grantResults)
+        }
+
     }
 
 

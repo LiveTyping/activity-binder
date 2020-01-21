@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.core.NewBinder
-import com.livetyping.permission.PassivePermissionBinderRequest
 import com.livetyping.permission.PermissionBinder
+import com.livetyping.permission.request.ActivePermissionBinderRequest
+import com.livetyping.permission.request.PassivePermissionBinderRequest
 import kotlinx.android.synthetic.main.activity_permissions.*
 
 
@@ -61,22 +62,23 @@ class PermissionExampleActivity : AppCompatActivity() {
     private fun handleButtonSinglePermissions() {
         single_passive.setOnClickListener {
             newBinder.request(
-                PassivePermissionBinderRequest(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                PassivePermissionBinderRequest(Manifest.permission.READ_EXTERNAL_STORAGE)
+            ) {
+                handleOutputResults(it, TAG_SINGLE)
+            }
+        }
+
+        single_active.setOnClickListener {
+            newBinder.request(
+                ActivePermissionBinderRequest(
+                    Manifest.permission.CAMERA,
+                    R.string.active_permission_rationale_text
                 )
             ) {
                 handleOutputResults(it, TAG_SINGLE)
             }
         }
 
-        val rationaleText = getString(R.string.active_permission_rationale_text)
-        //cab be placed in active permission method as third parameter
-        val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
-        single_active.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.CAMERA, rationaleText) {
-                handleOutputResults(it, TAG_SINGLE)
-            }
-        }
         single_global.setOnClickListener {
             permissionBinder.globalPermission(Manifest.permission.USE_SIP,
                     ShowGlobalExplanationActivity::class.java) {
