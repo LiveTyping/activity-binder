@@ -3,11 +3,13 @@ package com.livetyping.activitybinder
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.core.NewBinder
 import com.livetyping.permission.PermissionBinder
 import com.livetyping.permission.request.ActivePermissionBinderRequest
+import com.livetyping.permission.request.MultiplyGeneralPermissionBinderRequest
 import com.livetyping.permission.request.PassivePermissionBinderRequest
 import kotlinx.android.synthetic.main.activity_permissions.*
 
@@ -32,9 +34,18 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     private fun handleButtonMultiplyPermissions() {
         multiply_passive.setOnClickListener {
-            permissionBinder.passivePermission(listOf(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            val request = MultiplyGeneralPermissionBinderRequest(
+                listOf(
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.USE_SIP
+                )
+            )
+            newBinder.request(request) {
                 for ((permission, isGranted) in it) {
-                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
+                    Log.d(
+                        "PERMISSION_BINDER: ",
+                        "$permission is " + if (isGranted) "granted" else "denied"
+                    )
                 }
             }
         }
