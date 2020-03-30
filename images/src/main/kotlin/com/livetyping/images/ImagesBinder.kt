@@ -28,7 +28,7 @@ class ImagesBinder(private val providerAuthority: String,
     }
 
     private fun imageRequest(request: ImageRequest<out Any>) {
-        val attachedObject = getAttachedObject()
+        val attachedObject = getCurrentActivity()
         if (attachedObject == null) {
             waitedContextRequests[request.requestCode] = request
         } else {
@@ -44,8 +44,8 @@ class ImagesBinder(private val providerAuthority: String,
         }
     }
 
-    override fun attach(obj: Activity) {
-        super.attach(obj)
+    override fun onActivityStarted(activity: Activity?) {
+        super.onActivityStarted(activity)
         waitedContextRequests.isNotEmpty().let { notEmpty ->
             if (notEmpty) {
                 waitedContextRequests.forEach { imageRequest(it.value) }

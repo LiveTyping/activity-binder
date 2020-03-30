@@ -1,7 +1,6 @@
 package com.livetyping.permission
 
 import android.app.Activity
-import android.content.Intent
 import androidx.annotation.StyleRes
 import com.livetyping.core.Binder
 import com.livetyping.permission.PermissionRequestCodes.MULTIPLE_PERMISSIONS_CODE
@@ -111,7 +110,7 @@ class PermissionBinder : Binder() {
 
     fun onRequestPermissionResult(code: Int, @StyleRes themeResId: Int = 0) {
         val requester = requests[code]
-        val attachedObject = getAttachedObject()
+        val attachedObject = getCurrentActivity()
             ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
         requester?.afterRequest(attachedObject, themeResId)
     }
@@ -129,7 +128,7 @@ class PermissionBinder : Binder() {
         request: PermissionRequest,
         @StyleRes themeResId: Int = 0
     ) {
-        val attachedObject = getAttachedObject()
+        val attachedObject = getCurrentActivity()
             ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
         val requestCode = calculateRequestCode(permissions)
         requests[requestCode] = request

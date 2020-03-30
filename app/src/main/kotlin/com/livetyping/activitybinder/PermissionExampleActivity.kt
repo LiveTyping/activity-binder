@@ -120,17 +120,6 @@ class PermissionExampleActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        permissionBinder.attach(this)
-    }
-
-    override fun onStop() {
-        permissionBinder.detach(this)
-        super.onStop()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         permissionBinder.onActivityResult(requestCode, this)

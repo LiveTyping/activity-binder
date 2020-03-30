@@ -120,16 +120,6 @@ class SocialActivity : AppCompatActivity(), CoroutineScope {
         super.onDestroy()
     }
 
-    override fun onStart() {
-        super.onStart()
-        socialLoginBinder.attach(this)
-    }
-
-    override fun onStop() {
-        socialLoginBinder.detach(this)
-        super.onStop()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         socialLoginBinder.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)

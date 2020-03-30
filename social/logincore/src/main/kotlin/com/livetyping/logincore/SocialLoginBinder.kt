@@ -20,7 +20,7 @@ class SocialLoginBinder : Binder() {
         onSuccess: (result: T) -> Unit,
         onFail: (exception: Exception) -> Unit
     ) {
-        getAttachedObject()?.let {
+        getCurrentActivity()?.let {
             this.socialNetwork = socialNetwork
             this.onSuccess = onSuccess as (SocialLoginResult) -> Unit
             this.onFail = onFail
