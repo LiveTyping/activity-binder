@@ -34,11 +34,16 @@ internal class ActivePermissionRequest(
     }
 
     override fun afterRequest(activity: Activity, @StyleRes themeResId: Int) {
-        val isAllPermissionsGrantedOrRationalShowed = rationaleShowed || areAllPermissionsGranted(activity)
+        val isAllPermissionsGrantedOrRationalShowed =
+            rationaleShowed || areAllPermissionsGranted(activity)
         if (isAllPermissionsGrantedOrRationalShowed) {
             invokeResult(activity)
         } else {
-            showOpenSettingsDialog(activity, themeResId)
+            if (!rationaleShowed && getPermissionsWithoutRationale(activity).isNotEmpty()) {
+                showOpenSettingsDialog(activity, themeResId)
+            } else {
+                invokeResult(activity)
+            }
         }
     }
 

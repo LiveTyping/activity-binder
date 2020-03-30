@@ -4,8 +4,13 @@ import android.Manifest.permission.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.livetyping.core.NewBinder
 import com.livetyping.permission.PermissionBinder
+import com.livetyping.permission.request.ActivePermissionBinderRequest
+import com.livetyping.permission.request.MultiplyGeneralPermissionBinderRequest
+import com.livetyping.permission.request.PassivePermissionBinderRequest
 import kotlinx.android.synthetic.main.activity_permissions.*
 
 class PermissionExampleActivity : AppCompatActivity() {
@@ -16,11 +21,13 @@ class PermissionExampleActivity : AppCompatActivity() {
     }
 
     private lateinit var permissionBinder: PermissionBinder
+    private lateinit var newBinder: NewBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permissions)
         permissionBinder = (application as BinderExampleApplication).permissionBinder
+        newBinder = (application as BinderExampleApplication).newBinder
         handleButtonSinglePermissions()
         handleButtonMultiplyPermissions()
     }
@@ -124,10 +131,12 @@ class PermissionExampleActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         permissionBinder.attach(this)
+        newBinder.attach(this)
     }
 
     override fun onStop() {
         permissionBinder.detach(this)
+        newBinder.detach(this)
         super.onStop()
     }
 

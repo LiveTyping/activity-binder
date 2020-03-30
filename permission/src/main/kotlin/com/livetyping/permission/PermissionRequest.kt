@@ -87,4 +87,10 @@ internal abstract class PermissionRequest(
         syncPermissionsGrantedResult(activity)
         resultListener.invoke(permissionMap)
     }
+
+    protected fun getPermissionsWithoutRationale(activity: Activity): List<String> {
+        return permissions.filter {
+            !ActivityCompat.shouldShowRequestPermissionRationale(activity, it)
+        }
+    }
 }
