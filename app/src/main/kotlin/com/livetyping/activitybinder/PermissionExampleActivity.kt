@@ -1,6 +1,6 @@
 package com.livetyping.activitybinder
 
-import android.Manifest
+import android.Manifest.permission.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +13,8 @@ import com.livetyping.permission.request.MultiplyGeneralPermissionBinderRequest
 import com.livetyping.permission.request.PassivePermissionBinderRequest
 import kotlinx.android.synthetic.main.activity_permissions.*
 
-
 class PermissionExampleActivity : AppCompatActivity() {
+
     companion object {
         private const val TAG_SINGLE = "single"
         private const val TAG_MULTIPLY = "multiply"
@@ -32,75 +32,101 @@ class PermissionExampleActivity : AppCompatActivity() {
         handleButtonMultiplyPermissions()
     }
 
-    private fun handleButtonMultiplyPermissions() {
-        multiply_passive.setOnClickListener {
-            val request = MultiplyGeneralPermissionBinderRequest(
-                listOf(
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.USE_SIP
-                )
-            )
-            newBinder.request(request) {
-                for ((permission, isGranted) in it) {
-                    Log.d(
-                        "PERMISSION_BINDER: ",
-                        "$permission is " + if (isGranted) "granted" else "denied"
-                    )
-                }
-            }
-        }
-
-        val rationaleText = getString(R.string.active_permission_rationale_text)
-        //cab be placed in active permission method as third parameter
-        val settingsButtonText = getString(R.string.active_permission_rationale_button_text)
-        multiply_active.setOnClickListener {
-            permissionBinder.activePermission(listOf(Manifest.permission.SEND_SMS, Manifest.permission.RECORD_AUDIO), rationaleText) {
-                for ((permission, isGranted) in it) {
-                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
-                }
-            }
-        }
-        multiply_global.setOnClickListener {
-            permissionBinder.globalPermission(listOf(Manifest.permission.BODY_SENSORS, Manifest.permission.READ_CALENDAR),
-                    ShowGlobalExplanationActivity::class.java) {
-                for ((permission, isGranted) in it) {
-                    handleOutputResults(isGranted, TAG_MULTIPLY, permission)
-                }
-            }
-        }
-    }
-
     private fun handleButtonSinglePermissions() {
+        setOnSinglePassivePermissionClickListener()
+        setOnSingleActivePermissionClickListener()
+        setOnSingleGlobalPermissionClickListener()
+    }
+
+    private fun setOnSinglePassivePermissionClickListener() {
         single_passive.setOnClickListener {
-            newBinder.request(
-                PassivePermissionBinderRequest(Manifest.permission.READ_EXTERNAL_STORAGE)
-            ) {
-                handleOutputResults(it, TAG_SINGLE)
-            }
-        }
-
-        single_active.setOnClickListener {
-            newBinder.request(
-                ActivePermissionBinderRequest(
-                    Manifest.permission.CAMERA,
-                    R.string.active_permission_rationale_text
-                )
-            ) {
-                handleOutputResults(it, TAG_SINGLE)
-            }
-        }
-
-        single_global.setOnClickListener {
-            permissionBinder.globalPermission(Manifest.permission.USE_SIP,
-                    ShowGlobalExplanationActivity::class.java) {
-                handleOutputResults(it, TAG_SINGLE)
-            }
+            permissionBinder.passivePermission(READ_EXTERNAL_STORAGE) { isGranted -> onPermissionResult(isGranted) }
         }
     }
 
-    private fun handleOutputResults(isGranted: Boolean, tag: String, permission: String = "") {
+    private fun onPermissionResult(isGranted: Boolean) {
+        handleOutputResults(isGranted, TAG_SINGLE)
+    }
+
+    private fun handleOutputResults(
+        isGranted: Boolean,
+        tag: String,
+        permission: String = ""
+    ) {
         if (isGranted) granted(tag, permission) else denied(tag, permission)
     }
+
+    private fun granted(tag: String, permission: String = "") {
+        Log.i(tag, "$permission was granted")
+    }
+
+    private fun denied(tag: String, permission: String = "") {
+        Log.i(tag, "$permission was denied")
+    }
+
+    private fun setOnSingleActivePermissionClickListener() {
+        val rationaleText = getString(R.string.active_permission_rationale_text)
+        val dialogCustomThemeResId = R.style.SingleActivePermissionDialogTheme
+        val settingsButtonTitle = getString(R.string.active_permission_rationale_button_text)
+        single_active.setOnClickListener {
+            permissionBinder.activePermission(
+                CAMERA,
+                rationaleText,
+                dialogCustomThemeResId,
+                settingsButtonTitle
+            ) { isGranted -> onPermissionResult(isGranted) }
+        }
+    }
+
+    private fun setOnSingleGlobalPermissionClickListener() {
+        single_global.setOnClickListener {
+            permissionBinder.globalPermission(
+                USE_SIP,
+                ShowGlobalExplanationActivity::class.java
+            ) { isGranted -> onPermissionResult(isGranted) }
+        }
+    }
+
+    private fun handleButtonMultiplyPermissions() {
+        setOnMultiplePassivePermissionClickListener()
+        setOnMultipleActivePermissionClickListener()
+        setOnMultipleGlobalPermissionClickListener()
+    }
+
+    private fun setOnMultiplePassivePermissionClickListener() {
+        val passivePermissions = listOf(READ_CONTACTS, ACCESS_FINE_LOCATION)
+        multiply_passive.setOnClickListener {
+            permissionBinder.passivePermissions(passivePermissions) { results -> onPermissionsResults(results) }
+        }
+    }
+
+    private fun onPermissionsResults(permissionsResults: Map<String, Boolean>) {
+        for ((permission, isGranted) in permissionsResults) {
+            handleOutputResults(isGranted, TAG_MULTIPLY, permission)
+        }
+    }
+
+    private fun setOnMultipleActivePermissionClickListener() {
+        val activePermissions = listOf(RECORD_AUDIO, CAMERA)
+        val rationaleText = getString(R.string.active_permission_rationale_text)
+        multiply_active.setOnClickListener {
+            permissionBinder.activePermissions(
+                activePermissions,
+                rationaleText
+            ) { results -> onPermissionsResults(results) }
+        }
+    }
+
+    private fun setOnMultipleGlobalPermissionClickListener() {
+        val globalPermissions = listOf(READ_PHONE_STATE, READ_CALENDAR)
+        multiply_global.setOnClickListener {
+            permissionBinder.globalPermissions(
+                globalPermissions,
+                ShowGlobalExplanationActivity::class.java
+            ) { results -> onPermissionsResults(results) }
+        }
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -116,21 +142,11 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        permissionBinder.onActivityResult(requestCode, data, this)
-        newBinder.onActivityResult(requestCode, resultCode, data)
+        permissionBinder.onActivityResult(requestCode, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
-        newBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun granted(tag: String, permission: String = "") {
-        Toast.makeText(this, "$permission was granted", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun denied(tag: String, permission: String = "") {
-        Toast.makeText(this, "$permission was denied", Toast.LENGTH_SHORT).show()
+        permissionBinder.onRequestPermissionResult(requestCode)
     }
 }
