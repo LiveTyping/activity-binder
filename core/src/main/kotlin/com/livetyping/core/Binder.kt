@@ -1,32 +1,22 @@
 package com.livetyping.core
 
 import android.app.Activity
+import com.livetyping.core.holder.activity.ActivityHolder
+import com.livetyping.core.holder.activity.ActivityHolderImpl
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-abstract class Binder {
+abstract class Binder : SimpleActivityLifecycleCallbacks() {
+    private val activityHolder: ActivityHolder = ActivityHolderImpl()
 
-    private var attachedObjRef: WeakReference<out Activity>? = null
-    private val weakHashMap = WeakHashMap<Activity, Any>()
-
-    open fun attach(obj: Activity) {
-        val weakReference = WeakReference(obj)
-        weakHashMap[obj] = weakReference
-        attachedObjRef = weakReference
+    override fun onActivityStarted(activity: Activity?) {
+        activityHolder.add(activity)
     }
 
-    open fun detach(obj: Activity) {
-        if (weakHashMap.remove(obj) == null) {
-            return
-        }
-        val iterator = weakHashMap.keys.iterator()
-        attachedObjRef = if (iterator.hasNext()) {
-            WeakReference(iterator.next())
-        } else null
+    override fun onActivityStopped(activity: Activity?) {
+        activityHolder.remove(activity)
     }
 
-    fun getAttachedObject(): Activity? {
-        return attachedObjRef?.get()
-    }
+    fun getCurrentActivity(): Activity? = activityHolder.getCurrentActivity()
 }

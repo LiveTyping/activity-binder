@@ -10,13 +10,9 @@ import com.livetyping.vk.VkInitializer
 
 class BinderExampleApplication : Application() {
 
-    val socialLoginBinder by lazy {
-        SocialLoginBinder()
-    }
+    val socialLoginBinder = SocialLoginBinder()
 
-    val permissionBinder by lazy {
-        PermissionBinder()
-    }
+    val permissionBinder = PermissionBinder()
 
     val testImagesBinder by lazy {
         ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
@@ -24,6 +20,9 @@ class BinderExampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        registerActivityLifecycleCallbacks(socialLoginBinder)
+        registerActivityLifecycleCallbacks(permissionBinder)
+        registerActivityLifecycleCallbacks(testImagesBinder)
         val socialsInitializers = listOf(
             VkInitializer(),
             FacebookInitializer(),
