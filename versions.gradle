@@ -1,8 +1,8 @@
 ext.versions = [
 
         // AndroidX
-        material         : '1.1.0-alpha09',
-        constraint_layout: '2.0.0-beta2',
+        material         : '1.2.0-beta01',
+        constraint_layout: '2.0.0-beta7',
         exifinterface    : '1.1.0-beta01',
 
         // Google services
