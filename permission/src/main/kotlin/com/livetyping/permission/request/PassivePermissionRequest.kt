@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 
 
-class PassivePermissionBinderRequest(
+class PassivePermissionRequest(
     private val permission: String
 ) :
     SinglePermissionBinderRequest<Boolean>() {

@@ -4,13 +4,10 @@ import android.Manifest.permission.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.core.NewBinder
 import com.livetyping.permission.PermissionBinder
-import com.livetyping.permission.request.ActivePermissionBinderRequest
-import com.livetyping.permission.request.MultiplyGeneralPermissionBinderRequest
-import com.livetyping.permission.request.PassivePermissionBinderRequest
+import com.livetyping.permission.request.PassivePermissionRequest
 import kotlinx.android.synthetic.main.activity_permissions.*
 
 class PermissionExampleActivity : AppCompatActivity() {
@@ -40,7 +37,9 @@ class PermissionExampleActivity : AppCompatActivity() {
 
     private fun setOnSinglePassivePermissionClickListener() {
         single_passive.setOnClickListener {
-            permissionBinder.passivePermission(READ_EXTERNAL_STORAGE) { isGranted -> onPermissionResult(isGranted) }
+            newBinder.request(PassivePermissionRequest(READ_EXTERNAL_STORAGE)) {
+                onPermissionResult(it)
+            }
         }
     }
 
@@ -96,7 +95,11 @@ class PermissionExampleActivity : AppCompatActivity() {
     private fun setOnMultiplePassivePermissionClickListener() {
         val passivePermissions = listOf(READ_CONTACTS, ACCESS_FINE_LOCATION)
         multiply_passive.setOnClickListener {
-            permissionBinder.passivePermissions(passivePermissions) { results -> onPermissionsResults(results) }
+            permissionBinder.passivePermissions(passivePermissions) { results ->
+                onPermissionsResults(
+                    results
+                )
+            }
         }
     }
 
@@ -145,8 +148,13 @@ class PermissionExampleActivity : AppCompatActivity() {
         permissionBinder.onActivityResult(requestCode, this)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionBinder.onRequestPermissionResult(requestCode)
+        newBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

@@ -23,7 +23,7 @@ class BinderExampleApplication : Application() {
         ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
     }
 
-    val newBinder:NewBinder by lazy {
+    val newBinder: NewBinder by lazy {
         NewBinder()
     }
 
