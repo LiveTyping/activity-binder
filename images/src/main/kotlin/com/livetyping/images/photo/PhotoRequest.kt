@@ -53,8 +53,8 @@ abstract class PhotoRequest(
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mCurrentPhotoPath)
         val rotationInputStream = contentResolver.openInputStream(mCurrentPhotoPath)
         //TODO check for null
-        val angle = getRotationAngle(rotationInputStream)
-        rotationInputStream?.close()
+        val angle = getRotationAngle(rotationInputStream!!)
+        rotationInputStream.close()
         val imageFile = fileCreator.getImageFile(attachedObject, paths!!)
         val quality = if (maxSize != null) calculateQuality(imageFile, maxSize) else 100
         imageFile.delete()

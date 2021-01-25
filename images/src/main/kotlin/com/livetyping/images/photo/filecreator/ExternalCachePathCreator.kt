@@ -14,5 +14,5 @@ internal class ExternalCachePathCreator(
     override val pathAttr: String
         get() = "external-cache-path"
 
-    override fun getRootPath(context: Context) = context.externalCacheDir.path
+    override fun getRootPath(context: Context) = context.externalCacheDir!!.path
 }
