@@ -14,5 +14,5 @@ internal class ExternalFilesPathCreator(
     override val pathAttr: String
         get() = "external-files-path"
 
-    override fun getRootPath(context: Context) = context.getExternalFilesDir(null).path
+    override fun getRootPath(context: Context) = context.getExternalFilesDir(null)!!.path
 }
