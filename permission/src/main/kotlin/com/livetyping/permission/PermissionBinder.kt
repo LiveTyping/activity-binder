@@ -114,6 +114,7 @@ class PermissionBinder : Binder() {
         val attachedObject = getAttachedObject()
             ?: throw IllegalStateException("PermissionRepository. Haven't attached activity")
         requester?.afterRequest(attachedObject, themeResId)
+        requests.remove(code)
     }
 
     fun onActivityResult(
