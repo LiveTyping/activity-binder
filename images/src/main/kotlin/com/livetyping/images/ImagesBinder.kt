@@ -3,6 +3,7 @@ package com.livetyping.images
 import android.app.Activity
 import android.content.Intent
 import androidx.annotation.XmlRes
+import androidx.appcompat.app.AppCompatActivity
 import com.livetyping.core.Binder
 import com.livetyping.images.photo.PhotoRequest
 
@@ -44,7 +45,7 @@ class ImagesBinder(private val providerAuthority: String,
         }
     }
 
-    override fun attach(obj: Activity) {
+    override fun attach(obj: AppCompatActivity) {
         super.attach(obj)
         waitedContextRequests.isNotEmpty().let { notEmpty ->
             if (notEmpty) {
